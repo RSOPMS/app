@@ -1,0 +1,25 @@
+name: (app-issue) Vet and test GO code
+
+on:
+  push:
+    paths:
+      - app-issue/**
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup GO
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+      - name: Vet GO code
+        working-directory: ./app-issue
+        run: |
+          go vet ./...
+      - name: Test GO code
+        working-directory: ./app-issue
+        run: |
+          go test ./...
