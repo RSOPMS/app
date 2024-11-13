@@ -1,0 +1,10 @@
+{{ define "list" }}
+<h2>Issue list</h2>
+<ul>
+  {{ range . }}
+  <li>
+    {{ .Title }} - {{ .Description }}
+  </li>
+  {{ end }}
+</ul>
+{{ end }}
