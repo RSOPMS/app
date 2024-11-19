@@ -3,23 +3,32 @@ name: (framework) Vet and test GO code
 on:
   push:
     paths:
-      - framework/**
+      - 'framework/**'
 
 jobs:
   lint:
+    name: Vet and test GO code
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./app-issue
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
       - name: Setup GO
         uses: actions/setup-go@v5
         with:
-          go-version: "1.23"
+          go-version-file: framework/go.mod
+      - name: Tidy Go mod
+        run: go mod tidy && git diff --exit-code
+      - name: Download Go modules
+        run: go mod download
+      - name: Verify Go modules
+        run: go mod verify
       - name: Vet GO code
-        working-directory: ./framework
-        run: |
-          go vet ./...
+        run: go vet ./...
+      - name: Format Go code
+        run: gofmt -l -s -w . && git diff --exit-code
       - name: Test GO code
-        working-directory: ./framework
-        run: |
-          go test ./...
+        run: go test ./...
