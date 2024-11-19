@@ -1,38 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myapp
+  name: bugbase-issue
   labels:
-    app: issue
+    app: bugbase-issue
 spec:
   replicas: 5
   selector:
     matchLabels:
-      app: myapp
+      app: bugbase-issue
   template:
     metadata:
       labels:
-        app: myapp
+        app: bugbase-issue
     spec:
       containers:
-      - name: myapp
-        image: app-issue
+      - name: bugbase-issue
+        image: bugbase-issue
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
         ports:
         - containerPort: 8080
+        # TODO: Currently only for local testing. Remove for production deployment.
         imagePullPolicy: Never
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: myapp
+  name: bugbase-issue
 spec:
   type: NodePort
   selector:
-    app: myapp
+    app: bugbase-issue
   ports:
   - port: 8080
     targetPort: 8080
