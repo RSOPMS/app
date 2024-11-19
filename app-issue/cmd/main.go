@@ -25,7 +25,7 @@ func run() error {
 	}
 
 	server := api.ApiServer{
-		Addr: ":8080",
+		Addr: ":" + os.Getenv("APP_PORT"),
 		Db:   db,
 	}
 
