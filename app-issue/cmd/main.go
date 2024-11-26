@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -19,7 +19,7 @@ func main() {
 func run() error {
 	godotenv.Load()
 
-	db, err := sql.Open("sqlite3", os.Getenv("DB_PATH"))
+	db, err := sql.Open("postgres", "dbname=bugbase user=bugbase password=password host=localhost port=5432 sslmode=disable")
 	if err != nil {
 		return err
 	}

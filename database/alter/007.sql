@@ -1,56 +1,21 @@
-DROP TABLE IF EXISTS "comment";
-DROP TABLE IF EXISTS "comment_log";
-DROP TRIGGER IF EXISTS "comment_log_insert";
-DROP TRIGGER IF EXISTS "comment_log_update";
-DROP TRIGGER IF EXISTS "comment_log_delete";
+CREATE TABLE IF NOT EXISTS issue (
+    id          SERIAL    PRIMARY KEY,
+    title       TEXT      NOT NULL,
+    description TEXT,
+    project_id  SERIAL    REFERENCES project(id),
+    status_id   SERIAL    REFERENCES status(id),
+    priority_id SERIAL    REFERENCES priority(id),
+    branch_id   SERIAL    REFERENCES branch(id),
+    created_at  TIMESTAMP NOT NULL DEFAULT now()
+);
 
 
-CREATE TABLE "comment" (
-    "id"         INTEGER NOT NULL,
-    "issue_id"   INTEGER NOT NULL,
-    "content"    TEXT    NOT NULL,
-    "created_at" TEXT    NOT NULL,
-    PRIMARY KEY("id" AUTOINCREMENT),
-    FOREIGN KEY("issue_id") REFERENCES issue("id")
-) STRICT;
-
-
-CREATE TABLE "comment_log" (
-    "id"                 INTEGER NOT NULL,
-    "effective_from"     TEXT    NOT NULL,
-    "effective_to"       TEXT,
-    "comment_id"         INTEGER NOT NULL,
-    "comment_issue_id"   INTEGER NOT NULL,
-    "comment_content"    TEXT    NOT NULL,
-    "comment_created_at" TEXT    NOT NULL,
-    PRIMARY KEY("id" AUTOINCREMENT)
-) STRICT;
-
-
-CREATE TRIGGER "comment_log_insert" AFTER INSERT ON "comment" FOR EACH ROW BEGIN
-    INSERT
-      INTO "comment_log"
-           ("effective_from", "comment_id", "comment_issue_id", "comment_content", "comment_created_at")
-    VALUES (datetime(),       NEW.id,        NEW.issue_id,      NEW.content,       NEW.created_at);
-END;
-
-
-CREATE TRIGGER "comment_log_update" AFTER UPDATE ON "comment" FOR EACH ROW BEGIN
-    UPDATE "comment_log"
-       SET "effective_to" = datetime()
-     WHERE "comment_id" = OLD.id
-       AND "effective_to" IS NULL;
-
-    INSERT
-      INTO "comment_log"
-           ("effective_from", "comment_id", "comment_issue_id", "comment_content", "comment_created_at")
-    VALUES (datetime(),       NEW.id,        NEW.issue_id,      NEW.content,       NEW.created_at);
-END;
-
-
-CREATE TRIGGER "comment_log_delete" AFTER DELETE ON "comment" FOR EACH ROW BEGIN
-    UPDATE "comment_log"
-       SET "effective_to" = datetime()
-     WHERE "comment_id" = OLD.id
-       AND "effective_to" IS NULL;
-END;
+COMMENT ON TABLE  issue             IS 'Issue information';
+COMMENT ON COLUMN issue.id          IS 'Issue id';
+COMMENT ON COLUMN issue.title       IS 'Issue title';
+COMMENT ON COLUMN issue.description IS 'Issue description';
+COMMENT ON COLUMN issue.project_id  IS 'Project to which this issue belongs to';
+COMMENT ON COLUMN issue.status_id   IS 'Issue status';
+COMMENT ON COLUMN issue.priority_id IS 'Issue priority';
+COMMENT ON COLUMN issue.branch_id   IS 'Issue branch';
+COMMENT ON COLUMN issue.created_at  IS 'Issue creation time';
