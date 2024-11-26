@@ -1,21 +1,19 @@
 # Database
 
-SQLite database.
+PostgreSQL database.
 
 ## Setup
-
-The only prerequesite is the `sqlite3` binary (available in each distribution's package manager).
 
 > [!CAUTION]
 >
 > The following commands will delete all database data.
 
-### Clean
+### Start
 
 Initialize a clean version of the database:
 
 ```sh
-make clean
+make start
 ```
 
 ### Mock
@@ -23,7 +21,15 @@ make clean
 Initialize a clean version of the database with mock data:
 
 ```sh
-make mock
+make start-mock
+```
+
+### Stop
+
+Stop the Docker container:
+
+```sh
+make stop
 ```
 
 ## ERD
