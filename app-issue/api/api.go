@@ -3,8 +3,6 @@ package api
 import (
 	"app-issue/api/handler/issue"
 	"database/sql"
-	"embed"
-	"io/fs"
 	"log"
 	"net/http"
 
@@ -16,18 +14,9 @@ type ApiServer struct {
 	Db   *sql.DB
 }
 
-//go:embed static
-var static embed.FS
-
 func (s *ApiServer) Run() error {
 	router := http.NewServeMux()
 
-	staticDir, err := fs.Sub(static, "static")
-	if err != nil {
-		return err
-	}
-
-	router.Handle("/", http.FileServer(http.FS(staticDir)))
 	s.registerHandlers(router)
 
 	server := http.Server{
