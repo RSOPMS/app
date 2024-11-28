@@ -6,7 +6,7 @@ start:
 	@docker run -d --name bugbase-database --env-file=.env --mount type=bind,source=./initdb,target=/docker-entrypoint-initdb.d,readonly --publish 5432:5432 postgres
 
 .PHONY: start-mock
-start-mock: start
+start-mock:
 	@rm -rf initdb
 	@mkdir -p initdb
 	@cp alter/* initdb/

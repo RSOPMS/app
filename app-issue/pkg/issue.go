@@ -10,7 +10,7 @@ type Issue struct {
 func ReadIssues(db *sql.DB) ([]*Issue, error) {
 	query := `
 	SELECT title, description
-	  FROM issue
+	  FROM issue;
 	`
 
 	rows, err := db.Query(query)

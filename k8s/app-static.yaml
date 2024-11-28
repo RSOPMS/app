@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bugbase-static
+  name: bugbase-static-deployment
   labels:
     app: bugbase-static
 spec:
@@ -19,41 +19,39 @@ spec:
           image: bugbase-static
           resources:
             limits:
-              memory: "128Mi"
-              cpu: "500m"
+              memory: 128Mi
+              cpu: 500m
           ports:
             # TODO: KeyValue store
             - containerPort: 8081
               name: server
-          # TODO: healthcheck
-          livenessProbe:
-            httpGet:
-              path: /health/live
-              port: server
-            initialDelaySeconds: 20
-            periodSeconds: 5
-          # TODO: healthcheck
-          readinessProbe:
-            httpGet:
-              path: /health/ready
-              port: server
-            initialDelaySeconds: 20
-            periodSeconds: 5
+          ## TODO: healthcheck
+          #livenessProbe:
+          #  httpGet:
+          #    path: /health/live
+          #    port: server
+          #  initialDelaySeconds: 20
+          #  periodSeconds: 5
+          ## TODO: healthcheck
+          #readinessProbe:
+          #  httpGet:
+          #    path: /health/ready
+          #    port: server
+          #  initialDelaySeconds: 20
+          #  periodSeconds: 5
           # TODO: KeyValue store
           env:
             - name: APP_PORT
               value: "8081"
-            - name: DB_PATH
-              value: "db/database.db"
           # TODO: Currently only for local testing. Remove for production deployment.
           imagePullPolicy: Never
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: bugbase-static
+  name: bugbase-static-service
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: bugbase-static
   ports:

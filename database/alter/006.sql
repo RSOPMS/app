@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "user" (
+CREATE TABLE IF NOT EXISTS bugbase_user (
     id            SERIAL PRIMARY KEY,
     email         TEXT   NOT NULL UNIQUE,
     password_hash TEXT   NOT NULL,
@@ -9,11 +9,11 @@ CREATE TABLE IF NOT EXISTS "user" (
 );
 
 
-COMMENT ON TABLE  "user"               IS 'User information';
-COMMENT ON COLUMN "user".id            IS 'User id';
-COMMENT ON COLUMN "user".email         IS 'User email address';
-COMMENT ON COLUMN "user".password_hash IS 'User password hash';
-COMMENT ON COLUMN "user".name          IS 'User name';
-COMMENT ON COLUMN "user".surname       IS 'User surname';
-COMMENT ON COLUMN "user".avatar        IS 'User avatar url';
-COMMENT ON COLUMN "user".role_id       IS 'User role';
+COMMENT ON TABLE  bugbase_user               IS 'User information';
+COMMENT ON COLUMN bugbase_user.id            IS 'User id';
+COMMENT ON COLUMN bugbase_user.email         IS 'User email address';
+COMMENT ON COLUMN bugbase_user.password_hash IS 'User password hash';
+COMMENT ON COLUMN bugbase_user.name          IS 'User name';
+COMMENT ON COLUMN bugbase_user.surname       IS 'User surname';
+COMMENT ON COLUMN bugbase_user.avatar        IS 'User avatar url';
+COMMENT ON COLUMN bugbase_user.role_id       IS 'User role';

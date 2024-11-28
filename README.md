@@ -45,6 +45,12 @@ echo $MINIKUBE_ACTIVE_DOCKERD
 > minikube dashboard
 > ```
 
+Enable ingress addon:
+
+```sh
+minikube addons enable ingress
+```
+
 ### Building Docker images and starting the cluster
 
 Set the Docker context to the local minikube cluster:

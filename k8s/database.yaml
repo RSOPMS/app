@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: bugbase-database
+  name: bugbase-database-pv
   labels:
     app: bugbase-database
 spec:
@@ -16,7 +16,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: bugbase-database
+  name: bugbase-database-pvc
   labels:
     app: bugbase-database
 spec:
@@ -30,7 +30,9 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bugbase-database
+  name: bugbase-database-deployment
+  labels:
+    app: bugbase-database
 spec:
   replicas: 1
   selector:
@@ -42,43 +44,34 @@ spec:
         app: bugbase-database
     spec:
       containers:
-        - name: postgres
-          image: postgres
+        - name: bugbase-database
+          image: bugbase-database
           resources:
             limits:
-              memory: "128Mi"
-              cpu: "500m"
+              memory: 128Mi
+              cpu: 500m
           ports:
             # TODO: KeyValue store
             - containerPort: 5432
               name: dbport
-          env:
-            # TODO: KeyValue store
-            - name: POSTGRES_DB
-              value: bugbase
-            # TODO: KeyValue store
-            - name: POSTGRES_USER
-              value: bugbase
-            # TODO: Secrets
-            - name: POSTGRES_PASSWORD
-              value: password
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgresdata
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Never
       volumes:
         - name: postgresdata
           persistentVolumeClaim:
-            claimName: bugbase-database
+            claimName: bugbase-database-pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: bugbase-database
+  name: bugbase-database-service
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: bugbase-database
   ports:
-  - port: 5432
-    targetPort: dbport
+    - port: 5432
+      protocol: TCP
+      targetPort: 5432

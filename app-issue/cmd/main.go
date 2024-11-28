@@ -3,6 +3,7 @@ package main
 import (
 	"app-issue/api"
 	"database/sql"
+	"fmt"
 	"log"
 	"os"
 
@@ -19,7 +20,15 @@ func main() {
 func run() error {
 	godotenv.Load()
 
-	db, err := sql.Open("postgres", "dbname=bugbase user=bugbase password=password host=localhost port=5432 sslmode=disable")
+	dbName := "bugbase"
+	dbUser := "bugbase"
+	dbPassword := "password"
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := 5432
+	dbSslMode := "disable"
+
+	dbDataSource := fmt.Sprintf("dbname=%s user=%s password=%s host=%s port=%d sslmode=%s", dbName, dbUser, dbPassword, dbHost, dbPort, dbSslMode)
+	db, err := sql.Open("postgres", dbDataSource)
 	if err != nil {
 		return err
 	}
