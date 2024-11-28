@@ -8,10 +8,22 @@
     <title>BugBase</title>
   </head>
   <body>
+    <nav class="menu">
+      <a href="/issue">Home</a>
+      <a href="/issue/projects">Projects</a>
+    </nav>
+    <main>
 {{ end }}
 
 {{ define "bot" }}
-  <script src="/static/js/htmx.min.js"></script>
+    </main>
+    <footer>
+      <div>
+        <a href="https://github.com/RSOPMS">BugBase</a>
+        <span class="small"> Anže Arhar, Kristjan Kostanjšek, Nejc Ločičnik</span>
+      </div>
+    </footer>
+    <script src="/static/js/htmx.min.js"></script>
   </body>
 </html>
 {{ end }}
