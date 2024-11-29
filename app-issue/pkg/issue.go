@@ -27,3 +27,25 @@ func ReadIssues(db *sql.DB) ([]*Issue, error) {
 
 	return issues, err
 }
+
+func ReadProjectIssues(db *sql.DB, project_id string) ([]*Issue, error) {
+	query := `
+	SELECT title, description
+	  FROM issue
+	  WHERE project_id = $1;
+	`
+
+	rows, err := db.Query(query, project_id)
+	if err != nil {
+		return nil, err
+	}
+
+	issues := []*Issue{}
+	for rows.Next() {
+		issue := &Issue{}
+		rows.Scan(&issue.Title, &issue.Description)
+		issues = append(issues, issue)
+	}
+
+	return issues, err
+}

@@ -38,6 +38,10 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	issueHandler := issue.NewIssueHandler(s.Db)
 	router.Handle("GET /issue", stackNone(api.CreateHandler(issueHandler.GetIssue)))
 	router.Handle("GET /api/issue-list", stackNone(api.CreateHandler(issueHandler.GetIssueList)))
+	router.Handle("GET /api/projects/{id}/issue-list", stackNone(api.CreateHandler(issueHandler.GetProjectIssueList)))
+	router.Handle("GET /projects/{id}/", stackNone(api.CreateHandler(issueHandler.GetProjectIssues)))
+	//router.HandleFunc("/project/{id}", stackNone(api.CreateHandler(issueHandler.GetProjectIssues)))
+
 
 	// Project
 	projectHandler := project.NewProjectHandler(s.Db)

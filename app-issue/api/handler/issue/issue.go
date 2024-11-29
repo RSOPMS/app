@@ -30,3 +30,32 @@ func (h *IssueHandler) GetIssueList(w http.ResponseWriter, r *http.Request) erro
 
 	return template.RenderIssue(w, "list", issues)
 }
+
+func (h *IssueHandler) GetProjectIssues(w http.ResponseWriter, r *http.Request) error {
+	//project_id := strings.Split(strings.TrimPrefix(r.URL.Path, "/api/project/"), "/")[0]
+	project_id := r.PathValue("id")
+
+	project, err := pkg.ReadProjectTitle(h.Db, project_id)
+	//project_title := "test"
+
+	if err != nil {
+		return err
+	}
+
+	return template.RenderLayout(w, "project_issues", map[string]interface{}{
+		"ProjectID": project_id,
+		"ProjectTitle": project.Title,
+	})
+}
+
+func (h *IssueHandler) GetProjectIssueList(w http.ResponseWriter, r *http.Request) error {
+	//project_id := strings.Split(strings.TrimPrefix(r.URL.Path, "/api/project/"), "/")[0]
+	project_id := r.PathValue("id")
+
+	issues, err := pkg.ReadProjectIssues(h.Db, project_id)
+	if err != nil {
+		return err
+	}
+
+	return template.RenderIssue(w, "list", issues)
+}
