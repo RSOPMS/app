@@ -4,7 +4,6 @@ import (
 	"app-issue/pkg"
 	"app-issue/template"
 	"database/sql"
-	_ "embed"
 	"net/http"
 )
 

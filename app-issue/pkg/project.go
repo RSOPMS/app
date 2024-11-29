@@ -3,7 +3,7 @@ package pkg
 import "database/sql"
 
 type Project struct {
-	ID    int
+	Id    int
 	Title string
 }
 
@@ -21,7 +21,7 @@ func ReadProjects(db *sql.DB) ([]*Project, error) {
 	projects := []*Project{}
 	for rows.Next() {
 		project := &Project{}
-		rows.Scan(&project.ID, &project.Title)
+		rows.Scan(&project.Id, &project.Title)
 		projects = append(projects, project)
 	}
 
