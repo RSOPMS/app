@@ -1,0 +1,9 @@
+{{ define "project" }}
+  {{ template "top" }}
+  <h1>Issue page</h1>
+  <div hx-get="/issue/api/project-list"
+       hx-trigger="load"
+       hx-swap="outerHTML">
+  </div>
+  {{ template "bot" }}
+{{ end }}

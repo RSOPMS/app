@@ -1,0 +1,10 @@
+{{ define "list" }}
+<h2>Project list</h2>
+<ul>
+  {{ range . }}
+  <li>
+    {{ .Title }}
+  </li>
+  {{ end }}
+</ul>
+{{ end }}

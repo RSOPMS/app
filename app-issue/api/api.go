@@ -3,6 +3,7 @@ package api
 import (
 	"app-issue/api/handler/health"
 	"app-issue/api/handler/issue"
+	"app-issue/api/handler/project"
 	"database/sql"
 	"framework/api"
 	"log"
@@ -37,6 +38,11 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	issueHandler := issue.NewIssueHandler(s.Db)
 	router.Handle("GET /issue", stackNone(api.CreateHandler(issueHandler.GetIssue)))
 	router.Handle("GET /api/issue-list", stackNone(api.CreateHandler(issueHandler.GetIssueList)))
+
+	// Project
+	projectHandler := project.NewProjectHandler(s.Db)
+	router.Handle("GET /projects", stackNone(api.CreateHandler(projectHandler.GetProject)))
+	router.Handle("GET /api/project-list", stackNone(api.CreateHandler(projectHandler.GetProjectList)))
 
 	// Health
 	healthHandler := health.NewHealthHandler()

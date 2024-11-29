@@ -12,6 +12,9 @@ var (
 
 	//go:embed issue
 	issue embed.FS
+
+	//go:embed project
+	project embed.FS
 )
 
 func RenderLayout(wr io.Writer, name string, data any) error {
@@ -20,4 +23,8 @@ func RenderLayout(wr io.Writer, name string, data any) error {
 
 func RenderIssue(wr io.Writer, name string, data any) error {
 	return template.Must(template.New("issue").ParseFS(issue, "issue/*.tmpl")).ExecuteTemplate(wr, name, data)
+}
+
+func RenderProject(wr io.Writer, name string, data any) error {
+	return template.Must(template.New("project").ParseFS(project, "project/*.tmpl")).ExecuteTemplate(wr, name, data)
 }
