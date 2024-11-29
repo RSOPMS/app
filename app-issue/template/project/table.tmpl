@@ -1,0 +1,13 @@
+{{ define "list" }}
+<h2>Projects</h2>
+<table>
+  <tr>
+    <th>Title</th>
+  </tr>
+  {{ range . }}
+  <tr>
+    <th><a href="/issue/projects/{{ .ID }}">{{ .Title }}</a><th>
+  </tr>
+  {{ end }}
+</table>
+{{ end }}
