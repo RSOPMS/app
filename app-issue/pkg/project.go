@@ -3,12 +3,13 @@ package pkg
 import "database/sql"
 
 type Project struct {
+	ID    int
 	Title string
 }
 
 func ReadProjects(db *sql.DB) ([]*Project, error) {
 	query := `
-	SELECT title
+	SELECT id, title
 	  FROM project;
 	`
 
@@ -20,7 +21,7 @@ func ReadProjects(db *sql.DB) ([]*Project, error) {
 	projects := []*Project{}
 	for rows.Next() {
 		project := &Project{}
-		rows.Scan(&project.Title)
+		rows.Scan(&project.ID, &project.Title)
 		projects = append(projects, project)
 	}
 
