@@ -1,0 +1,19 @@
+{{ define "table" }}
+<h2>Issue List</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{ range . }}
+    <tr>
+      <td> <a href="/issue/projects/{{ .ProjectId }}/{{ .Id }}"> {{ .Title }}</a> </td>
+      <td>{{ .Description }}</td>
+    </tr>
+    {{ end }}
+  </tbody>
+</table>
+{{ end }}

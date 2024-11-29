@@ -3,13 +3,15 @@ package pkg
 import "database/sql"
 
 type Issue struct {
+	Id    		int
 	Title       string
 	Description string
+	ProjectId 	int
 }
 
 func ReadIssues(db *sql.DB) ([]*Issue, error) {
 	query := `
-	SELECT title, description
+	SELECT id, title, description, project_id
 	  FROM issue;
 	`
 
@@ -21,7 +23,7 @@ func ReadIssues(db *sql.DB) ([]*Issue, error) {
 	issues := []*Issue{}
 	for rows.Next() {
 		issue := &Issue{}
-		rows.Scan(&issue.Title, &issue.Description)
+		rows.Scan(&issue.Id, &issue.Title, &issue.Description, &issue.ProjectId)
 		issues = append(issues, issue)
 	}
 
@@ -30,7 +32,7 @@ func ReadIssues(db *sql.DB) ([]*Issue, error) {
 
 func ReadProjectIssues(db *sql.DB, project_id string) ([]*Issue, error) {
 	query := `
-	SELECT title, description
+	SELECT id, title, description, project_id
 	  FROM issue
 	  WHERE project_id = $1;
 	`
@@ -43,7 +45,7 @@ func ReadProjectIssues(db *sql.DB, project_id string) ([]*Issue, error) {
 	issues := []*Issue{}
 	for rows.Next() {
 		issue := &Issue{}
-		rows.Scan(&issue.Title, &issue.Description)
+		rows.Scan(&issue.Id, &issue.Title, &issue.Description, &issue.ProjectId)
 		issues = append(issues, issue)
 	}
 

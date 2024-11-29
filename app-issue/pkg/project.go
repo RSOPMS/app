@@ -30,13 +30,13 @@ func ReadProjects(db *sql.DB) ([]*Project, error) {
 
 func ReadProjectTitle(db *sql.DB, project_id string) (*Project, error) {
 	query := `
-	SELECT title
+	SELECT id, title
 	  FROM project
 	  WHERE id = $1;
 	`
 
 	project := &Project{}
-	err := db.QueryRow(query, project_id).Scan(&project.Title)
+	err := db.QueryRow(query, project_id).Scan(&project.Id, &project.Title)
 	if err != nil {
 		return nil, err
 	}

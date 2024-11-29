@@ -1,4 +1,4 @@
-{{ define "list" }}
+{{ define "table" }}
 <h2>Projects</h2>
 <table>
   <thead>
@@ -9,7 +9,7 @@
   <tbody>
     {{ range . }}
     <tr>
-      <td><a href="/issue/projects/{{ .Id }}">{{ .Title }}</a></td>
+      <td><a href="/issue/projects/{{ .Id }}/">{{ .Title }}</a></td>
     </tr>
     {{ end }}
   </tbody>

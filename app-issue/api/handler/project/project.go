@@ -27,5 +27,5 @@ func (h *ProjectHandler) GetProjectList(w http.ResponseWriter, r *http.Request) 
 		return err
 	}
 
-	return template.RenderProject(w, "list", projects)
+	return template.RenderProject(w, "table", projects)
 }

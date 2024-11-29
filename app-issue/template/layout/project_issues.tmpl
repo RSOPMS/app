@@ -1,7 +1,7 @@
 {{ define "project_issues" }}
   {{ template "top" }}
   <h1> {{ .ProjectTitle }} </h1>
-  <div hx-get="/issue/api/projects/{{ .ProjectID }}/issue-list"
+  <div hx-get="/issue/api/projects/{{ .ProjectID }}/issue-list/"
        hx-trigger="load"
        hx-swap="outerHTML">
   </div>

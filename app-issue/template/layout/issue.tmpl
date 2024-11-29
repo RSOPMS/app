@@ -1,7 +1,7 @@
 {{ define "issue" }}
   {{ template "top" }}
   <h1>Issue page</h1>
-  <div hx-get="/issue/api/issue-list"
+  <div hx-get="/issue/api/issue-list/"
        hx-trigger="load"
        hx-swap="outerHTML">
   </div>
