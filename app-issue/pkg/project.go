@@ -9,9 +9,9 @@ type Project struct {
 
 func ReadProjects(db *sql.DB) ([]*Project, error) {
 	query := `
-	SELECT id, title
-	  FROM project;
-	`
+		SELECT id, title
+		FROM project;
+		`
 
 	rows, err := db.Query(query)
 	if err != nil {
@@ -30,10 +30,10 @@ func ReadProjects(db *sql.DB) ([]*Project, error) {
 
 func ReadProject(db *sql.DB, project_id string) (*Project, error) {
 	query := `
-	SELECT id, title
-	  FROM project
-	  WHERE id = $1;
-	`
+		SELECT id, title
+		FROM project
+		WHERE id = $1;
+		`
 
 	project := &Project{}
 	err := db.QueryRow(query, project_id).Scan(&project.Id, &project.Title)

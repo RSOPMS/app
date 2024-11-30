@@ -1,69 +1,69 @@
-	package pkg
+package pkg
 
-	import "database/sql"
+import "database/sql"
 
-	type Issue struct {
-		Id    		int
-		Title       string
-		Description string
-		ProjectId 	int
-	}
+type Issue struct {
+	Id          int
+	Title       string
+	Description string
+	ProjectId   int
+}
 
-	func ReadIssues(db *sql.DB) ([]*Issue, error) {
-		query := `
+func ReadIssues(db *sql.DB) ([]*Issue, error) {
+	query := `
 		SELECT id, title, description, project_id
 		FROM issue;
 		`
 
-		rows, err := db.Query(query)
-		if err != nil {
-			return nil, err
-		}
-
-		issues := []*Issue{}
-		for rows.Next() {
-			issue := &Issue{}
-			rows.Scan(&issue.Id, &issue.Title, &issue.Description, &issue.ProjectId)
-			issues = append(issues, issue)
-		}
-
-		return issues, err
+	rows, err := db.Query(query)
+	if err != nil {
+		return nil, err
 	}
 
-	func ReadIssue(db *sql.DB, issue_id string) (*Issue, error) {
-		query := `
+	issues := []*Issue{}
+	for rows.Next() {
+		issue := &Issue{}
+		rows.Scan(&issue.Id, &issue.Title, &issue.Description, &issue.ProjectId)
+		issues = append(issues, issue)
+	}
+
+	return issues, err
+}
+
+func ReadIssue(db *sql.DB, issue_id string) (*Issue, error) {
+	query := `
 		SELECT id, title, description, project_id
 		FROM issue
 		WHERE id = $1;
 		`
 
-		issue := &Issue{}
-		err := db.QueryRow(query, issue_id).Scan(&issue.Id, &issue.Title, &issue.Description, &issue.ProjectId)
-		if err != nil {
-			return nil, err
-		}
-		
-		return issue, nil
+	issue := &Issue{}
+	err := db.QueryRow(query, issue_id).Scan(&issue.Id, &issue.Title, &issue.Description, &issue.ProjectId)
+	if err != nil {
+		return nil, err
 	}
 
-	func ReadProjectIssues(db *sql.DB, project_id string) ([]*Issue, error) {
-		query := `
+	return issue, nil
+}
+
+func ReadProjectIssues(db *sql.DB, project_id string) ([]*Issue, error) {
+	query := `
 		SELECT id, title, description, project_id
 		FROM issue
 		WHERE project_id = $1;
 		`
 
-		rows, err := db.Query(query, project_id)
-		if err != nil {
-			return nil, err
-		}
-
-		issues := []*Issue{}
-		for rows.Next() {
-			issue := &Issue{}
-			rows.Scan(&issue.Id, &issue.Title, &issue.Description, &issue.ProjectId)
-			issues = append(issues, issue)
-		}
-
-		return issues, err
+	rows, err := db.Query(query, project_id)
+	if err != nil {
+		return nil, err
 	}
+
+	issues := []*Issue{}
+	for rows.Next() {
+		issue := &Issue{}
+		rows.Scan(&issue.Id, &issue.Title, &issue.Description, &issue.ProjectId)
+		issues = append(issues, issue)
+	}
+
+	return issues, err
+}

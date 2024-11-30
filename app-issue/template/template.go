@@ -35,4 +35,3 @@ func RenderProject(wr io.Writer, name string, data any) error {
 func RenderComments(wr io.Writer, name string, data any) error {
 	return template.Must(template.New("comments").ParseFS(comments, "comments/*.tmpl")).ExecuteTemplate(wr, name, data)
 }
-

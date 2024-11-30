@@ -3,17 +3,17 @@ package pkg
 import "database/sql"
 
 type Comment struct {
-	Id    	  int
-	IssueId	  int
+	Id        int
+	IssueId   int
 	Content   string
 	CreatedAt string
 }
 
 func ReadComments(db *sql.DB) ([]*Comment, error) {
 	query := `
-	SELECT id, issue_id, content, created_at
-	  FROM comment;
-	`
+		SELECT id, issue_id, content, created_at
+		FROM comment;
+		`
 
 	rows, err := db.Query(query)
 	if err != nil {
@@ -32,10 +32,10 @@ func ReadComments(db *sql.DB) ([]*Comment, error) {
 
 func ReadIssueComments(db *sql.DB, issue_id string) ([]*Comment, error) {
 	query := `
-	SELECT id, issue_id, content, created_at
-	  FROM comment
-	  WHERE issue_id = $1;
-	`
+		SELECT id, issue_id, content, created_at
+		FROM comment
+		WHERE issue_id = $1;
+		`
 
 	rows, err := db.Query(query, issue_id)
 	if err != nil {

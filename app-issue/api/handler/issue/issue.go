@@ -42,7 +42,7 @@ func (h *IssueHandler) GetProjectIssues(w http.ResponseWriter, r *http.Request) 
 	}
 
 	return template.RenderLayout(w, "project_issues", map[string]interface{}{
-		"ProjectId": project_id,
+		"ProjectId":    project_id,
 		"ProjectTitle": project.Title,
 	})
 }
@@ -83,4 +83,3 @@ func (h *IssueHandler) GetIssueCommentList(w http.ResponseWriter, r *http.Reques
 
 	return template.RenderComments(w, "table", comments)
 }
-
