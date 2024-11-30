@@ -20,9 +20,11 @@ func main() {
 func run() error {
 	godotenv.Load()
 
-	dbName := "bugbase"
-	dbUser := "bugbase"
-	dbPassword := "password"
+	// from secrets
+	dbName := os.Getenv("POSTGRES_DB")           //"bugbase"
+	dbUser := os.Getenv("POSTGRES_USER")         //"bugbase"
+	dbPassword := os.Getenv("POSTGRES_PASSWORD") //"password"
+
 	dbHost := os.Getenv("DB_HOST")
 	dbPort := 5432
 	dbSslMode := "disable"

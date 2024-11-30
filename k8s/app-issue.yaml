@@ -45,6 +45,21 @@ spec:
               value: "8080"
             - name: DB_HOST
               value: "bugbase-database-service.default.svc"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: POSTGRES_DB
           # TODO: Currently only for local testing. Remove for production deployment.
           imagePullPolicy: Never
 ---

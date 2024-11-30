@@ -42,7 +42,11 @@ app-issue-build:
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-start
-k8s-dev-start: ingress-start database-start app-static-start app-issue-start
+k8s-dev-start: secrets-start ingress-start database-start app-static-start app-issue-start
+
+.PHONY: secrets-start
+secrets-start:
+	@kubectl apply -f ./k8s/secrets.yaml
 
 .PHONY: ingress-start
 ingress-start:
@@ -65,7 +69,11 @@ app-issue-start:
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-stop
-k8s-dev-stop: ingress-stop database-stop app-static-stop app-issue-stop
+k8s-dev-stop: secrets-stop ingress-stop database-stop app-static-stop app-issue-stop
+
+.PHONY: secrets-stop
+secrets-stop:
+	@kubectl delete -f ./k8s/secrets.yaml
 
 .PHONY: ingress-stop
 ingress-stop:
