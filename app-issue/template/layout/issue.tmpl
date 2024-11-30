@@ -1,9 +1,14 @@
-{{ define "issue" }}
+{{ define "issues" }}
   {{ template "top" }}
-  <h1>Issue page</h1>
-  <div hx-get="/issue/api/issue-list/"
+  <h1>{{ .Title }}</h1>
+  <p>{{ .Description }}</p>
+  <div hx-get="/issue/api/projects/{{ .ProjectId }}/issues/{{ .Id }}/comments/"
        hx-trigger="load"
        hx-swap="outerHTML">
   </div>
   {{ template "bot" }}
+{{ end }}
+
+{{ define "issue" }}
+  TODO
 {{ end }}

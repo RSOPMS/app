@@ -1,4 +1,4 @@
-{{ define "project" }}
+{{ define "projects" }}
   {{ template "top" }}
   <h1>Projects page</h1>
   <div hx-get="/issue/api/project-list/"
@@ -6,4 +6,8 @@
        hx-swap="outerHTML">
   </div>
   {{ template "bot" }}
+{{ end }}
+
+{{ define "project" }}
+  TODO
 {{ end }}

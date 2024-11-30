@@ -1,7 +1,6 @@
 package api
 
 import (
-	"app-issue/api/handler/comments"
 	"app-issue/api/handler/health"
 	"app-issue/api/handler/issue"
 	"app-issue/api/handler/project"
@@ -35,24 +34,17 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	// Middleware
 	stackNone := api.CreateMiddlewareStack(api.LoggingMiddleware)
 
-	// Issue
-	issueHandler := issue.NewIssueHandler(s.Db)
-	router.Handle("GET /issue/", stackNone(api.CreateHandler(issueHandler.GetIssue)))
-	router.Handle("GET /api/issue-list/", stackNone(api.CreateHandler(issueHandler.GetIssueList)))
-	router.Handle("GET /api/projects/{id}/issue-list/", stackNone(api.CreateHandler(issueHandler.GetProjectIssueList)))
-	router.Handle("GET /projects/{id}/", stackNone(api.CreateHandler(issueHandler.GetProjectIssues)))
-	router.Handle("GET /projects/{p_id}/issues/{i_id}/", stackNone(api.CreateHandler(issueHandler.GetIssueComments)))
-	router.Handle("GET /api/projects/{p_id}/issues/{i_id}/comments/", stackNone(api.CreateHandler(issueHandler.GetIssueCommentList)))
-
 	// Project
 	projectHandler := project.NewProjectHandler(s.Db)
-	router.Handle("GET /projects/", stackNone(api.CreateHandler(projectHandler.GetProject)))
-	router.Handle("GET /api/project-list/", stackNone(api.CreateHandler(projectHandler.GetProjectList)))
+	router.Handle("GET /projects/", stackNone(api.CreateHandler(projectHandler.GetProjectsPage)))
+	router.Handle("GET /projects/{project_id}/", stackNone(api.CreateHandler(projectHandler.GetProjectPage)))
+	router.Handle("GET /api/projects/table/", stackNone(api.CreateHandler(projectHandler.GetProjectTable)))
+	router.Handle("GET /api/projects/{project_id}/issues/table/", stackNone(api.CreateHandler(projectHandler.GetIssueTable)))
 
-	// Comments
-	commentHandler := comments.NewCommentHandler(s.Db)
-	router.Handle("GET /comments/", stackNone(api.CreateHandler(commentHandler.GetComments)))
-	router.Handle("GET /api/comment-list/", stackNone(api.CreateHandler(commentHandler.GetCommentList)))
+	// Issue
+	issueHandler := issue.NewIssueHandler(s.Db)
+	router.Handle("GET /issues/{issue_id}/", stackNone(api.CreateHandler(issueHandler.GetIssuePage)))
+	router.Handle("GET /api/issues/{issue_id}/comments/table/", stackNone(api.CreateHandler(issueHandler.GetCommentTable)))
 
 	// Health
 	healthHandler := health.NewHealthHandler()

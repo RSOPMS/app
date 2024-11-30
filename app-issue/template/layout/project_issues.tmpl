@@ -1,9 +1,0 @@
-{{ define "project_issues" }}
-  {{ template "top" }}
-  <h1> {{ .ProjectTitle }} </h1>
-  <div hx-get="/issue/api/projects/{{ .ProjectId }}/issue-list/"
-       hx-trigger="load"
-       hx-swap="outerHTML">
-  </div>
-  {{ template "bot" }}
-{{ end }}

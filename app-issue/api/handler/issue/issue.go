@@ -4,7 +4,6 @@ import (
 	"app-issue/pkg"
 	"app-issue/template"
 	"database/sql"
-	_ "embed"
 	"net/http"
 )
 
@@ -21,17 +20,6 @@ func NewIssueHandler(db *sql.DB) *IssueHandler {
 func (h *IssueHandler) GetIssue(w http.ResponseWriter, r *http.Request) error {
 	return template.RenderLayout(w, "issue", nil)
 }
-
-func (h *IssueHandler) GetIssueList(w http.ResponseWriter, r *http.Request) error {
-	issues, err := pkg.ReadIssues(h.Db)
-	if err != nil {
-		return err
-	}
-
-	return template.RenderIssue(w, "table", issues)
-}
-
-// -- Project page with listed issues
 
 func (h *IssueHandler) GetProjectIssues(w http.ResponseWriter, r *http.Request) error {
 	project_id := r.PathValue("id")
@@ -58,10 +46,7 @@ func (h *IssueHandler) GetProjectIssueList(w http.ResponseWriter, r *http.Reques
 	return template.RenderIssue(w, "table", issues)
 }
 
-// -- Issue page with listed comments
-
 func (h *IssueHandler) GetIssueComments(w http.ResponseWriter, r *http.Request) error {
-	//project_id := r.PathValue("p_id")
 	issue_id := r.PathValue("i_id")
 
 	issue, err := pkg.ReadIssue(h.Db, issue_id)
@@ -73,7 +58,6 @@ func (h *IssueHandler) GetIssueComments(w http.ResponseWriter, r *http.Request) 
 }
 
 func (h *IssueHandler) GetIssueCommentList(w http.ResponseWriter, r *http.Request) error {
-	//project_id := r.PathValue("p_id")
 	issue_id := r.PathValue("i_id")
 
 	comments, err := pkg.ReadIssueComments(h.Db, issue_id)
@@ -81,5 +65,5 @@ func (h *IssueHandler) GetIssueCommentList(w http.ResponseWriter, r *http.Reques
 		return err
 	}
 
-	return template.RenderComments(w, "table", comments)
+	return template.RenderComment(w, "table", comments)
 }
