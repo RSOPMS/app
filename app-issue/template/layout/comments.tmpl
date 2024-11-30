@@ -1,0 +1,9 @@
+{{ define "comments" }}
+  {{ template "top" }}
+  <h1>Issue page</h1>
+  <div hx-get="/issue/api/comment-list/"
+       hx-trigger="load"
+       hx-swap="outerHTML">
+  </div>
+  {{ template "bot" }}
+{{ end }}

@@ -10,7 +10,7 @@
   <tbody>
     {{ range . }}
     <tr>
-      <td> <a href="/issue/projects/{{ .ProjectId }}/{{ .Id }}"> {{ .Title }}</a> </td>
+      <td> <a href="/issue/projects/{{ .ProjectId }}/issues/{{ .Id }}/"> {{ .Title }}</a> </td>
       <td>{{ .Description }}</td>
     </tr>
     {{ end }}

@@ -1,0 +1,10 @@
+{{ define "issue_page" }}
+  {{ template "top" }}
+  <h1>{{ .Title }}</h1> <!-- Display the issue title -->
+  <p>{{ .Description }}</p> <!-- Display the issue description -->
+  <div hx-get="/issue/api/projects/{{ .ProjectId }}/issues/{{ .Id }}/comments/"
+       hx-trigger="load"
+       hx-swap="outerHTML">
+  </div>
+  {{ template "bot" }}
+{{ end }}

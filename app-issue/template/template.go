@@ -15,6 +15,9 @@ var (
 
 	//go:embed project
 	project embed.FS
+
+	//go:embed comments
+	comments embed.FS
 )
 
 func RenderLayout(wr io.Writer, name string, data any) error {
@@ -28,3 +31,8 @@ func RenderIssue(wr io.Writer, name string, data any) error {
 func RenderProject(wr io.Writer, name string, data any) error {
 	return template.Must(template.New("project").ParseFS(project, "project/*.tmpl")).ExecuteTemplate(wr, name, data)
 }
+
+func RenderComments(wr io.Writer, name string, data any) error {
+	return template.Must(template.New("comments").ParseFS(comments, "comments/*.tmpl")).ExecuteTemplate(wr, name, data)
+}
+

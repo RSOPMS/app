@@ -4,6 +4,7 @@ import (
 	"app-issue/api/handler/health"
 	"app-issue/api/handler/issue"
 	"app-issue/api/handler/project"
+	"app-issue/api/handler/comments"
 	"database/sql"
 	"framework/api"
 	"log"
@@ -40,11 +41,18 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	router.Handle("GET /api/issue-list/", stackNone(api.CreateHandler(issueHandler.GetIssueList)))
 	router.Handle("GET /api/projects/{id}/issue-list/", stackNone(api.CreateHandler(issueHandler.GetProjectIssueList)))
 	router.Handle("GET /projects/{id}/", stackNone(api.CreateHandler(issueHandler.GetProjectIssues)))
+	router.Handle("GET /projects/{p_id}/issues/{i_id}/", stackNone(api.CreateHandler(issueHandler.GetIssueComments)))
+	router.Handle("GET /api/projects/{p_id}/issues/{i_id}/comments/", stackNone(api.CreateHandler(issueHandler.GetIssueCommentList)))
 
 	// Project
 	projectHandler := project.NewProjectHandler(s.Db)
 	router.Handle("GET /projects/", stackNone(api.CreateHandler(projectHandler.GetProject)))
 	router.Handle("GET /api/project-list/", stackNone(api.CreateHandler(projectHandler.GetProjectList)))
+
+	// Comments
+	commentHandler := comments.NewCommentHandler(s.Db)
+	router.Handle("GET /comments/", stackNone(api.CreateHandler(commentHandler.GetComments)))
+	router.Handle("GET /api/comment-list/", stackNone(api.CreateHandler(commentHandler.GetCommentList)))
 
 	// Health
 	healthHandler := health.NewHealthHandler()

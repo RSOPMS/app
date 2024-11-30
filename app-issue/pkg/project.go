@@ -28,7 +28,7 @@ func ReadProjects(db *sql.DB) ([]*Project, error) {
 	return projects, err
 }
 
-func ReadProjectTitle(db *sql.DB, project_id string) (*Project, error) {
+func ReadProject(db *sql.DB, project_id string) (*Project, error) {
 	query := `
 	SELECT id, title
 	  FROM project
