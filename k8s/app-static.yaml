@@ -25,20 +25,20 @@ spec:
             # TODO: KeyValue store
             - containerPort: 8081
               name: server
-          ## TODO: healthcheck
-          #livenessProbe:
-          #  httpGet:
-          #    path: /health/live
-          #    port: server
-          #  initialDelaySeconds: 20
-          #  periodSeconds: 5
-          ## TODO: healthcheck
-          #readinessProbe:
-          #  httpGet:
-          #    path: /health/ready
-          #    port: server
-          #  initialDelaySeconds: 20
-          #  periodSeconds: 5
+          # TODO: healthcheck
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          # TODO: healthcheck
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 5
           # TODO: KeyValue store
           env:
             - name: APP_PORT
