@@ -3,10 +3,10 @@ package pkg
 import "database/sql"
 
 type Comment struct {
-	Id    		int
-	IssueId		int
-	Content     string
-	CreatedAt 	string
+	Id    	  int
+	IssueId	  int
+	Content   string
+	CreatedAt string
 }
 
 func ReadComments(db *sql.DB) ([]*Comment, error) {
