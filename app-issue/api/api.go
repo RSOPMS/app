@@ -1,10 +1,10 @@
 package api
 
 import (
+	"app-issue/api/handler/comments"
 	"app-issue/api/handler/health"
 	"app-issue/api/handler/issue"
 	"app-issue/api/handler/project"
-	"app-issue/api/handler/comments"
 	"database/sql"
 	"framework/api"
 	"log"
