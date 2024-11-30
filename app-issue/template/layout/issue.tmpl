@@ -10,5 +10,9 @@
 {{ end }}
 
 {{ define "issue" }}
-  TODO
+<h1>{{ .Title }}</h1>
+<div hx-get="/issue/api/issues/{{ .Id }}/comments/table/"
+     hx-trigger="load"
+     hx-swap="outerHTML">
+</div>
 {{ end }}

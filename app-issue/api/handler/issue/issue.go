@@ -57,6 +57,7 @@ func (h *IssueHandler) GetIssueComments(w http.ResponseWriter, r *http.Request) 
 	return template.RenderLayout(w, "issue_page", issue)
 }
 
+/*
 func (h *IssueHandler) GetIssueCommentList(w http.ResponseWriter, r *http.Request) error {
 	issue_id := r.PathValue("i_id")
 
@@ -66,4 +67,14 @@ func (h *IssueHandler) GetIssueCommentList(w http.ResponseWriter, r *http.Reques
 	}
 
 	return template.RenderComment(w, "table", comments)
+}
+*/
+
+// New stuff form here
+func (h *IssueHandler) GetIssuePage(w http.ResponseWriter, r *http.Request) error {
+	return template.RenderLayout(w, "issue", nil)
+}
+
+func (h *IssueHandler) GetCommentTable(w http.ResponseWriter, r *http.Request) error {
+	// TODO
 }
