@@ -30,13 +30,6 @@ Start the local minikube cluster:
 minikube start
 ```
 
-Validate connection to Docker daemon:
-
-```sh
-# This command should output "minikube"
-echo $MINIKUBE_ACTIVE_DOCKERD
-```
-
 > [!TIP]
 >
 > Open kubernetes dashboard proxy in the browser:
@@ -62,6 +55,13 @@ eval $(minikube docker-env)
 > [!WARNING]
 >
 > This command sets the Docker daemon namespace to the minikube cluster only for the current terminal session.
+
+Validate connection to Docker daemon:
+
+```sh
+# This command should output "minikube"
+echo $MINIKUBE_ACTIVE_DOCKERD
+```
 
 Push all Docker images to the in-cluster Docker daemon and apply k8s deployments:
 

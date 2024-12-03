@@ -4,13 +4,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="{{ urlPrefixStatic }}/css/style.css">
     <title>BugBase</title>
   </head>
   <body>
     <nav class="menu">
-      <a href="/issue">Home</a>
-      <a href="/issue/projects">Projects</a>
+      <a href="{{ urlPrefixIssue }}/issue">Home</a>
+      <a href="{{ urlPrefixIssue }}/issue/projects">Projects</a>
     </nav>
     <main>
 {{ end }}
@@ -23,7 +23,7 @@
         <span class="small"> Anže Arhar, Kristjan Kostanjšek, Nejc Ločičnik</span>
       </div>
     </footer>
-    <script src="/static/js/htmx.min.js"></script>
+    <script src="{{ urlPrefixStatic }}/js/htmx.min.js"></script>
   </body>
 </html>
 {{ end }}
