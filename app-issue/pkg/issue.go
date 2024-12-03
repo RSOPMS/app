@@ -9,6 +9,14 @@ type Issue struct {
 	ProjectId   int
 }
 
+type Comment struct {
+	Id        int
+	IssueId   int
+	Content   string
+	CreatedAt string
+}
+
+// Reads all issues
 func ReadIssues(db *sql.DB) ([]*Issue, error) {
 	query := `
 	SELECT id, title, description, project_id
@@ -30,6 +38,7 @@ func ReadIssues(db *sql.DB) ([]*Issue, error) {
 	return issues, err
 }
 
+// Reads an issue by Id
 func ReadIssue(db *sql.DB, id string) (*Issue, error) {
 	query := `
 	SELECT id, title, description, project_id
@@ -46,24 +55,25 @@ func ReadIssue(db *sql.DB, id string) (*Issue, error) {
 	return issue, nil
 }
 
-func ReadProjectIssues(db *sql.DB, projectId string) ([]*Issue, error) {
+// Reads all comments of an issue by Id
+func ReadIssueComments(db *sql.DB, issueId string) ([]*Comment, error) {
 	query := `
-	SELECT id, title, description, project_id
-	  FROM issue
-	 WHERE project_id = $1;
+	SELECT id, issue_id, content, created_at
+	FROM comment
+	WHERE issue_id = $1;
 	`
 
-	rows, err := db.Query(query, projectId)
+	rows, err := db.Query(query, issueId)
 	if err != nil {
 		return nil, err
 	}
 
-	issues := []*Issue{}
+	comments := []*Comment{}
 	for rows.Next() {
-		issue := &Issue{}
-		rows.Scan(&issue.Id, &issue.Title, &issue.Description, &issue.ProjectId)
-		issues = append(issues, issue)
+		comment := &Comment{}
+		rows.Scan(&comment.Id, &comment.IssueId, &comment.Content, &comment.CreatedAt)
+		comments = append(comments, comment)
 	}
 
-	return issues, err
+	return comments, err
 }

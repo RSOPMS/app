@@ -1,0 +1,23 @@
+{{ define "table-comments" }}
+<h2>Comments</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Comment</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{ range . }}
+    <tr>
+      <td>
+        {{ .Content }}
+      </td>
+      <td>
+        {{ .CreatedAt }}
+    </td>
+    </tr>
+    {{ end }}
+  </tbody>
+</table>
+{{ end }}

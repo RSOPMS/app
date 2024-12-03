@@ -10,9 +10,11 @@
 {{ end }}
 
 {{ define "issue" }}
-<h1>{{ .Title }}</h1>
-<div hx-get="/issue/api/issues/{{ .Id }}/comments/table/"
-     hx-trigger="load"
-     hx-swap="outerHTML">
-</div>
+  {{ template "top" }}
+  <h1>{{ .Title }}</h1>
+  <div hx-get="/issue/api/issues/{{ .Id }}/comments/table/"
+       hx-trigger="load"
+       hx-swap="outerHTML">
+  </div>
+  {{ template "bot" }}
 {{ end }}

@@ -7,6 +7,7 @@ type Project struct {
 	Title string
 }
 
+// Reads all projects
 func ReadProjects(db *sql.DB) ([]*Project, error) {
 	query := `
 	SELECT id, title
@@ -28,6 +29,7 @@ func ReadProjects(db *sql.DB) ([]*Project, error) {
 	return projects, err
 }
 
+// Reads a project by Id
 func ReadProject(db *sql.DB, id string) (*Project, error) {
 	query := `
 	SELECT id, title
@@ -42,4 +44,27 @@ func ReadProject(db *sql.DB, id string) (*Project, error) {
 	}
 
 	return project, nil
+}
+
+// Reads all issues of a project by Id
+func ReadProjectIssues(db *sql.DB, projectId string) ([]*Issue, error) {
+	query := `
+	SELECT id, title, description, project_id
+	  FROM issue
+	 WHERE project_id = $1;
+	`
+
+	rows, err := db.Query(query, projectId)
+	if err != nil {
+		return nil, err
+	}
+
+	issues := []*Issue{}
+	for rows.Next() {
+		issue := &Issue{}
+		rows.Scan(&issue.Id, &issue.Title, &issue.Description, &issue.ProjectId)
+		issues = append(issues, issue)
+	}
+
+	return issues, err
 }

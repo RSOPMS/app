@@ -38,7 +38,7 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	projectHandler := project.NewProjectHandler(s.Db)
 	router.Handle("GET /projects/", stackNone(api.CreateHandler(projectHandler.GetProjectsPage)))
 	router.Handle("GET /projects/{project_id}/", stackNone(api.CreateHandler(projectHandler.GetProjectPage)))
-	router.Handle("GET /api/projects/table/", stackNone(api.CreateHandler(projectHandler.GetProjectTable)))
+	router.Handle("GET /api/projects-table/", stackNone(api.CreateHandler(projectHandler.GetProjectTable)))
 	router.Handle("GET /api/projects/{project_id}/issues/table/", stackNone(api.CreateHandler(projectHandler.GetIssueTable)))
 
 	// Issue

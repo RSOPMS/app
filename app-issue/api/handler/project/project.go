@@ -17,26 +17,18 @@ func NewProjectHandler(db *sql.DB) *ProjectHandler {
 	}
 }
 
-func (h *ProjectHandler) GetProject(w http.ResponseWriter, r *http.Request) error {
-	return template.RenderLayout(w, "project", nil)
-}
-
-func (h *ProjectHandler) GetProjectList(w http.ResponseWriter, r *http.Request) error {
-	projects, err := pkg.ReadProjects(h.Db)
-	if err != nil {
-		return err
-	}
-
-	return template.RenderProject(w, "table", projects)
-}
-
-// New stuff from here
 func (h *ProjectHandler) GetProjectsPage(w http.ResponseWriter, r *http.Request) error {
 	return template.RenderLayout(w, "projects", nil)
 }
 
 func (h *ProjectHandler) GetProjectPage(w http.ResponseWriter, r *http.Request) error {
-	return template.RenderLayout(w, "project", nil)
+	project_id := r.PathValue("project_id")
+	project, err := pkg.ReadProject(h.Db, project_id)
+	if err != nil {
+		return err
+	}
+
+	return template.RenderLayout(w, "project", project)
 }
 
 func (h *ProjectHandler) GetProjectTable(w http.ResponseWriter, r *http.Request) error {
@@ -49,7 +41,7 @@ func (h *ProjectHandler) GetProjectTable(w http.ResponseWriter, r *http.Request)
 }
 
 func (h *ProjectHandler) GetIssueTable(w http.ResponseWriter, r *http.Request) error {
-	project_id := r.PathValue("id")
+	project_id := r.PathValue("project_id")
 	issues, err := pkg.ReadProjectIssues(h.Db, project_id)
 	if err != nil {
 		return err
