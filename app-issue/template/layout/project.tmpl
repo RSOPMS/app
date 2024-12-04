@@ -1,6 +1,6 @@
 {{ define "projectsPage" }}
   {{ template "top" }}
-  <h1>Projects page</h1>
+  <h1>Projects</h1>
   <div hx-get="/issue/api/projects/table/"
        hx-trigger="load"
        hx-swap="outerHTML">
@@ -11,6 +11,7 @@
 {{ define "projectPage" }}
   {{ template "top" }}
   <h1>{{ .Title }}</h1>
+  <h2>Issues</h2>
   <div hx-get="/issue/api/projects/{{ .Id }}/issues/table/"
        hx-trigger="load"
        hx-swap="outerHTML">
