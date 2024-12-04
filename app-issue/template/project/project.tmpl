@@ -1,0 +1,18 @@
+{{ define "projectsTable" }}
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{ range . }}
+    <tr>
+      <td>
+        <a href="{{ urlPrefixIssue }}/projects/{{ .Id }}/">{{ .Title }}</a>
+      </td>
+    </tr>
+    {{ end }}
+  </tbody>
+</table>
+{{ end }}

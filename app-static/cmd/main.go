@@ -18,7 +18,7 @@ func run() error {
 	godotenv.Load()
 
 	server := api.ApiServer{
-		Addr: ":" + os.Getenv("APP_PORT"),
+		Addr: ":" + os.Getenv("PORT_APP_STATIC"),
 	}
 
 	return server.Run()

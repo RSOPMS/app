@@ -1,7 +1,9 @@
 package api
 
 import (
+	"app-static/api/handler/health"
 	"embed"
+	"framework/api"
 	"io/fs"
 	"log"
 	"net/http"
@@ -16,6 +18,8 @@ var static embed.FS
 
 func (s *ApiServer) Run() error {
 	router := http.NewServeMux()
+
+	s.registerHandlers(router)
 
 	staticDir, err := fs.Sub(static, "static")
 	if err != nil {
@@ -32,4 +36,14 @@ func (s *ApiServer) Run() error {
 	log.Println("Server is listening on", server.Addr)
 
 	return server.ListenAndServe()
+}
+
+func (s *ApiServer) registerHandlers(router *http.ServeMux) {
+	// Middleware
+	stackNone := api.CreateMiddlewareStack(api.LoggingMiddleware)
+
+	// Health
+	healthHandler := health.NewHealthHandler()
+	router.Handle("GET /health/live", stackNone(api.CreateHandler(healthHandler.GetHealthLive)))
+	router.Handle("GET /health/ready", stackNone(api.CreateHandler(healthHandler.GetHealthReady)))
 }

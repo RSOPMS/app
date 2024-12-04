@@ -1,7 +1,9 @@
-{{ define "issue" }}
+{{ define "issuePage" }}
   {{ template "top" }}
-  <h1>Issue page</h1>
-  <div hx-get="/issue/api/issue-list"
+  <h1>{{ .Title }}</h1>
+  <p>{{ .Description }}</p>
+  <h2>Comments</h2>
+  <div hx-get="{{ urlPrefixIssue }}/api/issues/{{ .Id }}/comments/table/"
        hx-trigger="load"
        hx-swap="outerHTML">
   </div>

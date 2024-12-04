@@ -18,7 +18,7 @@ spec:
                 name: bugbase-issue-service
                 port:
                   number: 8080
-          - path: /static(/|$)(.*)
+          - path: /()(.*)
             pathType: ImplementationSpecific
             backend:
               service:
