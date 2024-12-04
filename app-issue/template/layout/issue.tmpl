@@ -1,17 +1,7 @@
-{{ define "issues" }}
+{{ define "issuePage" }}
   {{ template "top" }}
   <h1>{{ .Title }}</h1>
   <p>{{ .Description }}</p>
-  <div hx-get="/issue/api/projects/{{ .ProjectId }}/issues/{{ .Id }}/comments/"
-       hx-trigger="load"
-       hx-swap="outerHTML">
-  </div>
-  {{ template "bot" }}
-{{ end }}
-
-{{ define "issue" }}
-  {{ template "top" }}
-  <h1>{{ .Title }}</h1>
   <div hx-get="/issue/api/issues/{{ .Id }}/comments/table/"
        hx-trigger="load"
        hx-swap="outerHTML">

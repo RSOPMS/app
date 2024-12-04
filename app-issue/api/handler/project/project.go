@@ -18,34 +18,36 @@ func NewProjectHandler(db *sql.DB) *ProjectHandler {
 }
 
 func (h *ProjectHandler) GetProjectsPage(w http.ResponseWriter, r *http.Request) error {
-	return template.RenderLayout(w, "projects", nil)
+	return template.RenderLayout(w, "projectsPage", nil)
 }
 
 func (h *ProjectHandler) GetProjectPage(w http.ResponseWriter, r *http.Request) error {
-	project_id := r.PathValue("project_id")
-	project, err := pkg.ReadProject(h.Db, project_id)
+	projectId := r.PathValue("projectId")
+
+	project, err := pkg.ReadProject(h.Db, projectId)
 	if err != nil {
 		return err
 	}
 
-	return template.RenderLayout(w, "project", project)
+	return template.RenderLayout(w, "projectPage", project)
 }
 
-func (h *ProjectHandler) GetProjectTable(w http.ResponseWriter, r *http.Request) error {
+func (h *ProjectHandler) GetProjectsTable(w http.ResponseWriter, r *http.Request) error {
 	projects, err := pkg.ReadProjects(h.Db)
 	if err != nil {
 		return err
 	}
 
-	return template.RenderProject(w, "table", projects)
+	return template.RenderProject(w, "projectsTable", projects)
 }
 
-func (h *ProjectHandler) GetIssueTable(w http.ResponseWriter, r *http.Request) error {
-	project_id := r.PathValue("project_id")
-	issues, err := pkg.ReadProjectIssues(h.Db, project_id)
+func (h *ProjectHandler) GetIssuesTable(w http.ResponseWriter, r *http.Request) error {
+	projectId := r.PathValue("projectId")
+
+	issues, err := pkg.ReadIssues(h.Db, projectId)
 	if err != nil {
 		return err
 	}
 
-	return template.RenderIssue(w, "table", issues)
+	return template.RenderIssue(w, "issuesTable", issues)
 }

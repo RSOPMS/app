@@ -2,12 +2,6 @@ package pkg
 
 import "database/sql"
 
-type Project struct {
-	Id    int
-	Title string
-}
-
-// Reads all projects
 func ReadProjects(db *sql.DB) ([]*Project, error) {
 	query := `
 	SELECT id, title
@@ -29,7 +23,6 @@ func ReadProjects(db *sql.DB) ([]*Project, error) {
 	return projects, err
 }
 
-// Reads a project by Id
 func ReadProject(db *sql.DB, id string) (*Project, error) {
 	query := `
 	SELECT id, title
@@ -46,8 +39,7 @@ func ReadProject(db *sql.DB, id string) (*Project, error) {
 	return project, nil
 }
 
-// Reads all issues of a project by Id
-func ReadProjectIssues(db *sql.DB, projectId string) ([]*Issue, error) {
+func ReadIssues(db *sql.DB, projectId string) ([]*Issue, error) {
 	query := `
 	SELECT id, title, description, project_id
 	  FROM issue

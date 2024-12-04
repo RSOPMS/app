@@ -36,18 +36,18 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 
 	// Project
 	projectHandler := project.NewProjectHandler(s.Db)
-	router.Handle("GET /projects/", stackNone(api.CreateHandler(projectHandler.GetProjectsPage)))
-	router.Handle("GET /projects/{project_id}/", stackNone(api.CreateHandler(projectHandler.GetProjectPage)))
-	router.Handle("GET /api/projects-table/", stackNone(api.CreateHandler(projectHandler.GetProjectTable)))
-	router.Handle("GET /api/projects/{project_id}/issues/table/", stackNone(api.CreateHandler(projectHandler.GetIssueTable)))
+	router.Handle("GET /projects/{$}", stackNone(api.CreateHandler(projectHandler.GetProjectsPage)))
+	router.Handle("GET /projects/{projectId}/{$}", stackNone(api.CreateHandler(projectHandler.GetProjectPage)))
+	router.Handle("GET /api/projects/table/{$}", stackNone(api.CreateHandler(projectHandler.GetProjectsTable)))
+	router.Handle("GET /api/projects/{projectId}/issues/table/{$}", stackNone(api.CreateHandler(projectHandler.GetIssuesTable)))
 
 	// Issue
 	issueHandler := issue.NewIssueHandler(s.Db)
-	router.Handle("GET /issues/{issue_id}/", stackNone(api.CreateHandler(issueHandler.GetIssuePage)))
-	router.Handle("GET /api/issues/{issue_id}/comments/table/", stackNone(api.CreateHandler(issueHandler.GetCommentTable)))
+	router.Handle("GET /issues/{issueId}/{$}", stackNone(api.CreateHandler(issueHandler.GetIssuePage)))
+	router.Handle("GET /api/issues/{issueId}/comments/table/{$}", stackNone(api.CreateHandler(issueHandler.GetCommentsTable)))
 
 	// Health
 	healthHandler := health.NewHealthHandler()
-	router.Handle("GET /health/live/", stackNone(api.CreateHandler(healthHandler.GetHealthLive)))
-	router.Handle("GET /health/ready/", stackNone(api.CreateHandler(healthHandler.GetHealthReady)))
+	router.Handle("GET /health/live/{$}", stackNone(api.CreateHandler(healthHandler.GetHealthLive)))
+	router.Handle("GET /health/ready/{$}", stackNone(api.CreateHandler(healthHandler.GetHealthReady)))
 }
