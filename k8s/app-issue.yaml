@@ -22,29 +22,71 @@ spec:
               memory: 128Mi
               cpu: 500m
           ports:
-            # TODO: KeyValue store
             - containerPort: 8080
               name: server
-          ## TODO: healthcheck
-          #livenessProbe:
-          #  httpGet:
-          #    path: /health/live
-          #    port: server
-          #  initialDelaySeconds: 20
-          #  periodSeconds: 5
-          ## TODO: healthcheck
-          #readinessProbe:
-          #  httpGet:
-          #    path: /health/ready
-          #    port: server
-          #  initialDelaySeconds: 20
-          #  periodSeconds: 5
-          # TODO: KeyValue store
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 5
           env:
-            - name: APP_PORT
-              value: "8080"
+            - name: PORT_APP_ISSUE
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: PORT_APP_ISSUE
+            - name: PORT_APP_STATIC
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: PORT_APP_STATIC
+            - name: URL_PREFIX_ISSUE
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: URL_PREFIX_ISSUE
+            - name: URL_PREFIX_STATIC
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: URL_PREFIX_STATIC
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_NAME
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_USER
             - name: DB_HOST
-              value: "bugbase-database-service.default.svc"
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_PORT
+            - name: DB_SSL_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_SSL_MODE
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bugbase-secret
+                  key: DB_PASSWORD
           # TODO: Currently only for local testing. Remove for production deployment.
           imagePullPolicy: Never
 ---
@@ -57,7 +99,6 @@ spec:
   selector:
     app: bugbase-issue
   ports:
-    # TODO: KeyValue store
     - port: 8080
       protocol: TCP
       targetPort: server
