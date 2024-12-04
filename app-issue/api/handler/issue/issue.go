@@ -4,7 +4,6 @@ import (
 	"app-issue/pkg"
 	"app-issue/template"
 	"database/sql"
-	_ "embed"
 	"net/http"
 )
 
@@ -18,15 +17,24 @@ func NewIssueHandler(db *sql.DB) *IssueHandler {
 	}
 }
 
-func (h *IssueHandler) GetIssue(w http.ResponseWriter, r *http.Request) error {
-	return template.RenderLayout(w, "issue", nil)
-}
+func (h *IssueHandler) GetIssuePage(w http.ResponseWriter, r *http.Request) error {
+	issueId := r.PathValue("issueId")
 
-func (h *IssueHandler) GetIssueList(w http.ResponseWriter, r *http.Request) error {
-	issues, err := pkg.ReadIssues(h.Db)
+	issue, err := pkg.ReadIssue(h.Db, issueId)
 	if err != nil {
 		return err
 	}
 
-	return template.RenderIssue(w, "list", issues)
+	return template.RenderLayout(w, "issuePage", issue)
+}
+
+func (h *IssueHandler) GetCommentsTable(w http.ResponseWriter, r *http.Request) error {
+	issueId := r.PathValue("issueId")
+
+	comments, err := pkg.ReadComments(h.Db, issueId)
+	if err != nil {
+		return err
+	}
+
+	return template.RenderIssue(w, "commentsTable", comments)
 }
