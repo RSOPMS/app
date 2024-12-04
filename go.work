@@ -4,4 +4,6 @@ use (
 	./framework
 	./app-static
 	./app-issue
+	./app-bulk
+	./app-login
 )

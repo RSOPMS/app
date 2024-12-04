@@ -1,0 +1,21 @@
+{{ define "loginPage" }}
+  {{ template "top" }}
+  <h1>Login</h1>
+  <div style="display: flex; justify-content: center;">
+    <form action="{{ urlPrefixLogin }}/" method="post" hx-boost="true">
+      <div>
+        <label for="email">E-mail</label>
+        <input type="text" id="email" name="e-mail" placeholder="E-mail" required>
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+      </div>
+      <div>
+        <button type="submit">Log In</button>
+      </div>
+    </form>
+  </div>
+  <a href="{{ urlPrefixLogin }}/register/" style="display: block; text-align: center;">Register</a>
+  {{ template "bot" }}
+{{ end }}

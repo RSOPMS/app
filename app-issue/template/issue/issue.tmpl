@@ -1,0 +1,30 @@
+{{ define "issuesTable" }}
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Branch</th>
+      <th>Status</th>
+      <th>Priority</th>
+    </tr>
+  </thead>
+  <tbody id="issuesTableBody">
+    {{ range . }}
+    {{ template "issueRow" . }}
+    {{ end }}
+  </tbody>
+</table>
+{{ end }}
+
+{{ define "issueRow" }}
+<tr>
+  <td>
+    <a href="{{ urlPrefixIssue }}/issues/{{ .Id }}/">{{ .Title }}</a>
+  </td>
+  <td>{{ .Description }}</td>
+  <td>{{ .BranchName }}</td>
+  <td>{{ .StatusName }}</td>
+  <td>{{ .PriorityName }}</td>
+</tr>
+{{ end }}

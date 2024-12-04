@@ -1,3 +1,103 @@
 * {
-  color: #9875ff;
+  font-family: system-ui;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+main {
+  width: 1000px;
+  margin: 10px auto 10px auto;
+  flex-grow: 1;
+}
+
+.menu {
+  background-color: #10b981;
+  display: flex;
+  justify-content: space-between;
+}
+.menu a {
+  padding: 0.75rem;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+.menu a:hover {
+  background-color: #1d916a;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  background-color: #10b981;
+  padding: 0.75rem;
+}
+footer a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+footer .small {
+  font-size: 12px;
+  color: #104433;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: auto;
+  text-align: left;
+}
+table th {
+  font-weight: bold;
+  background-color: #dddddd;
+  padding: 10px;
+  text-align: left;
+}
+table td {
+  padding: 10px;
+  border-bottom: 1px solid #bbbbbb;
+}
+table tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+form div {
+  margin: 0.2rem 0;
+}
+label {
+  display: block;
+  font-size: 12px;
+  color: #104433;
+  font-weight: bold;
+}
+input:user-invalid {
+  background-color: #e87f71;
+}
+input:user-valid {
+  background-color: #10b981;
+}
+
+dialog {
+  padding: 1rem;
+  margin: auto;
+}
+
+button {
+  padding: 0.2rem;
+  margin: 0.2rem;
+}
+
+a {
+  color: #10b981;
 }

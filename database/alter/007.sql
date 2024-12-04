@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS issue (
     status_id   SERIAL    REFERENCES status(id),
     priority_id SERIAL    REFERENCES priority(id),
     branch_id   SERIAL    REFERENCES branch(id),
-    created_at  TIMESTAMP NOT NULL DEFAULT now()
+    created_at  TIMESTAMP NOT NULL DEFAULT now(),
+    UNIQUE (title, project_id, branch_id)
 );
 
 

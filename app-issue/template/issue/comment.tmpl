@@ -1,0 +1,23 @@
+{{ define "commentsTable" }}
+<table>
+  <thead>
+    <tr>
+      <th>Comment</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody id="commentsTableBody">
+    {{ range . }}
+    {{ template "commentRow" . }}
+    {{ end }}
+  </tbody>
+</table>
+{{ end }}
+
+
+{{ define "commentRow" }}
+<tr>
+  <td>{{ .Content }}</td>
+  <td>{{ .CreatedAt }}</td>
+</tr>
+{{ end }}

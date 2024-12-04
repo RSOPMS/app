@@ -16,35 +16,28 @@ spec:
     spec:
       containers:
         - name: bugbase-static
-          image: bugbase-static
-          resources:
-            limits:
-              memory: 128Mi
-              cpu: 500m
+          image: ghcr.io/rsopms/bugbase-static
           ports:
-            # TODO: KeyValue store
             - containerPort: 8081
               name: server
-          ## TODO: healthcheck
-          #livenessProbe:
-          #  httpGet:
-          #    path: /health/live
-          #    port: server
-          #  initialDelaySeconds: 20
-          #  periodSeconds: 5
-          ## TODO: healthcheck
-          #readinessProbe:
-          #  httpGet:
-          #    path: /health/ready
-          #    port: server
-          #  initialDelaySeconds: 20
-          #  periodSeconds: 5
-          # TODO: KeyValue store
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 5
           env:
-            - name: APP_PORT
-              value: "8081"
-          # TODO: Currently only for local testing. Remove for production deployment.
-          imagePullPolicy: Never
+            - name: PORT_APP_STATIC
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: PORT_APP_STATIC
 ---
 apiVersion: v1
 kind: Service
@@ -55,7 +48,6 @@ spec:
   selector:
     app: bugbase-static
   ports:
-    # TODO: KeyValue store
     - port: 8081
       protocol: TCP
       targetPort: server

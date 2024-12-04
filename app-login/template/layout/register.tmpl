@@ -1,0 +1,45 @@
+{{ define "rolesForm" }}
+<label for="roleId">Role</label>
+<select id="roleId" name="roleId">
+  {{ range . }}
+  <option value={{ .Id }}>{{ .Name }}</option>
+  {{ end }}
+</select>
+{{ end }}
+
+{{ define "registerPage" }}
+  {{ template "top" }}
+  <h1>Register</h1>
+  <div style="display: flex; justify-content: center;">
+    <form action="{{ urlPrefixLogin }}/register/" method="post" hx-boost="true">
+      <div>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Name" required>
+      </div>
+      <div>
+        <label for="surname">Surname</label>
+        <input type="text" id="surname" name="surname" placeholder="Surname" required>
+      </div>
+      <div hx-get="{{ urlPrefixLogin }}/api/user/new/"
+           hx-trigger="revealed"
+           hx-swap="innerHTML">
+      </div>
+      <div>
+        <label for="email">E-mail</label>
+        <input type="text" id="email" name="email" placeholder="E-mail" required>
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+      </div>
+      <div>
+        <label for="passwordRepeat">Repeat Password</label>
+        <input type="password" id="passwordRepeat" name="passwordRepeat" placeholder="Password" required>
+      </div>
+      <div>
+        <button type="submit">Register</button>
+      </div>
+    </form>
+  </div>
+  {{ template "bot" }}
+{{ end }}

@@ -45,19 +45,13 @@ spec:
     spec:
       containers:
         - name: bugbase-database
-          image: bugbase-database
-          resources:
-            limits:
-              memory: 128Mi
-              cpu: 500m
+          image: ghcr.io/rsopms/bugbase-database
           ports:
-            # TODO: KeyValue store
             - containerPort: 5432
               name: dbport
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgresdata
-          imagePullPolicy: Never
       volumes:
         - name: postgresdata
           persistentVolumeClaim:
