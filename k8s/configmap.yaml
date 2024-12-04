@@ -6,8 +6,8 @@ data:
   PORT_APP_ISSUE: "8080"
   PORT_APP_STATIC: "8081"
 
-  URL_PREFIX_ISSUE: "bugbase-ingress.default.svc"
-  URL_PREFIX_STATIC: "bugbase-ingress.default.svc"
+  URL_PREFIX_ISSUE: "/issue"
+  URL_PREFIX_STATIC: ""
 
   DB_NAME: "bugbase"
   DB_USER: "bugbase"
