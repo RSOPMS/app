@@ -40,38 +40,53 @@ spec:
             - name: PORT_APP_ISSUE
               valueFrom:
                 configMapKeyRef:
-                  name: app-config
+                  name: bugbase-configmap
                   key: PORT_APP_ISSUE
+            - name: PORT_APP_STATIC
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: PORT_APP_STATIC
+            - name: URL_PREFIX_ISSUE
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: URL_PREFIX_ISSUE
+            - name: URL_PREFIX_STATIC
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: URL_PREFIX_STATIC
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_NAME
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_USER
             - name: DB_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: app-config
+                  name: bugbase-configmap
                   key: DB_HOST
             - name: DB_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: app-config
+                  name: bugbase-configmap
                   key: DB_PORT
             - name: DB_SSL_MODE
               valueFrom:
                 configMapKeyRef:
-                  name: app-config
+                  name: bugbase-configmap
                   key: DB_SSL_MODE
-            - name: POSTGRES_USER
+            - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secrets
-                  key: POSTGRES_USER
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secrets
-                  key: POSTGRES_PASSWORD
-            - name: POSTGRES_DB
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secrets
-                  key: POSTGRES_DB
+                  name: bugbase-secret
+                  key: DB_PASSWORD
           # TODO: Currently only for local testing. Remove for production deployment.
           imagePullPolicy: Never
 ---

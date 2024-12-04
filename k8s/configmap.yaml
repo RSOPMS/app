@@ -1,14 +1,16 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: app-config
+  name: bugbase-configmap
 data:
   PORT_APP_ISSUE: "8080"
   PORT_APP_STATIC: "8081"
 
-  URL_PREFIX_ISSUE: "http://localhost:8080"
-  URL_PREFIX_STATIC: "http://localhost:8081"
+  URL_PREFIX_ISSUE: "bugbase-ingress.default.svc"
+  URL_PREFIX_STATIC: "bugbase-ingress.default.svc"
 
-  DB_HOST: "localhost"
+  DB_NAME: "bugbase"
+  DB_USER: "bugbase"
+  DB_HOST: "bugbase-database-service.default.svc"
   DB_PORT: "5432"
   DB_SSL_MODE: "disable"
