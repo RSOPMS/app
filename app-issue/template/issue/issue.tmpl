@@ -1,0 +1,20 @@
+{{ define "issuesTable" }}
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{ range . }}
+    <tr>
+      <td>
+        <a href="{{ urlPrefixIssue }}/issues/{{ .Id }}/">{{ .Title }}</a>
+      </td>
+      <td>{{ .Description }}</td>
+    </tr>
+    {{ end }}
+  </tbody>
+</table>
+{{ end }}
