@@ -22,27 +22,26 @@ spec:
               memory: 128Mi
               cpu: 500m
           ports:
-            # TODO: KeyValue store
             - containerPort: 8081
               name: server
-          # TODO: healthcheck
           livenessProbe:
             httpGet:
               path: /health/live
               port: server
             initialDelaySeconds: 20
             periodSeconds: 5
-          # TODO: healthcheck
           readinessProbe:
             httpGet:
               path: /health/ready
               port: server
             initialDelaySeconds: 20
             periodSeconds: 5
-          # TODO: KeyValue store
           env:
-            - name: APP_PORT
-              value: "8081"
+            - name: PORT_APP_STATIC
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: PORT_APP_STATIC
           # TODO: Currently only for local testing. Remove for production deployment.
           imagePullPolicy: Never
 ---
@@ -55,7 +54,6 @@ spec:
   selector:
     app: bugbase-static
   ports:
-    # TODO: KeyValue store
     - port: 8081
       protocol: TCP
       targetPort: server

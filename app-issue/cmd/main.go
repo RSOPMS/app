@@ -20,23 +20,21 @@ func main() {
 func run() error {
 	godotenv.Load()
 
-	// from secrets
-	dbName := os.Getenv("POSTGRES_DB")           //"bugbase"
-	dbUser := os.Getenv("POSTGRES_USER")         //"bugbase"
-	dbPassword := os.Getenv("POSTGRES_PASSWORD") //"password"
-
+	dbName := os.Getenv("DB_NAME")
+	dbUser := os.Getenv("DB_USER")
+	dbPassword := os.Getenv("DB_PASSWORD")
 	dbHost := os.Getenv("DB_HOST")
-	dbPort := 5432
-	dbSslMode := "disable"
+	dbPort := os.Getenv("DB_PORT")
+	dbSslMode := os.Getenv("DB_SSL_MODE")
 
-	dbDataSource := fmt.Sprintf("dbname=%s user=%s password=%s host=%s port=%d sslmode=%s", dbName, dbUser, dbPassword, dbHost, dbPort, dbSslMode)
+	dbDataSource := fmt.Sprintf("dbname=%s user=%s password=%s host=%s port=%s sslmode=%s", dbName, dbUser, dbPassword, dbHost, dbPort, dbSslMode)
 	db, err := sql.Open("postgres", dbDataSource)
 	if err != nil {
 		return err
 	}
 
 	server := api.ApiServer{
-		Addr: ":" + os.Getenv("APP_PORT"),
+		Addr: ":" + os.Getenv("PORT_APP_ISSUE"),
 		Db:   db,
 	}
 
