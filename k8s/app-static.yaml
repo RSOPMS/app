@@ -42,7 +42,7 @@ spec:
                 configMapKeyRef:
                   name: bugbase-configmap
                   key: PORT_APP_STATIC
-          # TODO: Currently only for local testing. Remove for production deployment.
+          # WARN: Currently only for local testing. Remove for production deployment.
           imagePullPolicy: Never
 ---
 apiVersion: v1
