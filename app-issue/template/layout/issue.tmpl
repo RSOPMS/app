@@ -1,6 +1,7 @@
 {{ define "issuePage" }}
   {{ template "top" }}
   <h1>{{ .Title }}</h1>
+  <p>Priority: {{ .PriorityName }}</p>
   <p>{{ .Description }}</p>
   <h2>Comments</h2>
   <div hx-get="{{ urlPrefixIssue }}/api/issues/{{ .Id }}/comments/table"

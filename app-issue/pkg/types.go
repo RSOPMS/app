@@ -6,10 +6,11 @@ type Project struct {
 }
 
 type Issue struct {
-	Id          int
-	Title       string
-	Description string
-	ProjectId   int
+	Id           int
+	Title        string
+	Description  string
+	ProjectId    int
+	PriorityName string
 }
 
 type Comment struct {
