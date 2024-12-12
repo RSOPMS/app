@@ -41,9 +41,10 @@ func ReadProject(db *sql.DB, id string) (*Project, error) {
 
 func ReadIssues(db *sql.DB, projectId string) ([]*Issue, error) {
 	query := `
-	SELECT id, title, description, project_id
-	  FROM issue
-	 WHERE project_id = $1;
+	SELECT issue.id, issue.title, issue.description, issue.project_id, priority.name
+      FROM issue
+      JOIN priority ON issue.priority_id = priority.id
+     WHERE issue.project_id = $1;
 	`
 
 	rows, err := db.Query(query, projectId)
@@ -54,7 +55,7 @@ func ReadIssues(db *sql.DB, projectId string) ([]*Issue, error) {
 	issues := []*Issue{}
 	for rows.Next() {
 		issue := &Issue{}
-		rows.Scan(&issue.Id, &issue.Title, &issue.Description, &issue.ProjectId)
+		rows.Scan(&issue.Id, &issue.Title, &issue.Description, &issue.ProjectId, &issue.PriorityName)
 		issues = append(issues, issue)
 	}
 
