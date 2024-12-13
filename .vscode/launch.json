@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Issue Service",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${cwd}/app-issue/cmd/main.go"
+    }
+  ]
+}
