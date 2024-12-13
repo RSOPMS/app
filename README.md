@@ -93,7 +93,7 @@ minikube stop
 
 ### Prerequsites
 
-For debuggin GO code install [delve](https://github.com/go-delve/delve).
+For debugging GO code install [delve](https://github.com/go-delve/delve).
 
 ### Debug
 
