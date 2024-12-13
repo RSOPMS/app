@@ -1,6 +1,8 @@
-# Project management software
+# :memo: BugBase
 
-## Main statuses
+Project management software
+
+## :rocket: Main statuses
 
 [![(framework) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/framework.yaml/badge.svg?branch=main&event=push)](https://github.com/RSOPMS/app/actions/workflows/framework.yaml)
 
@@ -8,7 +10,7 @@
 
 [![(app-issue) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/app-issue.yaml/badge.svg?branch=main&event=push)](https://github.com/RSOPMS/app/actions/workflows/app-issue.yaml)
 
-## Dev statuses
+## :construction: Dev statuses
 
 [![(framework) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/framework.yaml/badge.svg?branch=dev&event=push)](https://github.com/RSOPMS/app/actions/workflows/framework.yaml)
 
@@ -16,7 +18,7 @@
 
 [![(app-issue) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/app-issue.yaml/badge.svg?branch=dev&event=push)](https://github.com/RSOPMS/app/actions/workflows/app-issue.yaml)
 
-## Local Kubernetes setup
+## :computer: Local Kubernetes setup
 
 ### Prerequsites
 
@@ -86,3 +88,14 @@ Stop the local minikube cluster:
 ```sh
 minikube stop
 ```
+
+## :bug: Debugging
+
+### Prerequsites
+
+For debuggin GO code install [delve](https://github.com/go-delve/delve).
+
+### Debug
+
+VSCode is preconfigured with necessary run configurations.
+They can be accessed and ran under the `Run and Debug` tab (`Ctrl+Shift+D`).

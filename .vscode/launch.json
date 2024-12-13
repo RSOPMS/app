@@ -7,6 +7,13 @@
       "request": "launch",
       "mode": "auto",
       "program": "${cwd}/app-issue/cmd/main.go"
+    },
+    {
+      "name": "Launch Static Service",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${cwd}/app-static/cmd/main.go"
     }
   ]
 }
