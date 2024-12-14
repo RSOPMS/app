@@ -63,9 +63,8 @@ func AuthMiddleware(jwtHandler JwtHandler, onUnautorized http.HandlerFunc, next 
 			return
 		}
 
-		req := r.WithContext(context.WithValue(r.Context(), "subject", subject))
-		*r = *req
+		ctx := context.WithValue(r.Context(), ContextSubjectKey, subject)
 
-		next.ServeHTTP(w, r)
+		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
