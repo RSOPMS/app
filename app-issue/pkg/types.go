@@ -10,6 +10,7 @@ type Issue struct {
 	Title        string
 	Description  string
 	ProjectId    int
+	StatusName   string
 	PriorityName string
 }
 
