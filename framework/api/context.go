@@ -2,4 +2,6 @@ package api
 
 type ContextKey string
 
-const ContextSubjectKey ContextKey = "subject"
+const (
+	ContextSubjectKey ContextKey = "subject"
+)
