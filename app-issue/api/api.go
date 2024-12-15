@@ -47,6 +47,11 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	router.Handle("GET /api/issues/{issueId}/comments/table/{$}", stackNone(api.CreateHandler(issueHandler.GetCommentsTable)))
 	router.Handle("POST /api/issues/{$}", stackNone(api.CreateHandler(issueHandler.CreateNewIssue)))
 
+	// Create new issue form
+	router.Handle("GET /api/status-form/{$}", stackNone(api.CreateHandler(issueHandler.GetStatusesForm)))
+	router.Handle("GET /api/priority-form/{$}", stackNone(api.CreateHandler(issueHandler.GetPrioritiesForm)))
+	router.Handle("GET /api/branch-form/{$}", stackNone(api.CreateHandler(issueHandler.GetBranchesForm)))
+
 	// Health
 	healthHandler := health.NewHealthHandler()
 	router.Handle("GET /health/live/{$}", stackNone(api.CreateHandler(healthHandler.GetHealthLive)))

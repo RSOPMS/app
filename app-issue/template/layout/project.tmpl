@@ -14,7 +14,7 @@
   <h2>Issues</h2>
   <div hx-get="{{ urlPrefixIssue }}/api/projects/{{ .Id }}/issues/table/"
        hx-trigger="load"
-       hx-swap="outerHTML">
+       hx-swap="innerHTML">
   </div>
 
   <!-- Add New Issue Button -->
@@ -22,46 +22,44 @@
 
   <!-- New Issue Dialog -->
   <dialog id="new-issue-dialog">
-    <div>
-      <form hx-post="{{ urlPrefixIssue }}/api/issues/"
-            hx-trigger="submit"
-            hx-swap="afterend"
+    <form hx-post="{{ urlPrefixIssue }}/api/issues/"
+          hx-trigger="submit"
+          hx-swap="beforebegin"
+          hx-target="#issuesTableBody">
+      <h3>Create New Issue</h3>
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" required><br>
+      
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" required></textarea><br>
+      
+      <label for="project_id">Project ID:</label>
+      <input type="number" id="project_id" name="project_id" value="{{ .Id }}" readonly><br>
+
+      <div>
+        <div hx-get="{{ urlPrefixIssue }}/api/status-form/"
+            hx-trigger="revealed"
+            hx-swap="outerHTML"
             hx-target="closest div">
-        <h3>Create New Issue</h3>
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required><br>
-        
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" required></textarea><br>
-        
-        <label for="project_id">Project ID:</label>
-        <input type="number" id="project_id" name="project_id" value="{{ .Id }}" readonly><br>
-        
-        <label for="status_id">Status:</label>
-        <select id="status_id" name="status_id">
-          <option value="0">Critical</option>
-          <option value="1">High</option>
-          <option value="2">Medium</option>
-          <option value="3">Low</option>
-          <option value="4">Backlog</option>
-        </select><br>
-        
-        <label for="priority_id">Priority:</label>
-        <select id="priority_id" name="priority_id">
-          <option value="0">Open</option>
-          <option value="1">Planning</option>
-          <option value="2">In progress</option>
-          <option value="3">Testing</option>
-          <option value="4">Closed</option>
-        </select><br>
-        
-        <label for="branch_id">Branch ID:</label>
-        <input type="number" id="branch_id" name="branch_id" value="0"><br>
-        
-        <button type="submit">Create Issue</button>
-        <button type="button" onclick="document.getElementById('new-issue-dialog').close()">Cancel</button>
-      </form>
-    </div>
+      </div>
+
+      <div>
+        <div hx-get="{{ urlPrefixIssue }}/api/priority-form/"
+            hx-trigger="revealed"
+            hx-swap="outerHTML"
+            hx-target="closest div">
+      </div>
+      
+      <div>
+        <div hx-get="{{ urlPrefixIssue }}/api/branch-form/"
+            hx-trigger="revealed"
+            hx-swap="outerHTML"
+            hx-target="closest div">
+      </div>
+
+      <button type="submit" onclick="document.getElementById('new-issue-dialog').close()">Create Issue</button>
+      <button type="button" onclick="document.getElementById('new-issue-dialog').close()">Cancel</button>
+    </form>
   </dialog>
 
   {{ template "bot" }}

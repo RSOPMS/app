@@ -40,6 +40,8 @@ func (h *IssueHandler) GetCommentsTable(w http.ResponseWriter, r *http.Request) 
 }
 
 func (h *IssueHandler) CreateNewIssue(w http.ResponseWriter, r *http.Request) error {
+	// TODO TE STVARI MORAJO ITI V PKG
+
 	// Parse form values
 	err := r.ParseForm()
 	if err != nil {
@@ -55,24 +57,24 @@ func (h *IssueHandler) CreateNewIssue(w http.ResponseWriter, r *http.Request) er
 	branchID := r.FormValue("branch_id")
 
 	query := `
-		INSERT INTO issues (title, description, project_id, status_id, priority_id, branch_id, created_at)
+		INSERT INTO issue (title, description, project_id, status_id, priority_id, branch_id, created_at)
 		VALUES ($1, $2, $3, $4, $5, $6, NOW())
 		RETURNING id, title, description, project_id, status_id, priority_id, branch_id, created_at
 	`
 
 	var newIssue struct {
-		ID          int
+		Id          int
 		Title       string
 		Description string
 		ProjectID   int
 		StatusID    int
 		PriorityID  int
 		BranchID    int
-		CreatedAt   string // Timestamp in a readable format
+		CreatedAt   string
 	}
 
 	err = h.Db.QueryRow(query, title, description, projectID, statusID, priorityID, branchID).Scan(
-		&newIssue.ID,
+		&newIssue.Id,
 		&newIssue.Title,
 		&newIssue.Description,
 		&newIssue.ProjectID,
@@ -86,10 +88,35 @@ func (h *IssueHandler) CreateNewIssue(w http.ResponseWriter, r *http.Request) er
 		return err
 	}
 
-	issues, err := pkg.ReadIssues(h.Db, projectID)
+	return template.RenderIssue(w, "issueRow", newIssue)
+}
+
+// Get statuses from the database for the Create New Issue form
+func (h *IssueHandler) GetStatusesForm(w http.ResponseWriter, r *http.Request) error {
+	statuses, err := pkg.ReadStatuses(h.Db)
 	if err != nil {
 		return err
 	}
 
-	return template.RenderIssue(w, "issuesTable", issues)
+	return template.RenderIssue(w, "statusesForm", statuses)
+}
+
+// Get priorities from the database for the Create New Issue form
+func (h *IssueHandler) GetPrioritiesForm(w http.ResponseWriter, r *http.Request) error {
+	priorities, err := pkg.ReadPriorities(h.Db)
+	if err != nil {
+		return err
+	}
+
+	return template.RenderIssue(w, "prioritiesForm", priorities)
+}
+
+// Get branches from the database for the Create New Issue form
+func (h *IssueHandler) GetBranchesForm(w http.ResponseWriter, r *http.Request) error {
+	branches, err := pkg.ReadBranches(h.Db)
+	if err != nil {
+		return err
+	}
+
+	return template.RenderIssue(w, "branchesForm", branches)
 }
