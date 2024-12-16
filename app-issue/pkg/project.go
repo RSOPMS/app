@@ -43,7 +43,8 @@ func ReadIssues(db *sql.DB, projectId string) ([]*Issue, error) {
 	query := `
 	SELECT id, title, description, project_id
 	  FROM issue
-	 WHERE project_id = $1;
+	 WHERE project_id = $1
+	 ORDER BY created_at DESC;
 	`
 
 	rows, err := db.Query(query, projectId)
