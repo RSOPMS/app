@@ -4,14 +4,15 @@ import "database/sql"
 
 func ReadIssue(db *sql.DB, id string) (*Issue, error) {
 	query := `
-	SELECT issue.id, issue.title, issue.description, issue.project_id, priority.name
-      FROM issue
-      JOIN priority ON issue.priority_id = priority.id
-     WHERE issue.id = $1;
+	SELECT issue.id, issue.title, issue.description, issue.project_id, status.name, priority.name
+	  FROM issue
+	  JOIN status ON issue.status_id = status.id
+	  JOIN priority ON issue.priority_id = priority.id
+	 WHERE issue.id = $1;
 	`
 
 	issue := &Issue{}
-	err := db.QueryRow(query, id).Scan(&issue.Id, &issue.Title, &issue.Description, &issue.ProjectId, &issue.PriorityName)
+	err := db.QueryRow(query, id).Scan(&issue.Id, &issue.Title, &issue.Description, &issue.ProjectId, &issue.StatusName, &issue.PriorityName)
 	if err != nil {
 		return nil, err
 	}
