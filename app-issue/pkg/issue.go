@@ -5,10 +5,10 @@ import "database/sql"
 func ReadIssue(db *sql.DB, id string) (*Issue, error) {
 	query := `
 	SELECT issue.id, issue.title, issue.description, issue.project_id, status.name, priority.name
-      FROM issue
+	  FROM issue
 	  JOIN status ON issue.status_id = status.id
-      JOIN priority ON issue.priority_id = priority.id
-     WHERE issue.id = $1;
+	  JOIN priority ON issue.priority_id = priority.id
+	 WHERE issue.id = $1;
 	`
 
 	issue := &Issue{}
