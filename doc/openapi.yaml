@@ -19,13 +19,13 @@ paths:
                 example: |
                   <h1>Projects</h1>
                   <div hx-get="/api/projects/table" hx-trigger="load" hx-swap="outerHTML"></div>
-        '500':
-          description: Unexpected server error.
+        '400':
+          description: Invalid request.
           content:
             text/plain:
               schema:
                 type: string
-                example: "Internal Server Error"
+                example: "Invalid Request"
 
   /issue/projects/{projectId}:
     get:
@@ -49,20 +49,13 @@ paths:
                   <h1>Example Project Title</h1>
                   <h2>Issues</h2>
                   <div hx-get="/api/projects/1/issues/table" hx-trigger="load" hx-swap="outerHTML"></div>
-        '404':
-          description: Project not found.
+        '400':
+          description: Invalid request.
           content:
             text/plain:
               schema:
                 type: string
-                example: "Not Found"
-        '500':
-          description: Unexpected server error.
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "Internal Server Error"
+                example: "Invalid Request"
 
   /issue/api/projects/table:
     get:
@@ -88,13 +81,13 @@ paths:
                       </tr>
                     </tbody>
                   </table>
-        '500':
-          description: Unexpected server error.
+        '400':
+          description: Invalid request.
           content:
             text/plain:
               schema:
                 type: string
-                example: "Internal Server Error"
+                example: "Invalid Request"
 
   /issue/api/projects/{projectId}/issues/table:
     get:
@@ -129,20 +122,13 @@ paths:
                       </tr>
                     </tbody>
                   </table>
-        '404':
-          description: Project or issues not found.
+        '400':
+          description: Invalid request.
           content:
             text/plain:
               schema:
                 type: string
-                example: "Not Found"
-        '500':
-          description: Unexpected server error.
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "Internal Server Error"
+                example: "Invalid Request"
   /issue/issues/{issueId}:
     get:
       summary: Get issue page
@@ -168,21 +154,13 @@ paths:
                   <p>Example Issue Description</p>
                   <h2>Comments</h2>
                   <div hx-get="/api/issues/1/comments/table" hx-trigger="load" hx-swap="outerHTML"></div>
-        '404':
-          description: Issue not found.
+        '400':
+          description: Invalid request.
           content:
             text/plain:
               schema:
                 type: string
-                example: "Not Found"
-        '500':
-          description: Unexpected server error.
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "Internal Server Error"
-
+                example: "Invalid Request"
   /issue/api/issues/{issueId}/comments/table:
     get:
       summary: Get comments table for an issue
@@ -220,20 +198,13 @@ paths:
                       </tr>
                     </tbody>
                   </table>
-        '404':
-          description: Issue or comments not found.
+        '400':
+          description: Invalid request.
           content:
             text/plain:
               schema:
                 type: string
-                example: "Not Found"
-        '500':
-          description: Unexpected server error.
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "Internal Server Error"
+                example: "Invalid Request"
   /issue/health/live:
     get:
       summary: Liveness health check
@@ -246,13 +217,13 @@ paths:
               schema:
                 type: string
                 example: "OK"
-        '500':
-          description: Application is not live or the database is unreachable.
+        '400':
+          description: Invalid request.
           content:
             text/plain:
               schema:
                 type: string
-                example: "Internal Server Error"
+                example: "Invalid Request"
   /issue/health/ready:
     get:
       summary: Readiness health check
@@ -265,10 +236,10 @@ paths:
               schema:
                 type: string
                 example: "OK"
-        '500':
-          description: Application is not ready, e.g., due to database issues.
+        '400':
+          description: Invalid request.
           content:
             text/plain:
               schema:
                 type: string
-                example: "Internal Server Error"
+                example: "Invalid Request"
