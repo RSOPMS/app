@@ -102,3 +102,29 @@ func ReadBranches(db *sql.DB) ([]*Branch, error) {
 
 	return branches, err
 }
+
+func CreateNewIssue(db *sql.DB, title string, description string, projectID string, statusID string, priorityID string, branchID string) (*NewIssue, error) {
+
+	query := `
+		INSERT INTO issue (title, description, project_id, status_id, priority_id, branch_id, created_at)
+		VALUES ($1, $2, $3, $4, $5, $6, NOW())
+		RETURNING id, title, description, project_id, status_id, priority_id, branch_id, created_at
+	`
+
+	newIssue := &NewIssue{}
+	err := db.QueryRow(query, title, description, projectID, statusID, priorityID, branchID).Scan(
+		&newIssue.Id,
+		&newIssue.Title,
+		&newIssue.Description,
+		&newIssue.ProjectID,
+		&newIssue.StatusID,
+		&newIssue.PriorityID,
+		&newIssue.BranchID,
+		&newIssue.CreatedAt,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return newIssue, err
+}
