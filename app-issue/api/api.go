@@ -47,7 +47,7 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	router.Handle("GET /api/issues/{issueId}/comments/table", stackLog(api.CreateHandler(issueHandler.GetCommentsTable)))
 
 	// Health
-	healthHandler := health.NewHealthHandler()
+	healthHandler := health.NewHealthHandler(s.Db)
 	router.Handle("GET /health/live", stackLog(api.CreateHandler(healthHandler.GetHealthLive)))
 	router.Handle("GET /health/ready", stackLog(api.CreateHandler(healthHandler.GetHealthReady)))
 }
