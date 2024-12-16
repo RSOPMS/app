@@ -3,7 +3,6 @@ info:
   title: App Issue API
   description: API for managing projects, issues, and health checks.
   version: 1.0.0
-
 paths:
   /issue/projects:
     get:
@@ -26,7 +25,6 @@ paths:
               schema:
                 type: string
                 example: "Internal Server Error"
-
   /issue/projects/{projectId}:
     get:
       summary: Get project page
@@ -63,7 +61,6 @@ paths:
               schema:
                 type: string
                 example: "Internal Server Error"
-
   /issue/api/projects/table:
     get:
       summary: Get projects table
@@ -95,7 +92,6 @@ paths:
               schema:
                 type: string
                 example: "Internal Server Error"
-
   /issue/api/projects/{projectId}/issues/table:
     get:
       summary: Get issues table for a project
@@ -182,7 +178,6 @@ paths:
               schema:
                 type: string
                 example: "Internal Server Error"
-
   /issue/api/issues/{issueId}/comments/table:
     get:
       summary: Get comments table for an issue
