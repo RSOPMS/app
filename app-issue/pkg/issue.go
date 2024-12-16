@@ -1,6 +1,8 @@
 package pkg
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
 func ReadIssue(db *sql.DB, id string) (*Issue, error) {
 	query := `
@@ -45,7 +47,8 @@ func ReadComments(db *sql.DB, issueId string) ([]*Comment, error) {
 func ReadStatuses(db *sql.DB) ([]*Status, error) {
 	query := `
 	SELECT id, name, display_order
-	  FROM status;
+	  FROM status
+	 ORDER BY display_order;
 	`
 	rows, err := db.Query(query)
 	if err != nil {
@@ -63,7 +66,8 @@ func ReadStatuses(db *sql.DB) ([]*Status, error) {
 func ReadPriorities(db *sql.DB) ([]*Priority, error) {
 	query := `
 	SELECT id, name, display_order
-	  FROM priority;
+	  FROM priority
+	 ORDER BY display_order;
 	`
 	rows, err := db.Query(query)
 	if err != nil {
@@ -96,22 +100,22 @@ func ReadBranches(db *sql.DB) ([]*Branch, error) {
 	return branches, err
 }
 
-func CreateNewIssue(db *sql.DB, title string, description string, projectID string, statusID string, priorityID string, branchID string) (*NewIssue, error) {
+func CreateNewIssue(db *sql.DB, title string, description string, projectId string, statusId string, priorityId string, branchId string) (*Issue, error) {
 	query := `
-		INSERT INTO issue (title, description, project_id, status_id, priority_id, branch_id, created_at)
-		VALUES ($1, $2, $3, $4, $5, $6, NOW())
-		RETURNING id, title, description, project_id, status_id, priority_id, branch_id, created_at
+	INSERT INTO issue (title, description, project_id, status_id, priority_id, branch_id, created_at)
+	  VALUES ($1, $2, $3, $4, $5, $6, NOW())
+	 RETURNING id, title, description, project_id, status_id, priority_id, branch_id, created_at
 	`
-	newIssue := &NewIssue{}
+	newIssue := &Issue{}
 
-	err := db.QueryRow(query, title, description, projectID, statusID, priorityID, branchID).Scan(
+	err := db.QueryRow(query, title, description, projectId, statusId, priorityId, branchId).Scan(
 		&newIssue.Id,
 		&newIssue.Title,
 		&newIssue.Description,
-		&newIssue.ProjectID,
-		&newIssue.StatusID,
-		&newIssue.PriorityID,
-		&newIssue.BranchID,
+		&newIssue.ProjectId,
+		&newIssue.StatusId,
+		&newIssue.PriorityId,
+		&newIssue.BranchId,
 		&newIssue.CreatedAt,
 	)
 

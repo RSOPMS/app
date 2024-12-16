@@ -22,40 +22,37 @@
 
   <!-- New Issue Dialog -->
   <dialog id="new-issue-dialog">
-    <form hx-post="{{ urlPrefixIssue }}/api/issues/"
-          hx-trigger="submit"
-          hx-swap="beforebegin"
-          hx-target="#issuesTableBody">
+    <form hx-post="{{ urlPrefixIssue }}/api/issues"
+        hx-trigger="submit"
+        hx-swap="beforebegin"
+        hx-target="#issuesTableBody">
       <h3>Create New Issue</h3>
 
       <label for="title">Title:</label>
       <input type="text" id="title" name="title" required><br>
-      
+
       <label for="description">Description:</label>
       <textarea id="description" name="description" required></textarea><br>
-      
-      <label for="project_id">Project ID:</label>
-      <input type="number" id="project_id" name="project_id" value="{{ .Id }}" readonly><br>
 
-      <div>
-        <div hx-get="{{ urlPrefixIssue }}/api/status-form/"
-            hx-trigger="revealed"
-            hx-swap="outerHTML"
-            hx-target="closest div">
+      <label for="projectId">Project ID:</label>
+      <input type="number" id="projectId" name="projectId" value="{{ .Id }}" readonly><br>
+
+      <div hx-get="{{ urlPrefixIssue }}/api/status/form"
+          hx-trigger="revealed"
+          hx-target="this"
+          hx-swap="innerHTML">
       </div>
 
-      <div>
-        <div hx-get="{{ urlPrefixIssue }}/api/priority-form/"
-            hx-trigger="revealed"
-            hx-swap="outerHTML"
-            hx-target="closest div">
+      <div hx-get="{{ urlPrefixIssue }}/api/priority/form"
+          hx-trigger="revealed"
+          hx-target="this"
+          hx-swap="innerHTML">
       </div>
-      
-      <div>
-        <div hx-get="{{ urlPrefixIssue }}/api/branch-form/"
-            hx-trigger="revealed"
-            hx-swap="outerHTML"
-            hx-target="closest div">
+
+      <div hx-get="{{ urlPrefixIssue }}/api/branch/form"
+          hx-trigger="revealed"
+          hx-target="this"
+          hx-swap="innerHTML">
       </div>
 
       <button type="submit" onclick="document.getElementById('new-issue-dialog').close()">Create Issue</button>

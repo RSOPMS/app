@@ -45,12 +45,12 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	issueHandler := issue.NewIssueHandler(s.Db)
 	router.Handle("GET /issues/{issueId}", stackLog(api.CreateHandler(issueHandler.GetIssuePage)))
 	router.Handle("GET /api/issues/{issueId}/comments/table", stackLog(api.CreateHandler(issueHandler.GetCommentsTable)))
-	router.Handle("POST /api/issues/{$}", stackLog(api.CreateHandler(issueHandler.CreateNewIssue)))
+	router.Handle("POST /api/issues", stackLog(api.CreateHandler(issueHandler.PostIssueNew)))
 
 	// Create new issue form
-	router.Handle("GET /api/status-form/{$}", stackLog(api.CreateHandler(issueHandler.GetStatusesForm)))
-	router.Handle("GET /api/priority-form/{$}", stackLog(api.CreateHandler(issueHandler.GetPrioritiesForm)))
-	router.Handle("GET /api/branch-form/{$}", stackLog(api.CreateHandler(issueHandler.GetBranchesForm)))
+	router.Handle("GET /api/status/form", stackLog(api.CreateHandler(issueHandler.GetStatusesForm)))
+	router.Handle("GET /api/priority/form", stackLog(api.CreateHandler(issueHandler.GetPrioritiesForm)))
+	router.Handle("GET /api/branch/form", stackLog(api.CreateHandler(issueHandler.GetBranchesForm)))
 
 	// Health
 	healthHandler := health.NewHealthHandler(s.Db)

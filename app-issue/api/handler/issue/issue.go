@@ -40,7 +40,7 @@ func (h *IssueHandler) GetCommentsTable(w http.ResponseWriter, r *http.Request) 
 	return template.RenderIssue(w, "commentsTable", comments)
 }
 
-func (h *IssueHandler) CreateNewIssue(w http.ResponseWriter, r *http.Request) error {
+func (h *IssueHandler) PostIssueNew(w http.ResponseWriter, r *http.Request) error {
 	// Parse form values
 	err := r.ParseForm()
 	if err != nil {
@@ -50,12 +50,12 @@ func (h *IssueHandler) CreateNewIssue(w http.ResponseWriter, r *http.Request) er
 	// Extract values
 	title := r.FormValue("title")
 	description := r.FormValue("description")
-	projectID := r.FormValue("project_id")
-	statusID := r.FormValue("status_id")
-	priorityID := r.FormValue("priority_id")
-	branchID := r.FormValue("branch_id")
+	projectId := r.FormValue("projectId")
+	statusId := r.FormValue("statusId")
+	priorityId := r.FormValue("priorityId")
+	branchId := r.FormValue("branchId")
 
-	newIssue, err := pkg.CreateNewIssue(h.Db, title, description, projectID, statusID, priorityID, branchID)
+	newIssue, err := pkg.CreateNewIssue(h.Db, title, description, projectId, statusId, priorityId, branchId)
 	if err != nil {
 		return err
 	}
