@@ -5,7 +5,7 @@ info:
   version: 1.0.0
 
 paths:
-  /projects:
+  /issue/projects:
     get:
       summary: Get projects page
       description: Returns an HTML page displaying the list of all projects.
@@ -27,7 +27,7 @@ paths:
                 type: string
                 example: "Internal Server Error"
 
-  /projects/{projectId}:
+  /issue/projects/{projectId}:
     get:
       summary: Get project page
       description: Returns an HTML page for a specific project and its issues.
@@ -64,7 +64,7 @@ paths:
                 type: string
                 example: "Internal Server Error"
 
-  /api/projects/table:
+  /issue/api/projects/table:
     get:
       summary: Get projects table
       description: Returns an HTML table of all projects with links to their respective pages.
@@ -96,7 +96,7 @@ paths:
                 type: string
                 example: "Internal Server Error"
 
-  /api/projects/{projectId}/issues/table:
+  /issue/api/projects/{projectId}/issues/table:
     get:
       summary: Get issues table for a project
       description: Returns an HTML table of issues for a specific project.
@@ -143,7 +143,7 @@ paths:
               schema:
                 type: string
                 example: "Internal Server Error"
-  /issues/{issueId}:
+  /issue/issues/{issueId}:
     get:
       summary: Get issue page
       description: Returns an HTML page displaying the issue's title, status, priority, description, and a dynamically loaded comments table.
@@ -183,7 +183,7 @@ paths:
                 type: string
                 example: "Internal Server Error"
 
-  /api/issues/{issueId}/comments/table:
+  /issue/api/issues/{issueId}/comments/table:
     get:
       summary: Get comments table for an issue
       description: Returns an HTML table displaying the comments for the specified issue, including the title, description, status, and priority.
@@ -234,7 +234,7 @@ paths:
               schema:
                 type: string
                 example: "Internal Server Error"
-  /health/live:
+  /issue/health/live:
     get:
       summary: Liveness health check
       description: Verifies if the application is running and the database connection is alive.
@@ -253,7 +253,7 @@ paths:
               schema:
                 type: string
                 example: "Internal Server Error"
-  /health/ready:
+  /issue/health/ready:
     get:
       summary: Readiness health check
       description: Verifies if the application is ready to serve requests, including a healthy database connection.
