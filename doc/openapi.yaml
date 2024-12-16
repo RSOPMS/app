@@ -1,0 +1,274 @@
+openapi: 3.0.3
+info:
+  title: App Issue API
+  description: API for managing projects, issues, and health checks.
+  version: 1.0.0
+
+paths:
+  /projects:
+    get:
+      summary: Get projects page
+      description: Returns an HTML page displaying the list of all projects.
+      responses:
+        '200':
+          description: HTML page for all projects.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <h1>Projects</h1>
+                  <div hx-get="/api/projects/table" hx-trigger="load" hx-swap="outerHTML"></div>
+        '500':
+          description: Unexpected server error.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Internal Server Error"
+
+  /projects/{projectId}:
+    get:
+      summary: Get project page
+      description: Returns an HTML page for a specific project and its issues.
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: The ID of the project.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: HTML page for the specified project.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <h1>Example Project Title</h1>
+                  <h2>Issues</h2>
+                  <div hx-get="/api/projects/1/issues/table" hx-trigger="load" hx-swap="outerHTML"></div>
+        '404':
+          description: Project not found.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Not Found"
+        '500':
+          description: Unexpected server error.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Internal Server Error"
+
+  /api/projects/table:
+    get:
+      summary: Get projects table
+      description: Returns an HTML table of all projects with links to their respective pages.
+      responses:
+        '200':
+          description: HTML table of all projects.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><a href="/projects/1">Example Project Title</a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+        '500':
+          description: Unexpected server error.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Internal Server Error"
+
+  /api/projects/{projectId}/issues/table:
+    get:
+      summary: Get issues table for a project
+      description: Returns an HTML table of issues for a specific project.
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: The ID of the project.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: HTML table of issues for the project.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><a href="/issues/1">Example Issue Title</a></td>
+                        <td>Example Issue Description</td>
+                      </tr>
+                    </tbody>
+                  </table>
+        '404':
+          description: Project or issues not found.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Not Found"
+        '500':
+          description: Unexpected server error.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Internal Server Error"
+  /issues/{issueId}:
+    get:
+      summary: Get issue page
+      description: Returns an HTML page displaying the issue's title, status, priority, description, and a dynamically loaded comments table.
+      parameters:
+        - name: issueId
+          in: path
+          required: true
+          description: The ID of the issue.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: HTML page for the issue.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <h1>Example Issue Title</h1>
+                  <p>Status: Open</p>
+                  <p>Priority: High</p>
+                  <p>Example Issue Description</p>
+                  <h2>Comments</h2>
+                  <div hx-get="/api/issues/1/comments/table" hx-trigger="load" hx-swap="outerHTML"></div>
+        '404':
+          description: Issue not found.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Not Found"
+        '500':
+          description: Unexpected server error.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Internal Server Error"
+
+  /api/issues/{issueId}/comments/table:
+    get:
+      summary: Get comments table for an issue
+      description: Returns an HTML table displaying the comments for the specified issue, including the title, description, status, and priority.
+      parameters:
+        - name: issueId
+          in: path
+          required: true
+          description: The ID of the issue for which comments are retrieved.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: HTML table of comments for the issue.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><a href="/issues/1">Example Comment Title</a></td>
+                        <td>Example Comment Description</td>
+                        <td>Open</td>
+                        <td>High</td>
+                      </tr>
+                    </tbody>
+                  </table>
+        '404':
+          description: Issue or comments not found.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Not Found"
+        '500':
+          description: Unexpected server error.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Internal Server Error"
+  /health/live:
+    get:
+      summary: Liveness health check
+      description: Verifies if the application is running and the database connection is alive.
+      responses:
+        '200':
+          description: Application is live and database connection is active.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+        '500':
+          description: Application is not live or the database is unreachable.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Internal Server Error"
+  /health/ready:
+    get:
+      summary: Readiness health check
+      description: Verifies if the application is ready to serve requests, including a healthy database connection.
+      responses:
+        '200':
+          description: Application is ready to serve requests.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+        '500':
+          description: Application is not ready, e.g., due to database issues.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Internal Server Error"
