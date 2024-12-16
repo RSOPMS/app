@@ -20,3 +20,32 @@ type Comment struct {
 	Content   string
 	CreatedAt string
 }
+
+type Status struct {
+	Id           int
+	Name         string
+	DisplayOrder int
+}
+
+type Priority struct {
+	Id           int
+	Name         string
+	DisplayOrder int
+}
+
+type Branch struct {
+	Id   int
+	Name string
+	Url  string
+}
+
+type NewIssue struct {
+	Id          int
+	Title       string
+	Description string
+	ProjectID   int
+	StatusID    int
+	PriorityID  int
+	BranchID    int
+	CreatedAt   string
+}
