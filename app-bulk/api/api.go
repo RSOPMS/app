@@ -1,6 +1,7 @@
 package api
 
 import (
+	"app-bulk/api/handler/bulk"
 	"app-issue/api/handler/health"
 	"database/sql"
 	"framework/api"
@@ -31,6 +32,10 @@ func (s *ApiServer) Run() error {
 func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	// Middleware
 	stackLog := api.CreateMiddlewareStack(api.LoggingMiddleware)
+
+	// Bulk
+	bulkHandler := bulk.NewBulkHandler(s.Db)
+	router.Handle("POST /api/bulk", stackLog(api.CreateHandler(bulkHandler.HandleBulkInsert)))
 
 	// Health
 	healthHandler := health.NewHealthHandler(s.Db)
