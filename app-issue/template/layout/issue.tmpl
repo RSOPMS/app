@@ -9,5 +9,30 @@
        hx-trigger="load"
        hx-swap="outerHTML">
   </div>
+
+  <!-- Add New Comment Button -->
+  <button onclick="document.getElementById('new-comment-dialog').showModal()">Add New Comment</button>
+
+  <!-- New Comment Dialog -->
+  <dialog id="new-comment-dialog">
+    <form hx-post="{{ urlPrefixIssue }}/api/comments"
+        hx-boost="true"
+        hx-action="{{ urlPrefixIssue }}/api/comments"
+        hx-trigger="submit"
+        hx-swap="beforebegin"
+        hx-target="#commentsTableBody"
+        method="dialog">
+      <h3>Create New Comment</h3>
+
+      <label for="content">Content:</label>
+      <textarea id="content" name="content" required></textarea><br>
+
+      <label for="issueId" hidden>Issue ID:</label>
+      <input type="number" id="issueId" name="issueId" value="{{ .Id }}" readonly hidden><br>
+
+      <button type="submit" onclick="document.getElementById('new-comment-dialog').close()">Post comment</button>
+      <button type="button" onclick="document.getElementById('new-comment-dialog').close()">Cancel</button>
+    </form>
+  </dialog>
   {{ template "bot" }}
 {{ end }}

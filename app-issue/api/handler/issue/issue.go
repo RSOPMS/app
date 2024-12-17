@@ -89,6 +89,33 @@ func (h *IssueHandler) PostIssueNew(w http.ResponseWriter, r *http.Request) erro
 	return template.RenderIssue(w, "issueRow", issue)
 }
 
+func (h *IssueHandler) PostCommentNew(w http.ResponseWriter, r *http.Request) error {
+	// Parse form values
+	err := r.ParseForm()
+	if err != nil {
+		return err
+	}
+
+	// Extract values
+	content := r.FormValue("content")
+	issueId, err := strconv.Atoi(r.FormValue("issueId"))
+	if err != nil {
+		return err
+	}
+
+	createdComment := pkg.Comment{
+		IssueId: issueId,
+		Content: content,
+	}
+
+	newComment, err := pkg.CreateNewComment(h.Db, createdComment)
+	if err != nil {
+		return err
+	}
+
+	return template.RenderIssue(w, "commentRow", newComment)
+}
+
 // Get statuses from the database for the Create New Issue form
 func (h *IssueHandler) GetStatusesForm(w http.ResponseWriter, r *http.Request) error {
 	statuses, err := pkg.ReadStatuses(h.Db)
