@@ -14,6 +14,9 @@ k8s-dev-static: app-static-build app-static-start
 .PHONY: k8s-dev-issue
 k8s-dev-issue: app-issue-build app-issue-start
 
+.PHONY: k8s-dev-bulk
+k8s-dev-bulk: app-bulk-build app-bulk-start
+
 ## ----------------------------------------------------------------------------
 ## Dev build
 ## ----------------------------------------------------------------------------
@@ -36,6 +39,10 @@ app-static-build:
 .PHONY: app-issue-build
 app-issue-build:
 	@docker build -f ./app-issue/Dockerfile --tag bugbase-issue:latest .
+
+.PHONY: app-bulk-build
+app-bulk-build:
+	@docker build -f ./app-bulk/Dockerfile --tag bugbase-bulk:latest .
 
 ## ----------------------------------------------------------------------------
 ## Dev start
@@ -68,6 +75,10 @@ app-static-start:
 app-issue-start:
 	@kubectl apply -f ./k8s/app-issue.yaml
 
+.PHONY: app-bulk-start
+app-bulk-start:
+	@kubectl apply -f ./k8s/app-bulk.yaml
+
 ## ----------------------------------------------------------------------------
 ## Dev stop
 ## ----------------------------------------------------------------------------
@@ -98,3 +109,7 @@ app-static-stop:
 .PHONY: app-issue-stop
 app-issue-stop:
 	@kubectl delete -f ./k8s/app-issue.yaml
+
+.PHONY: app-bulk-stop
+app-bulk-stop:
+	@kubectl delete -f ./k8s/app-bulk.yaml
