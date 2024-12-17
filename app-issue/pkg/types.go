@@ -26,19 +26,16 @@ type Comment struct {
 }
 
 type Status struct {
-	Id           int
-	Name         string
-	DisplayOrder int
+	Id   int
+	Name string
 }
 
 type Priority struct {
-	Id           int
-	Name         string
-	DisplayOrder int
+	Id   int
+	Name string
 }
 
 type Branch struct {
 	Id   int
 	Name string
-	Url  string
 }

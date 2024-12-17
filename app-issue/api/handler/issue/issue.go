@@ -50,12 +50,33 @@ func (h *IssueHandler) PostIssueNew(w http.ResponseWriter, r *http.Request) erro
 	// Extract values
 	title := r.FormValue("title")
 	description := r.FormValue("description")
-	projectId := r.FormValue("projectId")
-	statusId := r.FormValue("statusId")
-	priorityId := r.FormValue("priorityId")
-	branchId := r.FormValue("branchId")
+	projectId, err := strconv.Atoi(r.FormValue("projectId"))
+	if err != nil {
+		return err
+	}
+	statusId, err := strconv.Atoi(r.FormValue("statusId"))
+	if err != nil {
+		return err
+	}
+	priorityId, err := strconv.Atoi(r.FormValue("priorityId"))
+	if err != nil {
+		return err
+	}
+	branchId, err := strconv.Atoi(r.FormValue("branchId"))
+	if err != nil {
+		return err
+	}
 
-	newIssue, err := pkg.CreateNewIssue(h.Db, title, description, projectId, statusId, priorityId, branchId)
+	createdIssue := pkg.Issue{
+		Title:       title,
+		Description: description,
+		ProjectId:   projectId,
+		StatusId:    statusId,
+		PriorityId:  priorityId,
+		BranchId:    branchId,
+	}
+
+	newIssue, err := pkg.CreateNewIssue(h.Db, createdIssue)
 	if err != nil {
 		return err
 	}

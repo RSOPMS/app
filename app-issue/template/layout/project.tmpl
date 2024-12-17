@@ -23,9 +23,12 @@
   <!-- New Issue Dialog -->
   <dialog id="new-issue-dialog">
     <form hx-post="{{ urlPrefixIssue }}/api/issues"
+        hx-boost="true"
+        hx-action="{{ urlPrefixIssue }}/api/issues"
         hx-trigger="submit"
         hx-swap="beforebegin"
-        hx-target="#issuesTableBody">
+        hx-target="#issuesTableBody"
+        method="dialog">
       <h3>Create New Issue</h3>
 
       <label for="title">Title:</label>

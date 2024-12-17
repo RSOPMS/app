@@ -46,7 +46,7 @@ func ReadComments(db *sql.DB, issueId string) ([]*Comment, error) {
 
 func ReadStatuses(db *sql.DB) ([]*Status, error) {
 	query := `
-	SELECT id, name, display_order
+	SELECT id, name
 	  FROM status
 	 ORDER BY display_order;
 	`
@@ -57,7 +57,7 @@ func ReadStatuses(db *sql.DB) ([]*Status, error) {
 	statuses := []*Status{}
 	for rows.Next() {
 		status := &Status{}
-		rows.Scan(&status.Id, &status.Name, &status.DisplayOrder)
+		rows.Scan(&status.Id, &status.Name)
 		statuses = append(statuses, status)
 	}
 	return statuses, err
@@ -65,7 +65,7 @@ func ReadStatuses(db *sql.DB) ([]*Status, error) {
 
 func ReadPriorities(db *sql.DB) ([]*Priority, error) {
 	query := `
-	SELECT id, name, display_order
+	SELECT id, name
 	  FROM priority
 	 ORDER BY display_order;
 	`
@@ -76,7 +76,7 @@ func ReadPriorities(db *sql.DB) ([]*Priority, error) {
 	priorities := []*Priority{}
 	for rows.Next() {
 		priority := &Priority{}
-		rows.Scan(&priority.Id, &priority.Name, &priority.DisplayOrder)
+		rows.Scan(&priority.Id, &priority.Name)
 		priorities = append(priorities, priority)
 	}
 	return priorities, err
@@ -84,7 +84,7 @@ func ReadPriorities(db *sql.DB) ([]*Priority, error) {
 
 func ReadBranches(db *sql.DB) ([]*Branch, error) {
 	query := `
-	SELECT id, name, url
+	SELECT id, name
 	  FROM branch;
 	`
 	rows, err := db.Query(query)
@@ -94,13 +94,13 @@ func ReadBranches(db *sql.DB) ([]*Branch, error) {
 	branches := []*Branch{}
 	for rows.Next() {
 		branch := &Branch{}
-		rows.Scan(&branch.Id, &branch.Name, &branch.Url)
+		rows.Scan(&branch.Id, &branch.Name)
 		branches = append(branches, branch)
 	}
 	return branches, err
 }
 
-func CreateNewIssue(db *sql.DB, title string, description string, projectId string, statusId string, priorityId string, branchId string) (*Issue, error) {
+func CreateNewIssue(db *sql.DB, issue Issue) (*Issue, error) {
 	query := `
 	INSERT INTO issue (title, description, project_id, status_id, priority_id, branch_id, created_at)
 	  VALUES ($1, $2, $3, $4, $5, $6, NOW())
@@ -108,7 +108,7 @@ func CreateNewIssue(db *sql.DB, title string, description string, projectId stri
 	`
 	newIssue := &Issue{}
 
-	err := db.QueryRow(query, title, description, projectId, statusId, priorityId, branchId).Scan(
+	err := db.QueryRow(query, issue.Title, issue.Description, issue.ProjectId, issue.StatusId, issue.PriorityId, issue.BranchId).Scan(
 		&newIssue.Id,
 		&newIssue.Title,
 		&newIssue.Description,
