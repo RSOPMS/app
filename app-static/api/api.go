@@ -44,6 +44,6 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 
 	// Health
 	healthHandler := health.NewHealthHandler()
-	router.Handle("GET /health/live", stackNone(api.CreateHandler(healthHandler.GetHealthLive)))
-	router.Handle("GET /health/ready", stackNone(api.CreateHandler(healthHandler.GetHealthReady)))
+	router.Handle("GET /health/live/{$}", stackNone(api.CreateHandler(healthHandler.GetHealthLive)))
+	router.Handle("GET /health/ready/{$}", stackNone(api.CreateHandler(healthHandler.GetHealthReady)))
 }

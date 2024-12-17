@@ -1,7 +1,7 @@
 {{ define "projectsPage" }}
   {{ template "top" }}
   <h1>Projects</h1>
-  <div hx-get="{{ urlPrefixIssue }}/api/projects/table"
+  <div hx-get="{{ urlPrefixIssue }}/api/projects/table/"
        hx-trigger="load"
        hx-swap="outerHTML">
   </div>
@@ -12,54 +12,62 @@
   {{ template "top" }}
   <h1>{{ .Title }}</h1>
   <h2>Issues</h2>
-  <div hx-get="{{ urlPrefixIssue }}/api/projects/{{ .Id }}/issues/table"
+  <button onclick="document.getElementById('new-issue-dialog').showModal()">Add New Issue</button>
+  <div hx-get="{{ urlPrefixIssue }}/api/projects/{{ .Id }}/issues/table/"
        hx-trigger="load"
        hx-swap="outerHTML">
   </div>
 
-  <!-- Add New Issue Button -->
-  <button onclick="document.getElementById('new-issue-dialog').showModal()">Add New Issue</button>
-
-  <!-- New Issue Dialog -->
   <dialog id="new-issue-dialog">
-    <form hx-post="{{ urlPrefixIssue }}/api/issues"
-        hx-boost="true"
-        hx-action="{{ urlPrefixIssue }}/api/issues"
-        hx-trigger="submit"
-        hx-swap="beforebegin"
-        hx-target="#issuesTableBody"
-        method="dialog">
+    <form action="{{ urlPrefixIssue }}/api/issues/"
+          method="dialog"
+          hx-post="{{ urlPrefixIssue }}/api/issues/"
+          hx-boost="true"
+          hx-trigger="submit"
+          hx-swap="beforebegin"
+          hx-target="#issuesTableBody">
       <h3>Create New Issue</h3>
 
-      <label for="title">Title:</label>
-      <input type="text" id="title" name="title" required><br>
-
-      <label for="description">Description:</label>
-      <textarea id="description" name="description" required></textarea><br>
-
-      <label for="projectId">Project ID:</label>
-      <input type="number" id="projectId" name="projectId" value="{{ .Id }}" readonly><br>
-
-      <div hx-get="{{ urlPrefixIssue }}/api/status/form"
-          hx-trigger="revealed"
-          hx-target="this"
-          hx-swap="innerHTML">
+      <div>
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" placeholder="Issue title" required>
       </div>
 
-      <div hx-get="{{ urlPrefixIssue }}/api/priority/form"
-          hx-trigger="revealed"
-          hx-target="this"
-          hx-swap="innerHTML">
+      <div>
+        <label for="description">Description</label>
+        <textarea id="description" name="description" placeholder="Issue description" required></textarea>
       </div>
 
-      <div hx-get="{{ urlPrefixIssue }}/api/branch/form"
-          hx-trigger="revealed"
-          hx-target="this"
-          hx-swap="innerHTML">
+      <input type="hidden" id="projectId" name="projectId" value="{{ .Id }}" readonly>
+
+      <div>
+        <div hx-get="{{ urlPrefixIssue }}/api/status/form"
+            hx-trigger="revealed"
+            hx-target="this"
+            hx-swap="innerHTML">
+        </div>
       </div>
 
-      <button type="submit" onclick="document.getElementById('new-issue-dialog').close()">Create Issue</button>
-      <button type="button" onclick="document.getElementById('new-issue-dialog').close()">Cancel</button>
+      <div>
+        <div hx-get="{{ urlPrefixIssue }}/api/priority/form"
+            hx-trigger="revealed"
+            hx-target="this"
+            hx-swap="innerHTML">
+        </div>
+      </div>
+
+      <div>
+        <div hx-get="{{ urlPrefixIssue }}/api/branch/form"
+            hx-trigger="revealed"
+            hx-target="this"
+            hx-swap="innerHTML">
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" onclick="document.getElementById('new-issue-dialog').close()">Create Issue</button>
+        <button type="button" onclick="document.getElementById('new-issue-dialog').close()">Cancel</button>
+      </div>
     </form>
   </dialog>
   {{ template "bot" }}

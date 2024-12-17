@@ -5,7 +5,7 @@
   <p>Priority: {{ .PriorityName }}</p>
   <p>{{ .Description }}</p>
   <h2>Comments</h2>
-  <div hx-get="{{ urlPrefixIssue }}/api/issues/{{ .Id }}/comments/table"
+  <div hx-get="{{ urlPrefixIssue }}/api/issues/{{ .Id }}/comments/table/"
        hx-trigger="load"
        hx-swap="outerHTML">
   </div>
