@@ -26,7 +26,8 @@ func ReadComments(db *sql.DB, issueId string) ([]*Comment, error) {
 	query := `
 	SELECT id, issue_id, content, created_at
 	  FROM comment
-	 WHERE issue_id = $1;
+	 WHERE issue_id = $1
+	 ORDER BY created_at DESC;
 	`
 
 	rows, err := db.Query(query, issueId)
@@ -124,4 +125,26 @@ func CreateNewIssue(db *sql.DB, issue Issue) (*Issue, error) {
 	}
 
 	return newIssue, err
+}
+
+func CreateNewComment(db *sql.DB, comment Comment) (*Comment, error) {
+	query := `
+	INSERT INTO comment (issue_id, content, created_at)
+	  VALUES ($1, $2, NOW())
+	 RETURNING id, issue_id, content, created_at
+	`
+	newComment := &Comment{}
+
+	err := db.QueryRow(query, comment.IssueId, comment.Content).Scan(
+		&newComment.Id,
+		&newComment.IssueId,
+		&newComment.Content,
+		&newComment.CreatedAt,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return newComment, err
 }

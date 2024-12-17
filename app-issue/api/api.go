@@ -46,6 +46,7 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	router.Handle("GET /issues/{issueId}/{$}", stackLog(api.CreateHandler(issueHandler.GetIssuePage)))
 	router.Handle("GET /api/issues/{issueId}/comments/table/{$}", stackLog(api.CreateHandler(issueHandler.GetCommentsTable)))
 	router.Handle("POST /api/issues/{$}", stackLog(api.CreateHandler(issueHandler.PostIssueNew)))
+	router.Handle("POST /api/comments/{$}", stackLog(api.CreateHandler(issueHandler.PostCommentNew)))
 
 	// Create new issue form
 	router.Handle("GET /api/status/form/{$}", stackLog(api.CreateHandler(issueHandler.GetStatusesForm)))

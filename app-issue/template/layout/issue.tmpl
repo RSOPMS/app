@@ -5,9 +5,34 @@
   <p>Priority: {{ .PriorityName }}</p>
   <p>{{ .Description }}</p>
   <h2>Comments</h2>
+  <button onclick="document.getElementById('new-comment-dialog').showModal()">Add New Comment</button>
   <div hx-get="{{ urlPrefixIssue }}/api/issues/{{ .Id }}/comments/table/"
        hx-trigger="load"
        hx-swap="outerHTML">
   </div>
+
+  <dialog id="new-comment-dialog">
+    <form action="{{ urlPrefixIssue }}/api/comments/"
+          method="dialog"
+          hx-post="{{ urlPrefixIssue }}/api/comments/"
+          hx-boost="true"
+          hx-trigger="submit"
+          hx-swap="beforebegin"
+          hx-target="#commentsTableBody">
+      <h3>Create New Comment</h3>
+
+      <div>
+        <label for="content">Content</label>
+        <textarea id="content" name="content" placeholder="Comment content" rows="6" required></textarea>
+      </div>
+
+      <input type="hidden" id="issueId" name="issueId" value="{{ .Id }}" readonly>
+
+      <div>
+        <button type="submit" onclick="document.getElementById('new-comment-dialog').close()">Post comment</button>
+        <button type="button" onclick="document.getElementById('new-comment-dialog').close()">Cancel</button>
+      </div>
+    </form>
+  </dialog>
   {{ template "bot" }}
 {{ end }}
