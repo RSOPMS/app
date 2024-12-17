@@ -1,4 +1,4 @@
-package handler
+package bulk
 
 import (
 	"app-bulk/pkg"
@@ -37,30 +37,23 @@ func NewBulkHandler(db *sql.DB) *BulkHandler {
 	}
 }
 
-func (h *BulkHandler) HandleBulkInsert(w http.ResponseWriter, r *http.Request) error {
-	log.Println("Gets to handler")
-
+func (h *BulkHandler) PostBulk(w http.ResponseWriter, r *http.Request) error {
+	log.Println("Gets to the handler")
 	var payload InputPayload
-	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
+	err := json.NewDecoder(r.Body).Decode(&payload)
+	if err != nil {
 		return err
 	}
 
 	for _, project := range payload.Projects {
-		/*
-			if project.Title == "" {
-				return errors.New("project title is required")
-			}*/
 		// check if it exists? or change title to unique
-		if err := pkg.CreateNewProject(h.Db, project.Title); err != nil {
+		_, err := pkg.CreateNewProject(h.Db, project.Title)
+		if err != nil {
 			return err
 		}
 	}
 
 	for _, issue := range payload.Issues {
-		/*if issue.Title == "" || issue.Description == "" || issue.Project == "" ||
-			issue.Status == "" || issue.Priority == "" || issue.Branch == "" {
-			return errors.New("all fields are required in an issue")
-		}*/
 
 		projectId, err := pkg.GetProjectIdByTitle(h.Db, issue.Project)
 		if err != nil {
@@ -92,7 +85,7 @@ func (h *BulkHandler) HandleBulkInsert(w http.ResponseWriter, r *http.Request) e
 			BranchId:    branchId,
 		}
 
-		newIssue, err := pkg.CreateNewIssue(h.Db, createdIssue)
+		_, err = pkg.CreateNewIssue(h.Db, createdIssue)
 		if err != nil {
 			return err
 		}

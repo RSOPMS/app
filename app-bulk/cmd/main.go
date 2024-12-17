@@ -1,7 +1,7 @@
 package main
 
 import (
-	"app-issue/api"
+	"app-bulk/api"
 	"database/sql"
 	"fmt"
 	"log"

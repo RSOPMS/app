@@ -40,7 +40,7 @@ func GetPriorityIdByName(db *sql.DB, name string) (int, error) {
 
 func GetStatusIdByName(db *sql.DB, name string) (int, error) {
 	query := `
-	SELECT id, name
+	SELECT id
 	  FROM status
 	 WHERE name = $1;
 	`
@@ -75,7 +75,7 @@ func GetBranchIdByName(db *sql.DB, name string) (int, error) {
 func CreateNewProject(db *sql.DB, title string) (*Project, error) {
 	query := `
 	INSERT INTO project (title)
-	  VALUES $1
+	  VALUES ($1)
 	 RETURNING id, title
 	`
 	newProject := &Project{}
