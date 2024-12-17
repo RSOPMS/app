@@ -50,7 +50,8 @@ func ReadIssues(db *sql.DB, projectId string) ([]*Issue, error) {
 	  FROM issue
 	  JOIN status   ON issue.status_id = status.id
 	  JOIN priority ON issue.priority_id = priority.id
-	 WHERE issue.project_id = $1;
+	 WHERE issue.project_id = $1
+	 ORDER BY issue.created_at DESC;
     `
 
 	rows, err := db.Query(query, projectId)

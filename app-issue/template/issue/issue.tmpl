@@ -8,17 +8,21 @@
       <th>Priority</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="issuesTableBody">
     {{ range . }}
-    <tr>
-      <td>
-        <a href="{{ urlPrefixIssue }}/issues/{{ .Id }}">{{ .Title }}</a>
-      </td>
-      <td>{{ .Description }}</td>
-      <td>{{ .StatusName }}</td>
-      <td>{{ .PriorityName }}</td>
-    </tr>
+    {{ template "issueRow" . }}
     {{ end }}
   </tbody>
 </table>
+{{ end }}
+
+{{ define "issueRow" }}
+<tr>
+  <td>
+    <a href="{{ urlPrefixIssue }}/issues/{{ .Id }}">{{ .Title }}</a>
+  </td>
+  <td>{{ .Description }}</td>
+  <td>{{ .StatusName }}</td>
+  <td>{{ .PriorityName }}</td>
+</tr>
 {{ end }}

@@ -1,0 +1,26 @@
+{{ define "statusesForm" }}
+<label for="statusId">Status:</label>
+<select id="statusId" name="statusId">
+  {{ range . }}
+  <option value={{ .Id }}>{{ .Name }}</option>
+  {{ end }}
+</select><br>
+{{ end }}
+
+{{ define "prioritiesForm" }}
+<label for="priorityId">Priority:</label>
+<select id="priorityId" name="priorityId">
+  {{ range . }}
+  <option value={{ .Id }}>{{ .Name }}</option>
+  {{ end }}
+</select><br>
+{{ end }}
+
+{{ define "branchesForm" }}
+<label for="branchId">Branch:</label>
+<select id="branchId" name="branchId">
+  {{ range . }}
+  <option value={{ .Id }}>{{ .Name }}</option>
+  {{ end }}
+</select><br>
+{{ end }}
