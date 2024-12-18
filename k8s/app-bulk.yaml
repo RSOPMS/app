@@ -47,6 +47,11 @@ spec:
                 configMapKeyRef:
                   name: bugbase-configmap
                   key: PORT_APP_STATIC
+            - name: PORT_APP_BULK
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: PORT_APP_BULK
             - name: URL_PREFIX_ISSUE
               valueFrom:
                 configMapKeyRef:

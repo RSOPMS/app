@@ -5,9 +5,11 @@ metadata:
 data:
   PORT_APP_ISSUE: "8080"
   PORT_APP_STATIC: "8081"
+  PORT_APP_BULK: "8082"
 
   URL_PREFIX_ISSUE: "/issue"
   URL_PREFIX_STATIC: ""
+  URL_PREFIX_BULK: "/bulk"
 
   DB_NAME: "bugbase"
   DB_USER: "bugbase"

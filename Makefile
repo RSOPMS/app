@@ -22,7 +22,7 @@ k8s-dev-bulk: app-bulk-build app-bulk-start
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-build
-k8s-dev-build: database-build app-static-build app-issue-build
+k8s-dev-build: database-build app-static-build app-issue-build app-bulk-build
 
 .PHONY: database-build
 database-build:
@@ -49,7 +49,7 @@ app-bulk-build:
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-start
-k8s-dev-start: configmap-start secret-start ingress-start database-start app-static-start app-issue-start
+k8s-dev-start: configmap-start secret-start ingress-start database-start app-static-start app-issue-start app-bulk-start
 
 .PHONY: configmap-start
 configmap-start:
@@ -84,7 +84,7 @@ app-bulk-start:
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-stop
-k8s-dev-stop: configmap-stop secret-stop ingress-stop database-stop app-static-stop app-issue-stop
+k8s-dev-stop: configmap-stop secret-stop ingress-stop database-stop app-static-stop app-issue-stop app-bulk-stop
 
 .PHONY: configmap-stop
 configmap-stop:
