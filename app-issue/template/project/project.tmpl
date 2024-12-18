@@ -5,14 +5,18 @@
       <th>Title</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="projectsTableBody">
     {{ range . }}
-    <tr>
-      <td>
-        <a href="{{ urlPrefixIssue }}/projects/{{ .Id }}/">{{ .Title }}</a>
-      </td>
-    </tr>
+    {{ template "projectRow" . }}
     {{ end }}
   </tbody>
 </table>
+{{ end }}
+
+{{ define "projectRow" }}
+<tr>
+  <td>
+    <a href="{{ urlPrefixIssue }}/projects/{{ .Id }}/">{{ .Title }}</a>
+  </td>
+</tr>
 {{ end }}
