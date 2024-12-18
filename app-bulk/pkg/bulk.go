@@ -2,7 +2,6 @@ package pkg
 
 import (
 	"database/sql"
-	"errors"
 )
 
 type ProjectInput struct {
@@ -31,38 +30,25 @@ func AddPayloadToDB(db *sql.DB, payload InputPayload) error {
 		}
 	}
 
-	// Add new issues
 	for _, issue := range payload.Issues {
 		projectId, err := GetProjectIdByTitle(db, issue.Project)
 		if err != nil {
 			return err
-		}
-		if projectId == 0 {
-			return errors.New("missing or invalid project ID")
 		}
 
 		statusId, err := GetStatusIdByName(db, issue.Status)
 		if err != nil {
 			return err
 		}
-		if statusId == 0 {
-			return errors.New("missing or invalid status ID")
-		}
 
 		priorityId, err := GetPriorityIdByName(db, issue.Priority)
 		if err != nil {
 			return err
 		}
-		if priorityId == 0 {
-			return errors.New("missing or invalid priority ID")
-		}
 
 		branchId, err := GetBranchIdByName(db, issue.Branch)
 		if err != nil {
 			return err
-		}
-		if branchId == 0 {
-			return errors.New("missing or invalid branch ID")
 		}
 
 		err = CreateNewIssue(db, issue.Title, issue.Description, projectId, statusId, priorityId, branchId)
