@@ -20,6 +20,8 @@ Project management software
 
 [![(app-issue) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/app-issue.yaml/badge.svg?branch=dev&event=push)](https://github.com/RSOPMS/app/actions/workflows/app-issue.yaml)
 
+[![(app-bulk) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/app-bulk.yaml/badge.svg?branch=dev&event=push)](https://github.com/RSOPMS/app/actions/workflows/app-bulk.yaml)
+
 ## :computer: Local Kubernetes setup
 
 ### Prerequsites
