@@ -25,3 +25,10 @@ spec:
                 name: bugbase-static-service
                 port:
                   number: 8081
+          - path: /bulk(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: bugbase-bulk-service
+                port:
+                  number: 8082

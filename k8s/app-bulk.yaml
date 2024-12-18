@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bugbase-bulk-deployment
+  labels:
+    app: bugbase-bulk
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bugbase-bulk
+  template:
+    metadata:
+      labels:
+        app: bugbase-bulk
+    spec:
+      containers:
+        - name: bugbase-bulk
+          image: bugbase-bulk
+          resources:
+            limits:
+              memory: 128Mi
+              cpu: 500m
+          ports:
+            - containerPort: 8082
+              name: server
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          env:
+            - name: PORT_APP_BULK
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: PORT_APP_BULK
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_NAME
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_USER
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_PORT
+            - name: DB_SSL_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_SSL_MODE
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bugbase-secret
+                  key: DB_PASSWORD
+          # WARN: Currently only for local testing. Remove for production deployment.
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bugbase-bulk-service
+spec:
+  type: ClusterIP
+  selector:
+    app: bugbase-bulk
+  ports:
+    - port: 8082
+      protocol: TCP
+      targetPort: server

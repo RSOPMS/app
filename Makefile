@@ -14,12 +14,15 @@ k8s-dev-static: app-static-build app-static-start
 .PHONY: k8s-dev-issue
 k8s-dev-issue: app-issue-build app-issue-start
 
+.PHONY: k8s-dev-bulk
+k8s-dev-bulk: app-bulk-build app-bulk-start
+
 ## ----------------------------------------------------------------------------
 ## Dev build
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-build
-k8s-dev-build: database-build app-static-build app-issue-build
+k8s-dev-build: database-build app-static-build app-issue-build app-bulk-build
 
 .PHONY: database-build
 database-build:
@@ -37,12 +40,16 @@ app-static-build:
 app-issue-build:
 	@docker build -f ./app-issue/Dockerfile --tag bugbase-issue:latest .
 
+.PHONY: app-bulk-build
+app-bulk-build:
+	@docker build -f ./app-bulk/Dockerfile --tag bugbase-bulk:latest .
+
 ## ----------------------------------------------------------------------------
 ## Dev start
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-start
-k8s-dev-start: configmap-start secret-start ingress-start database-start app-static-start app-issue-start
+k8s-dev-start: configmap-start secret-start ingress-start database-start app-static-start app-issue-start app-bulk-start
 
 .PHONY: configmap-start
 configmap-start:
@@ -68,12 +75,16 @@ app-static-start:
 app-issue-start:
 	@kubectl apply -f ./k8s/app-issue.yaml
 
+.PHONY: app-bulk-start
+app-bulk-start:
+	@kubectl apply -f ./k8s/app-bulk.yaml
+
 ## ----------------------------------------------------------------------------
 ## Dev stop
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-stop
-k8s-dev-stop: configmap-stop secret-stop ingress-stop database-stop app-static-stop app-issue-stop
+k8s-dev-stop: configmap-stop secret-stop ingress-stop database-stop app-static-stop app-issue-stop app-bulk-stop
 
 .PHONY: configmap-stop
 configmap-stop:
@@ -98,3 +109,7 @@ app-static-stop:
 .PHONY: app-issue-stop
 app-issue-stop:
 	@kubectl delete -f ./k8s/app-issue.yaml
+
+.PHONY: app-bulk-stop
+app-bulk-stop:
+	@kubectl delete -f ./k8s/app-bulk.yaml
