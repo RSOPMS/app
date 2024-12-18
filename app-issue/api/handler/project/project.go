@@ -53,13 +53,11 @@ func (h *ProjectHandler) GetIssuesTable(w http.ResponseWriter, r *http.Request) 
 }
 
 func (h *ProjectHandler) PostProjectNew(w http.ResponseWriter, r *http.Request) error {
-	// Parse form values
 	err := r.ParseForm()
 	if err != nil {
 		return err
 	}
 
-	// Extract values
 	title := r.FormValue("title")
 
 	createdProject := pkg.Project{

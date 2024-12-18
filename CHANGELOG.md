@@ -31,6 +31,13 @@ All notable changes to this project will be documented in this file.
 - Feat #24 added css styling to table elements ([86ff417](86ff417c1abfff3c3e6e2ac8ebe2008157c52f38))
 - Feat #36: Added issue priority in issues table and on issue page ([fb2bffe](fb2bffe181b80265e9471927fa4e3d70668f5b82))
 - #39 add editorconfig ([49f5df5](49f5df511d0645893965703c6a1c5042a2ce22a2))
+- #41 add vscode debugging config ([0308f9e](0308f9eb1204a2ff5437f35590a493fe4d43c28e))
+- #42 add JWT authentication ([c509821](c509821f04ad84fc30f424d62b5d5f7b33f7087d))
+- #29 App-issue healthchecks ping db ([cff18b5](cff18b5fa41d8f9f2bf676824a236aae4dbd5767))
+- #35 issue status to issue list (project page) and issue page ([a7d9320](a7d9320f909239920fdaa64421a2d76d683ac312))
+- Feat #31: Create new issue form works ([c2e3b83](c2e3b8391b26a44b47eba1d9841b1dace6bd94d2))
+- Feat #30: Created form for adding comments ([ba06d48](ba06d48583a9fdd9d1bcd7875944b3cac5965732))
+- Feat #32: Added functionality to POST new projects ([3c0390b](3c0390b505d090bfcb701b3522594adcadfe1e82))
 
 ### <!-- 1 -->🐛 Bug Fixes
 
@@ -52,6 +59,10 @@ All notable changes to this project will be documented in this file.
 - #10 update static files configuration ([a238bf5](a238bf51119a3deade50722a221c0cc1028145e1))
 - #24 add line ending ([a1cb1e9](a1cb1e96e882b0970e0ab40acc18af72f8d29f10))
 - #33 update routing ([ba4e767](ba4e76779b705b4435a38fd4a6797b850090c84d))
+- #42 delete go workplace locksum ([daa47c8](daa47c8823774b860f19665ab9b90c8ccd5c841e))
+- Fix #31: Refactoring code ([df0979f](df0979f815950916e437e9aa56b92a401b92e918))
+- Fix #31: Refactoring code 2 ([8910193](8910193c64d819fcc9036514f2c04d979dfc7d43))
+- Fix #30: Fixing URLs and code formatting ([66e8e00](66e8e00f23735cc4d37eb632cf43cb1e71efa9b9))
 
 ### <!-- 10 -->💼 Other
 
@@ -63,13 +74,35 @@ All notable changes to this project will be documented in this file.
 - Merge pull request #26 from RSOPMS/prb/feat/k8s/dev ([2e01a6c](2e01a6c7357ed5d177fafb305e65de1768d24ede))
 - Merge pull request #27 from RSOPMS/feat/css ([8e6a07c](8e6a07ca256c5e076747c7e455bc71767b41560d))
 - Merge pull request #38 from RSOPMS/36-issue-priority ([8ce6948](8ce6948b7dd9220613d3ef22e0dfc07882e3cf16))
+- Merge branch '29-healthchecking' into prb/29-healthchecking/dev ([6b5be8d](6b5be8d3c30e4dc288d4073f68770194789f6c8d))
+- Merge pull request #46 from RSOPMS/prb/29-healthchecking/dev ([cae6dd3](cae6dd3dca320d597786c19b1d2410b14e1a58b1))
+- Merge pull request #44 from RSOPMS/35-issue-status ([80c190f](80c190f65fc7387f6209b1d6dfc9de77aa057446))
+- Merge pull request #47 from RSOPMS/37-api-documentation ([78cbdd5](78cbdd571da0aa21e445cb468e3852cbb2ae830c))
+- Merge pull request #48 from RSOPMS/feat/add-new-issue ([6de6315](6de6315b1c98e2ab2c90f47fe50d36e7582e81e2))
+- Merge pull request #54 from RSOPMS/30-add-new-comment ([eee5043](eee50436a08074d0e79c58d915ddcf9efb7b6ae1))
+- Merge pull request #55 from RSOPMS/32-add-new-project ([0140ea7](0140ea7a5bc0638ec58d0140912bf037a5aeb48c))
 
 ### <!-- 2 -->🚜 Refactor
 
 - #20 refactored code ([c0e1013](c0e1013646b894ca3f4c6864b768bb7dee1dba9d))
 - #20 add newlines to templates ([1576a9f](1576a9f2c8232937d294a506969d5f140e3704e9))
+- #42 update request context ([fd85caf](fd85caf652b9c4230b61e48e803bc06679d11645))
 
 ### <!-- 3 -->📚 Documentation
 
 - #40 add changelog ([9217c0c](9217c0c482f19d512a97ee23eab45a8b4113d74b))
 - #40 update changelog ([886df82](886df8230dc241d3443f887720a3462932b4ff96))
+- #40 add more details to changelog ([770e577](770e5770c574b591d83d5f3e6c04876b6f31c20a))
+- #41 add debugging documentation ([b92c157](b92c157b5dc109742aa81cac4bdd2f7170f35d78))
+- #41 fix typo ([218aa2b](218aa2b432469156a1f67624284c43cbbc42281a))
+- #37 OpenAPI doc .yaml ([6a1fd2f](6a1fd2fa412886870fde36f8129d615b18fa3c25))
+- #37 fixed paths in OpenAPI docs .yaml ([db9755c](db9755c9e2c794a16ca2a35c40c82b665d8462f1))
+- #37 fixed responses in OpenAPI docs .yaml ([99e938d](99e938d1590f2dfa41d9d9b9ceba3014ead043cf))
+- #37 openapi formatting ([22b0757](22b07573e9db4c95a73b7619d949a6a53b9c032a))
+- #37 fixed responses in OpenAPI docs .yaml ([197a5a5](197a5a5b1aa36e9417e1495a5a1e8daa23d5dd17))
+
+### <!-- 5 -->🎨 Styling
+
+- #42 prepare package for multiple keys ([b7aa39c](b7aa39c0bb9c00446f593d47a17fbaf2549ef730))
+- #35 unify indentation style ([e5fe187](e5fe187a169be4c4c5b0817b391a07f696ea801c))
+- #31 update modal code ([46022bd](46022bd6eb5d65f4e2e952792fb5b3f39e9f592f))

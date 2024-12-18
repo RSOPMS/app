@@ -28,9 +28,10 @@ func ReadProject(db *sql.DB, id string) (*Project, error) {
 	SELECT id, title
 	  FROM project
 	 WHERE id = $1;
-    `
+	`
 
 	project := &Project{}
+
 	err := db.QueryRow(query, id).Scan(&project.Id, &project.Title)
 	if err != nil {
 		return nil, err
@@ -60,9 +61,15 @@ func ReadIssues(db *sql.DB, projectId string) ([]*Issue, error) {
 	}
 
 	issues := []*Issue{}
+
 	for rows.Next() {
 		issue := &Issue{}
-		rows.Scan(&issue.Id, &issue.Title, &issue.Description, &issue.ProjectId, &issue.StatusName, &issue.PriorityName)
+		rows.Scan(&issue.Id,
+			&issue.Title,
+			&issue.Description,
+			&issue.ProjectId,
+			&issue.StatusName,
+			&issue.PriorityName)
 		issues = append(issues, issue)
 	}
 
@@ -71,16 +78,16 @@ func ReadIssues(db *sql.DB, projectId string) ([]*Issue, error) {
 
 func CreateNewProject(db *sql.DB, project Project) (*Project, error) {
 	query := `
-	INSERT INTO project (title)
-	  VALUES ($1)
-	 RETURNING id, title
+	INSERT
+	  INTO project
+	       (title)
+	VALUES ($1)
+	RETURNING id, title;
 	`
+
 	newProject := &Project{}
 
-	err := db.QueryRow(query, project.Title).Scan(
-		&newProject.Id,
-		&newProject.Title,
-	)
+	err := db.QueryRow(query, project.Title).Scan(&newProject.Id, &newProject.Title)
 
 	if err != nil {
 		return nil, err

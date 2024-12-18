@@ -8,9 +8,9 @@
   </div>
 
   <dialog id="new-project-dialog">
-    <form action="{{ urlPrefixIssue }}/api/projects/"
+    <form action="{{ urlPrefixIssue }}/api/projects/new/"
           method="dialog"
-          hx-post="{{ urlPrefixIssue }}/api/projects/"
+          hx-post="{{ urlPrefixIssue }}/api/projects/new/"
           hx-boost="true"
           hx-trigger="submit"
           hx-swap="afterend"
@@ -42,9 +42,9 @@
   </div>
 
   <dialog id="new-issue-dialog">
-    <form action="{{ urlPrefixIssue }}/api/issues/"
+    <form action="{{ urlPrefixIssue }}/api/issues/new/"
           method="dialog"
-          hx-post="{{ urlPrefixIssue }}/api/issues/"
+          hx-post="{{ urlPrefixIssue }}/api/issues/new/"
           hx-boost="true"
           hx-trigger="submit"
           hx-swap="beforebegin"
@@ -64,7 +64,7 @@
       <input type="hidden" id="projectId" name="projectId" value="{{ .Id }}" readonly>
 
       <div>
-        <div hx-get="{{ urlPrefixIssue }}/api/status/form"
+        <div hx-get="{{ urlPrefixIssue }}/api/status/form/"
             hx-trigger="revealed"
             hx-target="this"
             hx-swap="innerHTML">
@@ -72,7 +72,7 @@
       </div>
 
       <div>
-        <div hx-get="{{ urlPrefixIssue }}/api/priority/form"
+        <div hx-get="{{ urlPrefixIssue }}/api/priority/form/"
             hx-trigger="revealed"
             hx-target="this"
             hx-swap="innerHTML">
@@ -80,7 +80,7 @@
       </div>
 
       <div>
-        <div hx-get="{{ urlPrefixIssue }}/api/branch/form"
+        <div hx-get="{{ urlPrefixIssue }}/api/branch/form/"
             hx-trigger="revealed"
             hx-target="this"
             hx-swap="innerHTML">

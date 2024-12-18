@@ -40,14 +40,14 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	router.Handle("GET /projects/{projectId}/{$}", stackLog(api.CreateHandler(projectHandler.GetProjectPage)))
 	router.Handle("GET /api/projects/table/{$}", stackLog(api.CreateHandler(projectHandler.GetProjectsTable)))
 	router.Handle("GET /api/projects/{projectId}/issues/table/{$}", stackLog(api.CreateHandler(projectHandler.GetIssuesTable)))
-	router.Handle("POST /api/projects/{$}", stackLog(api.CreateHandler(projectHandler.PostProjectNew)))
+	router.Handle("POST /api/projects/new/{$}", stackLog(api.CreateHandler(projectHandler.PostProjectNew)))
 
 	// Issue
 	issueHandler := issue.NewIssueHandler(s.Db)
 	router.Handle("GET /issues/{issueId}/{$}", stackLog(api.CreateHandler(issueHandler.GetIssuePage)))
 	router.Handle("GET /api/issues/{issueId}/comments/table/{$}", stackLog(api.CreateHandler(issueHandler.GetCommentsTable)))
-	router.Handle("POST /api/issues/{$}", stackLog(api.CreateHandler(issueHandler.PostIssueNew)))
-	router.Handle("POST /api/comments/{$}", stackLog(api.CreateHandler(issueHandler.PostCommentNew)))
+	router.Handle("POST /api/issues/new/{$}", stackLog(api.CreateHandler(issueHandler.PostIssueNew)))
+	router.Handle("POST /api/comments/new/{$}", stackLog(api.CreateHandler(issueHandler.PostCommentNew)))
 
 	// Create new issue form
 	router.Handle("GET /api/status/form/{$}", stackLog(api.CreateHandler(issueHandler.GetStatusesForm)))

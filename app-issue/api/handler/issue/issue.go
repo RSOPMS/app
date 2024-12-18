@@ -41,13 +41,11 @@ func (h *IssueHandler) GetCommentsTable(w http.ResponseWriter, r *http.Request) 
 }
 
 func (h *IssueHandler) PostIssueNew(w http.ResponseWriter, r *http.Request) error {
-	// Parse form values
 	err := r.ParseForm()
 	if err != nil {
 		return err
 	}
 
-	// Extract values
 	title := r.FormValue("title")
 	description := r.FormValue("description")
 	projectId, err := strconv.Atoi(r.FormValue("projectId"))
@@ -90,13 +88,11 @@ func (h *IssueHandler) PostIssueNew(w http.ResponseWriter, r *http.Request) erro
 }
 
 func (h *IssueHandler) PostCommentNew(w http.ResponseWriter, r *http.Request) error {
-	// Parse form values
 	err := r.ParseForm()
 	if err != nil {
 		return err
 	}
 
-	// Extract values
 	content := r.FormValue("content")
 	issueId, err := strconv.Atoi(r.FormValue("issueId"))
 	if err != nil {
@@ -122,6 +118,7 @@ func (h *IssueHandler) GetStatusesForm(w http.ResponseWriter, r *http.Request) e
 	if err != nil {
 		return err
 	}
+
 	return template.RenderIssue(w, "statusesForm", statuses)
 }
 
@@ -131,6 +128,7 @@ func (h *IssueHandler) GetPrioritiesForm(w http.ResponseWriter, r *http.Request)
 	if err != nil {
 		return err
 	}
+
 	return template.RenderIssue(w, "prioritiesForm", priorities)
 }
 
