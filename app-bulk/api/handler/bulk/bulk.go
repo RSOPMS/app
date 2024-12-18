@@ -4,28 +4,9 @@ import (
 	"app-bulk/pkg"
 	"database/sql"
 	"encoding/json"
-	"log"
+	"errors"
 	"net/http"
 )
-
-// Input structs for JSON decoding
-type ProjectInput struct {
-	Title string `json:"title"`
-}
-
-type IssueInput struct {
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Project     string `json:"project"`
-	Status      string `json:"status"`
-	Priority    string `json:"priority"`
-	Branch      string `json:"branch"`
-}
-
-type InputPayload struct {
-	Projects []ProjectInput `json:"projects"`
-	Issues   []IssueInput   `json:"issues"`
-}
 
 type BulkHandler struct {
 	Db *sql.DB
@@ -38,7 +19,6 @@ func NewBulkHandler(db *sql.DB) *BulkHandler {
 }
 
 func (h *BulkHandler) PostBulk(w http.ResponseWriter, r *http.Request) error {
-	log.Println("Gets to the handler")
 	var payload InputPayload
 	err := json.NewDecoder(r.Body).Decode(&payload)
 	if err != nil {
@@ -46,7 +26,6 @@ func (h *BulkHandler) PostBulk(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	for _, project := range payload.Projects {
-		// check if it exists? or change title to unique
 		_, err := pkg.CreateNewProject(h.Db, project.Title)
 		if err != nil {
 			return err
@@ -54,25 +33,36 @@ func (h *BulkHandler) PostBulk(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	for _, issue := range payload.Issues {
-
 		projectId, err := pkg.GetProjectIdByTitle(h.Db, issue.Project)
 		if err != nil {
 			return err
+		}
+		if projectId == 0 {
+			return errors.New("missing or invalid project ID")
 		}
 
 		statusId, err := pkg.GetStatusIdByName(h.Db, issue.Status)
 		if err != nil {
 			return err
 		}
+		if statusId == 0 {
+			return errors.New("missing or invalid status ID")
+		}
 
 		priorityId, err := pkg.GetPriorityIdByName(h.Db, issue.Priority)
 		if err != nil {
 			return err
 		}
+		if priorityId == 0 {
+			return errors.New("missing or invalid priority ID")
+		}
 
 		branchId, err := pkg.GetBranchIdByName(h.Db, issue.Branch)
 		if err != nil {
 			return err
+		}
+		if branchId == 0 {
+			return errors.New("missing or invalid branch ID")
 		}
 
 		// probably needs some validation
@@ -91,8 +81,5 @@ func (h *BulkHandler) PostBulk(w http.ResponseWriter, r *http.Request) error {
 		}
 	}
 
-	// Respond with success
-	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("Bulk insert successful"))
 	return nil
 }
