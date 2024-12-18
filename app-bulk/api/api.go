@@ -35,10 +35,10 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 
 	// Bulk
 	bulkHandler := bulk.NewBulkHandler(s.Db)
-	router.Handle("POST /api/bulk", stackLog(api.CreateHandler(bulkHandler.PostBulk)))
+	router.Handle("POST /api/bulk/{$}", stackLog(api.CreateHandler(bulkHandler.PostBulk)))
 
 	// Health
 	healthHandler := health.NewHealthHandler(s.Db)
-	router.Handle("GET /health/live", stackLog(api.CreateHandler(healthHandler.GetHealthLive)))
-	router.Handle("GET /health/ready", stackLog(api.CreateHandler(healthHandler.GetHealthReady)))
+	router.Handle("GET /health/live/{$}", stackLog(api.CreateHandler(healthHandler.GetHealthLive)))
+	router.Handle("GET /health/ready/{$}", stackLog(api.CreateHandler(healthHandler.GetHealthReady)))
 }

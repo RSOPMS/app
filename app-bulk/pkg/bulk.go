@@ -2,52 +2,97 @@ package pkg
 
 import (
 	"database/sql"
+	"errors"
 )
 
-func CreateNewProject(db *sql.DB, title string) (*Project, error) {
-	query := `
-	INSERT INTO project (title)
-	  VALUES ($1)
-	 RETURNING id, title
-	`
-	newProject := &Project{}
-
-	err := db.QueryRow(query, title).Scan(
-		&newProject.Id,
-		&newProject.Title,
-	)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return newProject, err
+type ProjectInput struct {
+	Title string `json:"title"`
 }
 
-func CreateNewIssue(db *sql.DB, issue Issue) (*Issue, error) {
-	query := `
-	INSERT INTO issue (title, description, project_id, status_id, priority_id, branch_id, created_at)
-	  VALUES ($1, $2, $3, $4, $5, $6, NOW())
-	 RETURNING id, title, description, project_id, status_id, priority_id, branch_id, created_at
-	`
-	newIssue := &Issue{}
+type IssueInput struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Project     string `json:"project"`
+	Status      string `json:"status"`
+	Priority    string `json:"priority"`
+	Branch      string `json:"branch"`
+}
 
-	err := db.QueryRow(query, issue.Title, issue.Description, issue.ProjectId, issue.StatusId, issue.PriorityId, issue.BranchId).Scan(
-		&newIssue.Id,
-		&newIssue.Title,
-		&newIssue.Description,
-		&newIssue.ProjectId,
-		&newIssue.StatusId,
-		&newIssue.PriorityId,
-		&newIssue.BranchId,
-		&newIssue.CreatedAt,
-	)
+type InputPayload struct {
+	Projects []ProjectInput `json:"projects"`
+	Issues   []IssueInput   `json:"issues"`
+}
 
-	if err != nil {
-		return nil, err
+func AddPayloadToDB(db *sql.DB, payload InputPayload) error {
+	for _, project := range payload.Projects {
+		err := CreateNewProject(db, project.Title)
+		if err != nil {
+			return err
+		}
 	}
 
-	return newIssue, err
+	// Add new issues
+	for _, issue := range payload.Issues {
+		projectId, err := GetProjectIdByTitle(db, issue.Project)
+		if err != nil {
+			return err
+		}
+		if projectId == 0 {
+			return errors.New("missing or invalid project ID")
+		}
+
+		statusId, err := GetStatusIdByName(db, issue.Status)
+		if err != nil {
+			return err
+		}
+		if statusId == 0 {
+			return errors.New("missing or invalid status ID")
+		}
+
+		priorityId, err := GetPriorityIdByName(db, issue.Priority)
+		if err != nil {
+			return err
+		}
+		if priorityId == 0 {
+			return errors.New("missing or invalid priority ID")
+		}
+
+		branchId, err := GetBranchIdByName(db, issue.Branch)
+		if err != nil {
+			return err
+		}
+		if branchId == 0 {
+			return errors.New("missing or invalid branch ID")
+		}
+
+		err = CreateNewIssue(db, issue.Title, issue.Description, projectId, statusId, priorityId, branchId)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func CreateNewProject(db *sql.DB, title string) error {
+	query := `
+	INSERT INTO project (title)
+	  VALUES ($1);
+	`
+
+	_, err := db.Exec(query, title)
+	return err
+}
+
+func CreateNewIssue(db *sql.DB, title string, desc string, pId int, sId int, prId int, bId int) error {
+	query := `
+	INSERT INTO issue (title, description, project_id, status_id, priority_id, branch_id, created_at)
+	  VALUES ($1, $2, $3, $4, $5, $6, NOW());
+	`
+
+	_, err := db.Exec(query, title, desc, pId, sId, prId, bId)
+
+	return err
 }
 
 func GetProjectIdByTitle(db *sql.DB, title string) (int, error) {
