@@ -51,3 +51,25 @@ func (h *ProjectHandler) GetIssuesTable(w http.ResponseWriter, r *http.Request) 
 
 	return template.RenderIssue(w, "issuesTable", issues)
 }
+
+func (h *ProjectHandler) PostProjectNew(w http.ResponseWriter, r *http.Request) error {
+	// Parse form values
+	err := r.ParseForm()
+	if err != nil {
+		return err
+	}
+
+	// Extract values
+	title := r.FormValue("title")
+
+	createdProject := pkg.Project{
+		Title: title,
+	}
+
+	newProject, err := pkg.CreateNewProject(h.Db, createdProject)
+	if err != nil {
+		return err
+	}
+
+	return template.RenderProject(w, "projectRow", newProject)
+}

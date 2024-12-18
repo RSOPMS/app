@@ -1,10 +1,33 @@
 {{ define "projectsPage" }}
   {{ template "top" }}
   <h1>Projects</h1>
+  <button onclick="document.getElementById('new-project-dialog').showModal()">Add New Project</button>
   <div hx-get="{{ urlPrefixIssue }}/api/projects/table/"
        hx-trigger="load"
        hx-swap="outerHTML">
   </div>
+
+  <dialog id="new-project-dialog">
+    <form action="{{ urlPrefixIssue }}/api/projects/"
+          method="dialog"
+          hx-post="{{ urlPrefixIssue }}/api/projects/"
+          hx-boost="true"
+          hx-trigger="submit"
+          hx-swap="afterend"
+          hx-target="#projectsTableBody">
+      <h3>Create New Project</h3>
+
+      <div>
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" placeholder="Project title" required>
+      </div>
+
+      <div>
+        <button type="submit" onclick="document.getElementById('new-project-dialog').close()">Create project</button>
+        <button type="button" onclick="document.getElementById('new-project-dialog').close()">Cancel</button>
+      </div>
+    </form>
+  </dialog>
   {{ template "bot" }}
 {{ end }}
 

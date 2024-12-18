@@ -68,3 +68,23 @@ func ReadIssues(db *sql.DB, projectId string) ([]*Issue, error) {
 
 	return issues, err
 }
+
+func CreateNewProject(db *sql.DB, project Project) (*Project, error) {
+	query := `
+	INSERT INTO project (title)
+	  VALUES ($1)
+	 RETURNING id, title
+	`
+	newProject := &Project{}
+
+	err := db.QueryRow(query, project.Title).Scan(
+		&newProject.Id,
+		&newProject.Title,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return newProject, err
+}
