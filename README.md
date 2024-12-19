@@ -22,6 +22,24 @@ Project management software
 
 [![(app-bulk) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/app-bulk.yaml/badge.svg?branch=dev&event=push)](https://github.com/RSOPMS/app/actions/workflows/app-bulk.yaml)
 
+## :wrench: Development
+
+Run the following command to initialize the project for local development:
+
+```sh
+make init
+```
+
+> [!TIP]
+>
+> Optionally install [editorconfig](https://editorconfig.org/) editor plugin for a consistent coding style
+
+### Repository structure
+
+Root directory contains mostly common configuration files and kubernetes configurations.
+Each microservice is its own module.
+Refer to each services' `README.md` file for development instructions.
+
 ## :computer: Local Kubernetes setup
 
 ### Prerequsites

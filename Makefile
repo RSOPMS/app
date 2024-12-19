@@ -1,5 +1,31 @@
 # =============================================================================
-# Dev
+# Init
+# =============================================================================
+
+.PHONY: init
+init: clean
+	@ln -s ../.env app-bulk/.env
+	@ln -s ../.env app-issue/.env
+	@ln -s ../.env app-static/.env
+	@ln -s ../.env database/.env
+
+	@ln -s ../.air.toml app-bulk/.air.toml
+	@ln -s ../.air.toml app-issue/.air.toml
+	@ln -s ../.air.toml app-static/.air.toml
+
+.PHONY: clean
+clean:
+	@rm -rf app-bulk/.env
+	@rm -rf app-issue/.env
+	@rm -rf app-static/.env
+	@rm -rf database/.env
+
+	@rm -rf app-bulk/.air.toml
+	@rm -rf app-issue/.air.toml
+	@rm -rf app-static/.air.toml
+
+# =============================================================================
+# k8s dev
 # =============================================================================
 
 .PHONY: k8s-dev
@@ -18,7 +44,7 @@ k8s-dev-issue: app-issue-build app-issue-start
 k8s-dev-bulk: app-bulk-build app-bulk-start
 
 ## ----------------------------------------------------------------------------
-## Dev build
+## k8s dev build
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-build
@@ -45,7 +71,7 @@ app-bulk-build:
 	@docker build -f ./app-bulk/Dockerfile --tag bugbase-bulk:latest .
 
 ## ----------------------------------------------------------------------------
-## Dev start
+## k8s dev start
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-start
@@ -80,7 +106,7 @@ app-bulk-start:
 	@kubectl apply -f ./k8s/app-bulk.yaml
 
 ## ----------------------------------------------------------------------------
-## Dev stop
+## k8s dev stop
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-stop

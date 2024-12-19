@@ -38,6 +38,16 @@ All notable changes to this project will be documented in this file.
 - Feat #31: Create new issue form works ([c2e3b83](c2e3b8391b26a44b47eba1d9841b1dace6bd94d2))
 - Feat #30: Created form for adding comments ([ba06d48](ba06d48583a9fdd9d1bcd7875944b3cac5965732))
 - Feat #32: Added functionality to POST new projects ([3c0390b](3c0390b505d090bfcb701b3522594adcadfe1e82))
+- #49 working bulk service skeleton (with healthchecks) ([1576bef](1576bef4878bf439fbf7b82dffa24267bd5d5f7c))
+- #49 progress push ([54e7eff](54e7eff729a2b5d2c9d32630b83a00e86f7cd3c5))
+- #49 removed unnecesary files ([25628b7](25628b7c768ea8cc7dbc20ea3d107bb02fff257e))
+- #49 working with some DB bugs/required improvements ([057444e](057444ea8e97e5c862973df8516be407cf173ed6))
+- #49 k8s stuff + makefile (not tested) ([cf8bc8a](cf8bc8ae9db082e3636ec621c1de86c9b71d9a06))
+- #49 added project and issue table constraints ([1be0756](1be0756efb2224e4db25ed4433f8ac50afddbe32))
+- #49 CI for bulk service ([1a27486](1a274861c5acf90d04b25fc2acbabb8640a7419c))
+- #49 README update to include app-bulk status ([c562302](c562302837589153acb6ba92708488a7d8c3de09))
+- #49 README update, forgot dev status ([f01d352](f01d352ff395e9f11ecf5b2a7772a71f5c66c6f7))
+- #56 added missing data to issue page ([98eeafc](98eeafce623a5c1e57551167bd55ff52f3558164))
 
 ### <!-- 1 -->🐛 Bug Fixes
 
@@ -63,6 +73,10 @@ All notable changes to this project will be documented in this file.
 - Fix #31: Refactoring code ([df0979f](df0979f815950916e437e9aa56b92a401b92e918))
 - Fix #31: Refactoring code 2 ([8910193](8910193c64d819fcc9036514f2c04d979dfc7d43))
 - Fix #30: Fixing URLs and code formatting ([66e8e00](66e8e00f23735cc4d37eb632cf43cb1e71efa9b9))
+- #49 bug fixes/validation/constraints ([b4df9dd](b4df9dd3309708abf19a6a92f5d5a5e63dd7b9c2))
+- #49 bug fixes for running app-bulk service in k8s (works now) ([3e7ea0b](3e7ea0bd8dd74a2110d0854e2e98956b27fbf51c))
+- #49 requisted fixes ([b0fce48](b0fce489cef8789a00dda9e1d8bd1290290663dc))
+- #49 fix ([6cb144d](6cb144da4fca62f7e2b1748277b0313fd6402bb4))
 
 ### <!-- 10 -->💼 Other
 
@@ -81,6 +95,9 @@ All notable changes to this project will be documented in this file.
 - Merge pull request #48 from RSOPMS/feat/add-new-issue ([6de6315](6de6315b1c98e2ab2c90f47fe50d36e7582e81e2))
 - Merge pull request #54 from RSOPMS/30-add-new-comment ([eee5043](eee50436a08074d0e79c58d915ddcf9efb7b6ae1))
 - Merge pull request #55 from RSOPMS/32-add-new-project ([0140ea7](0140ea7a5bc0638ec58d0140912bf037a5aeb48c))
+- Merge pull request #57 from RSOPMS/49-create-bulk-ingress-service ([13fbe23](13fbe236591247ee2c5a3904df96fad1431782b7))
+- Merge 56-missing-data into prb/dev/56-missing-data ([7b8ef7c](7b8ef7ccc28efab30bbd5c74ffa1f2ca3feaa4b2))
+- Merge pull request #60 from RSOPMS/prb/dev/56-missing-data ([1622959](16229599d0b86121d4dce0ee7aa6e8e218b37055))
 
 ### <!-- 2 -->🚜 Refactor
 
@@ -106,3 +123,7 @@ All notable changes to this project will be documented in this file.
 - #42 prepare package for multiple keys ([b7aa39c](b7aa39c0bb9c00446f593d47a17fbaf2549ef730))
 - #35 unify indentation style ([e5fe187](e5fe187a169be4c4c5b0817b391a07f696ea801c))
 - #31 update modal code ([46022bd](46022bd6eb5d65f4e2e952792fb5b3f39e9f592f))
+- #32 code formatting and update changelog ([e578ae7](e578ae7f99c0215949495e588ecdf8098e509493))
+- #56 code formatting ([d3a17a6](d3a17a62eaf452061499ff178a439efe2f592da4))
+
+
