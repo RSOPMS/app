@@ -45,13 +45,13 @@ func ReadIssues(db *sql.DB, projectId string) ([]*Issue, error) {
 	       issue.title,
 	       issue.description,
 	       issue.project_id,
-		   branch.name,
+	       branch.name,
 	       status.name,
 	       priority.name
 	  FROM issue
 	  JOIN status   ON issue.status_id = status.id
 	  JOIN priority ON issue.priority_id = priority.id
-	  JOIN branch ON issue.branch_id = branch.id
+	  JOIN branch   ON issue.branch_id = branch.id
 	 WHERE issue.project_id = $1
 	 ORDER BY issue.created_at DESC;
     `
@@ -64,7 +64,13 @@ func ReadIssues(db *sql.DB, projectId string) ([]*Issue, error) {
 	issues := []*Issue{}
 	for rows.Next() {
 		issue := &Issue{}
-		rows.Scan(&issue.Id, &issue.Title, &issue.Description, &issue.ProjectId, &issue.BranchName, &issue.StatusName, &issue.PriorityName)
+		rows.Scan(&issue.Id,
+			&issue.Title,
+			&issue.Description,
+			&issue.ProjectId,
+			&issue.BranchName,
+			&issue.StatusName,
+			&issue.PriorityName)
 		issues = append(issues, issue)
 	}
 
