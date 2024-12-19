@@ -4,6 +4,7 @@
     <tr>
       <th>Title</th>
       <th>Description</th>
+      <th>Branch</th>
       <th>Status</th>
       <th>Priority</th>
     </tr>
@@ -22,6 +23,7 @@
     <a href="{{ urlPrefixIssue }}/issues/{{ .Id }}/">{{ .Title }}</a>
   </td>
   <td>{{ .Description }}</td>
+  <td>{{ .BranchName }}</td>
   <td>{{ .StatusName }}</td>
   <td>{{ .PriorityName }}</td>
 </tr>
