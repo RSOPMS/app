@@ -11,21 +11,29 @@ func ReadIssue(db *sql.DB, id string) (*Issue, error) {
 	       issue.description,
 	       issue.project_id,
 	       status.name,
-	       priority.name
+	       priority.name,
+	       branch.name,
+	       branch.url,
+	       issue.created_at
 	  FROM issue
 	  JOIN status   ON issue.status_id = status.id
 	  JOIN priority ON issue.priority_id = priority.id
+	  JOIN branch   ON issue.branch_id = branch.id
 	 WHERE issue.id = $1;
 	`
 
 	issue := &Issue{}
-
-	err := db.QueryRow(query, id).Scan(&issue.Id,
+	err := db.QueryRow(query, id).Scan(
+		&issue.Id,
 		&issue.Title,
 		&issue.Description,
 		&issue.ProjectId,
 		&issue.StatusName,
-		&issue.PriorityName)
+		&issue.PriorityName,
+		&issue.BranchName,
+		&issue.BranchUrl,
+		&issue.CreatedAt,
+	)
 	if err != nil {
 		return nil, err
 	}
