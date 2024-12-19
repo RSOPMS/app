@@ -15,6 +15,8 @@ type Issue struct {
 	StatusId     int
 	PriorityId   int
 	BranchId     int
+	BranchName   string
+	BranchUrl    string
 	CreatedAt    string
 }
 

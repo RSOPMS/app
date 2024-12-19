@@ -1,9 +1,11 @@
 {{ define "issuePage" }}
   {{ template "top" }}
   <h1>{{ .Title }}</h1>
+  <p>Branch:<a href="{{ .BranchUrl }}">{{ .BranchName }}</a></p>
   <p>Status: {{ .StatusName }}</p>
   <p>Priority: {{ .PriorityName }}</p>
   <p>{{ .Description }}</p>
+  <p>Created by: {{ .CreatedAt }}</p>
   <h2>Comments</h2>
   <button onclick="document.getElementById('new-comment-dialog').showModal()">Add New Comment</button>
   <div hx-get="{{ urlPrefixIssue }}/api/issues/{{ .Id }}/comments/table/"
