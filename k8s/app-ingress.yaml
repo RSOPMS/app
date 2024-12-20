@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bugbase-ingress-deployment
+  labels:
+    app: bugbase-ingress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bugbase-ingress
+  template:
+    metadata:
+      labels:
+        app: bugbase-ingress
+    spec:
+      containers:
+        - name: bugbase-ingress
+          image: bugbase-ingress
+          resources:
+            limits:
+              memory: 128Mi
+              cpu: 500m
+          ports:
+            - containerPort: 8083
+              name: server
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          env:
+            - name: PORT_APP_INGRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: PORT_APP_INGRESS
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_NAME
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_USER
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_PORT
+            - name: DB_SSL_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: DB_SSL_MODE
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bugbase-secret
+                  key: DB_PASSWORD
+          # WARN: Currently only for local testing. Remove for production deployment.
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bugbase-ingress-service
+spec:
+  type: ClusterIP
+  selector:
+    app: bugbase-ingress
+  ports:
+    - port: 8083
+      protocol: TCP
+      targetPort: server

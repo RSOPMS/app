@@ -32,3 +32,10 @@ spec:
                 name: bugbase-bulk-service
                 port:
                   number: 8082
+          - path: /ingress(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: bugbase-ingress-service
+                port:
+                  number: 8083
