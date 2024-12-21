@@ -43,12 +43,15 @@ k8s-dev-issue: app-issue-build app-issue-start
 .PHONY: k8s-dev-bulk
 k8s-dev-bulk: app-bulk-build app-bulk-start
 
+.PHONY: k8s-dev-login
+k8s-dev-login: app-login-build app-login-start
+
 ## ----------------------------------------------------------------------------
 ## k8s dev build
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-build
-k8s-dev-build: database-build app-static-build app-issue-build app-bulk-build
+k8s-dev-build: database-build app-static-build app-issue-build app-bulk-build app-login-build
 
 .PHONY: database-build
 database-build:
@@ -70,12 +73,16 @@ app-issue-build:
 app-bulk-build:
 	@docker build -f ./app-bulk/Dockerfile --tag bugbase-bulk:latest .
 
+.PHONY: app-login-build
+app-login-build:
+	@docker build -f ./app-login/Dockerfile --tag bugbase-login:latest .
+
 ## ----------------------------------------------------------------------------
 ## k8s dev start
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-start
-k8s-dev-start: configmap-start secret-start ingress-start database-start app-static-start app-issue-start app-bulk-start
+k8s-dev-start: configmap-start secret-start ingress-start database-start app-static-start app-issue-start app-bulk-start app-login-start
 
 .PHONY: configmap-start
 configmap-start:
@@ -105,12 +112,16 @@ app-issue-start:
 app-bulk-start:
 	@kubectl apply -f ./k8s/app-bulk.yaml
 
+.PHONY: app-login-start
+app-login-start:
+	@kubectl apply -f ./k8s/app-login.yaml
+
 ## ----------------------------------------------------------------------------
 ## k8s dev stop
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-stop
-k8s-dev-stop: configmap-stop secret-stop ingress-stop database-stop app-static-stop app-issue-stop app-bulk-stop
+k8s-dev-stop: configmap-stop secret-stop ingress-stop database-stop app-static-stop app-issue-stop app-bulk-stop app-login-stop
 
 .PHONY: configmap-stop
 configmap-stop:
@@ -139,3 +150,7 @@ app-issue-stop:
 .PHONY: app-bulk-stop
 app-bulk-stop:
 	@kubectl delete -f ./k8s/app-bulk.yaml
+
+.PHONY: app-login-stop
+app-login-stop:
+	@kubectl delete -f ./k8s/app-login.yaml
