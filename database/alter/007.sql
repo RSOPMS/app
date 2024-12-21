@@ -7,8 +7,7 @@ CREATE TABLE IF NOT EXISTS issue (
     priority_id SERIAL    REFERENCES priority(id),
     branch_id   SERIAL    REFERENCES branch(id),
     created_at  TIMESTAMP NOT NULL DEFAULT now(),
-    UNIQUE (title, project_id, branch_id),
-    CHECK (title <> '' AND title ~* '[^\s]')
+    UNIQUE (title, project_id, branch_id)
 );
 
 

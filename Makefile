@@ -34,6 +34,9 @@ k8s-dev: k8s-dev-build k8s-dev-start
 .PHONY: k8s-dev-database
 k8s-dev-database: database-build database-start
 
+.PHONY: k8s-dev-grafana
+k8s-dev-grafana: grafana-build grafana-start
+
 .PHONY: k8s-dev-static
 k8s-dev-static: app-static-build app-static-start
 
@@ -48,7 +51,7 @@ k8s-dev-bulk: app-bulk-build app-bulk-start
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-build
-k8s-dev-build: database-build app-static-build app-issue-build app-bulk-build
+k8s-dev-build: database-build grafana-build app-static-build app-issue-build app-bulk-build
 
 .PHONY: database-build
 database-build:
@@ -57,6 +60,10 @@ database-build:
 	@cp ./database/alter/* ./database/initdb/
 	@cp ./database/mock/* ./database/initdb/
 	@docker build -f ./database/Dockerfile --tag bugbase-database:latest .
+
+.PHONY: grafana-build
+grafana-build:
+	@echo "TODO"
 
 .PHONY: app-static-build
 app-static-build:
@@ -75,7 +82,7 @@ app-bulk-build:
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-start
-k8s-dev-start: configmap-start secret-start ingress-start database-start app-static-start app-issue-start app-bulk-start
+k8s-dev-start: configmap-start secret-start ingress-start database-start grafana-start app-static-start app-issue-start app-bulk-start
 
 .PHONY: configmap-start
 configmap-start:
@@ -92,6 +99,10 @@ ingress-start:
 .PHONY: database-start
 database-start:
 	@kubectl apply -f ./k8s/database.yaml
+
+.PHONY: grafana-start
+grafana-start:
+	@kubectl apply -f ./k8s/grafana.yaml
 
 .PHONY: app-static-start
 app-static-start:
@@ -110,7 +121,7 @@ app-bulk-start:
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-stop
-k8s-dev-stop: configmap-stop secret-stop ingress-stop database-stop app-static-stop app-issue-stop app-bulk-stop
+k8s-dev-stop: configmap-stop secret-stop ingress-stop database-stop grafana-stop app-static-stop app-issue-stop app-bulk-stop
 
 .PHONY: configmap-stop
 configmap-stop:
@@ -127,6 +138,10 @@ ingress-stop:
 .PHONY: database-stop
 database-stop:
 	@kubectl delete -f ./k8s/database.yaml
+
+.PHONY: grafana-stop
+grafana-stop:
+	@kubectl delete -f ./k8s/grafana.yaml
 
 .PHONY: app-static-stop
 app-static-stop:

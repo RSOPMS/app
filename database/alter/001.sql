@@ -1,7 +1,6 @@
 CREATE TABLE IF NOT EXISTS project (
     id    SERIAL PRIMARY KEY,
-    title TEXT   NOT NULL UNIQUE,
-    CHECK (title <> '' AND title ~* '[^\s]')
+    title TEXT   NOT NULL UNIQUE
 );
 
 COMMENT ON TABLE  project       IS 'Project information';
