@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"framework/api"
 	"net/http"
+	"os"
 )
 
 func ProcessLogin(db *sql.DB, email string, password string) (*http.Cookie, error) {
@@ -20,13 +21,8 @@ func ProcessLogin(db *sql.DB, email string, password string) (*http.Cookie, erro
 	}
 
 	// Create a new JwtHandler
-	jwtHandler := api.NewJwtHandler("jwt", []byte("superDuperSecret"))
+	jwtHandler := api.NewJwtHandler("jwt", []byte(os.Getenv("JWT_SECRET")))
 
 	// Process the login
-	cookie, err := jwtHandler.ProcessLogin(email, password, passwordHash)
-	if err != nil {
-		return nil, err
-	}
-
-	return cookie, nil
+	return jwtHandler.ProcessLogin(email, password, passwordHash)
 }

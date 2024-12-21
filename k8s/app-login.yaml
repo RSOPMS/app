@@ -82,6 +82,11 @@ spec:
                 secretKeyRef:
                   name: bugbase-secret
                   key: DB_PASSWORD
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: bugbase-secret
+                  key: JWT_SECRET
           # WARN: Currently only for local testing. Remove for production deployment.
           imagePullPolicy: Never
 ---

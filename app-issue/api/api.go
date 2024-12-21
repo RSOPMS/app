@@ -32,19 +32,17 @@ func (s *ApiServer) Run() error {
 }
 
 func (s *ApiServer) registerHandlers(router *http.ServeMux) {
-	// Auth
-	log.Println("PORT_APP_LOGIN", os.Getenv("PORT_APP_LOGIN"))
-	jwtHandler := api.NewJwtHandler("jwt", []byte("superDuperSecret"))
-	onUnauthorized := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, os.Getenv("URL_PREFIX_LOGIN")+"/", http.StatusSeeOther)
-	})
+	jwtHandler := api.NewJwtHandler("jwt", []byte(os.Getenv("JWT_SECRET")))
 
 	// Middleware
 	stackLog := api.CreateMiddlewareStack(api.LoggingMiddleware)
 	stackLogAuth := api.CreateMiddlewareStack(
 		api.LoggingMiddleware,
 		func(next http.Handler) http.Handler {
-			return api.AuthMiddleware(*jwtHandler, onUnauthorized, next)
+			return api.AuthMiddleware(*jwtHandler,
+				http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+					http.Redirect(w, r, os.Getenv("URL_PREFIX_LOGIN")+"/", http.StatusSeeOther)
+				}), next)
 		},
 	)
 

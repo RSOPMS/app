@@ -18,7 +18,7 @@ func RenderLoginLayout(wr io.Writer, name string, data any) error {
 
 func getFuncMap() template.FuncMap {
 	return template.FuncMap{
-		"urlPrefixIssue": func() template.URL {
+		"urlPrefixLogin": func() template.URL {
 			return template.URL(os.Getenv("URL_PREFIX_LOGIN"))
 		},
 		"urlPrefixStatic": func() template.URL {
