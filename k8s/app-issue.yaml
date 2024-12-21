@@ -37,11 +37,6 @@ spec:
             initialDelaySeconds: 20
             periodSeconds: 5
           env:
-            - name: PORT_APP_LOGIN
-              valueFrom:
-                configMapKeyRef:
-                  name: bugbase-configmap
-                  key: PORT_APP_LOGIN
             - name: PORT_APP_ISSUE
               valueFrom:
                 configMapKeyRef:
@@ -62,6 +57,11 @@ spec:
                 configMapKeyRef:
                   name: bugbase-configmap
                   key: URL_PREFIX_STATIC
+            - name: URL_PREFIX_LOGIN
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: URL_PREFIX_LOGIN
             - name: DB_NAME
               valueFrom:
                 configMapKeyRef:

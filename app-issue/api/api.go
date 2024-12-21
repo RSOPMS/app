@@ -40,7 +40,8 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	})
 
 	// Middleware
-	stackLog := api.CreateMiddlewareStack(
+	stackLog := api.CreateMiddlewareStack(api.LoggingMiddleware)
+	stackLogAuth := api.CreateMiddlewareStack(
 		api.LoggingMiddleware,
 		func(next http.Handler) http.Handler {
 			return api.AuthMiddleware(*jwtHandler, onUnauthorized, next)
@@ -49,23 +50,23 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 
 	// Project
 	projectHandler := project.NewProjectHandler(s.Db)
-	router.Handle("GET /projects/{$}", stackLog(api.CreateHandler(projectHandler.GetProjectsPage)))
-	router.Handle("GET /projects/{projectId}/{$}", stackLog(api.CreateHandler(projectHandler.GetProjectPage)))
-	router.Handle("GET /api/projects/table/{$}", stackLog(api.CreateHandler(projectHandler.GetProjectsTable)))
-	router.Handle("GET /api/projects/{projectId}/issues/table/{$}", stackLog(api.CreateHandler(projectHandler.GetIssuesTable)))
-	router.Handle("POST /api/projects/new/{$}", stackLog(api.CreateHandler(projectHandler.PostProjectNew)))
+	router.Handle("GET /projects/{$}", stackLogAuth(api.CreateHandler(projectHandler.GetProjectsPage)))
+	router.Handle("GET /projects/{projectId}/{$}", stackLogAuth(api.CreateHandler(projectHandler.GetProjectPage)))
+	router.Handle("GET /api/projects/table/{$}", stackLogAuth(api.CreateHandler(projectHandler.GetProjectsTable)))
+	router.Handle("GET /api/projects/{projectId}/issues/table/{$}", stackLogAuth(api.CreateHandler(projectHandler.GetIssuesTable)))
+	router.Handle("POST /api/projects/new/{$}", stackLogAuth(api.CreateHandler(projectHandler.PostProjectNew)))
 
 	// Issue
 	issueHandler := issue.NewIssueHandler(s.Db)
-	router.Handle("GET /issues/{issueId}/{$}", stackLog(api.CreateHandler(issueHandler.GetIssuePage)))
-	router.Handle("GET /api/issues/{issueId}/comments/table/{$}", stackLog(api.CreateHandler(issueHandler.GetCommentsTable)))
-	router.Handle("POST /api/issues/new/{$}", stackLog(api.CreateHandler(issueHandler.PostIssueNew)))
-	router.Handle("POST /api/comments/new/{$}", stackLog(api.CreateHandler(issueHandler.PostCommentNew)))
+	router.Handle("GET /issues/{issueId}/{$}", stackLogAuth(api.CreateHandler(issueHandler.GetIssuePage)))
+	router.Handle("GET /api/issues/{issueId}/comments/table/{$}", stackLogAuth(api.CreateHandler(issueHandler.GetCommentsTable)))
+	router.Handle("POST /api/issues/new/{$}", stackLogAuth(api.CreateHandler(issueHandler.PostIssueNew)))
+	router.Handle("POST /api/comments/new/{$}", stackLogAuth(api.CreateHandler(issueHandler.PostCommentNew)))
 
 	// Create new issue form
-	router.Handle("GET /api/status/form/{$}", stackLog(api.CreateHandler(issueHandler.GetStatusesForm)))
-	router.Handle("GET /api/priority/form/{$}", stackLog(api.CreateHandler(issueHandler.GetPrioritiesForm)))
-	router.Handle("GET /api/branch/form/{$}", stackLog(api.CreateHandler(issueHandler.GetBranchesForm)))
+	router.Handle("GET /api/status/form/{$}", stackLogAuth(api.CreateHandler(issueHandler.GetStatusesForm)))
+	router.Handle("GET /api/priority/form/{$}", stackLogAuth(api.CreateHandler(issueHandler.GetPrioritiesForm)))
+	router.Handle("GET /api/branch/form/{$}", stackLogAuth(api.CreateHandler(issueHandler.GetBranchesForm)))
 
 	// Health
 	healthHandler := health.NewHealthHandler(s.Db)
