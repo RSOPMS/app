@@ -6,22 +6,26 @@
 init: clean
 	@ln -s ../.env app-bulk/.env
 	@ln -s ../.env app-issue/.env
+	@ln -s ../.env app-login/.env
 	@ln -s ../.env app-static/.env
 	@ln -s ../.env database/.env
 
 	@ln -s ../.air.toml app-bulk/.air.toml
 	@ln -s ../.air.toml app-issue/.air.toml
+	@ln -s ../.air.toml app-login/.air.toml
 	@ln -s ../.air.toml app-static/.air.toml
 
 .PHONY: clean
 clean:
 	@rm -rf app-bulk/.env
 	@rm -rf app-issue/.env
+	@rm -rf app-login/.env
 	@rm -rf app-static/.env
 	@rm -rf database/.env
 
 	@rm -rf app-bulk/.air.toml
 	@rm -rf app-issue/.air.toml
+	@rm -rf app-login/.air.toml
 	@rm -rf app-static/.air.toml
 
 # =============================================================================
