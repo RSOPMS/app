@@ -8,6 +8,7 @@ import (
 	"framework/api"
 	"log"
 	"net/http"
+	"os"
 )
 
 type ApiServer struct {
@@ -31,8 +32,20 @@ func (s *ApiServer) Run() error {
 }
 
 func (s *ApiServer) registerHandlers(router *http.ServeMux) {
+	// Auth
+	log.Println("PORT_APP_LOGIN", os.Getenv("PORT_APP_LOGIN"))
+	jwtHandler := api.NewJwtHandler("jwt", []byte("superDuperSecret"))
+	onUnauthorized := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "http://localhost:"+os.Getenv("PORT_APP_LOGIN")+"/", http.StatusSeeOther)
+	})
+
 	// Middleware
-	stackLog := api.CreateMiddlewareStack(api.LoggingMiddleware)
+	stackLog := api.CreateMiddlewareStack(
+		api.LoggingMiddleware,
+		func(next http.Handler) http.Handler {
+			return api.AuthMiddleware(*jwtHandler, onUnauthorized, next)
+		},
+	)
 
 	// Project
 	projectHandler := project.NewProjectHandler(s.Db)

@@ -3,6 +3,7 @@ package login
 import (
 	"app-login/template"
 	"database/sql"
+	"log"
 	"net/http"
 )
 
@@ -19,11 +20,16 @@ func NewLoginHandler(db *sql.DB) *LoginHandler {
 func (h *LoginHandler) GetLoginPage(w http.ResponseWriter, r *http.Request) error {
 	w.WriteHeader(http.StatusOK)
 
-	return template.RenderLoginLayout(w, "loginPage", "test")
+	return template.RenderLoginLayout(w, "loginPage", nil)
 }
 
-func (h *LoginHandler) PostUserLogin(w http.ResponseWriter, r *http.Request) error {
+func (h *LoginHandler) ProcessLogin(w http.ResponseWriter, r *http.Request) error {
 	w.WriteHeader(http.StatusOK)
 
+	username := r.FormValue("username")
+	password := r.FormValue("password")
+
+	log.Println("Username:", username)
+	log.Println("Password:", password)
 	return nil
 }

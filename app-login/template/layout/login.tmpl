@@ -1,15 +1,10 @@
 {{ define "loginPage" }}
   {{ template "top" }}
   <h1>Login</h1>
-  <form method="POST" action="/">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    <br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <br>
-    <button type="submit">Login</button>
-    <button type="button" onclick="window.location.href='/register'">Register</button>
+  <form id="loginForm" method="post" hx-post="/" hx-target="#loginForm" hx-swap="outerHTML">
+    <input type="text" name="username" placeholder="Enter Username" required><br>
+    <input type="password" name="password" placeholder="Enter Password" required><br>
+    <input type="submit" value="Log In">
   </form>
   {{ template "bot" }}
 {{ end }}
