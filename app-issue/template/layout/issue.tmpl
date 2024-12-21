@@ -1,10 +1,13 @@
 {{ define "issuePage" }}
   {{ template "top" }}
-  <h1>{{ .Title }}</h1>
-  <p>Branch:<a href="{{ .BranchUrl }}">{{ .BranchName }}</a></p>
+  <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+      <h1>{{ .Title }}</h1>
+      <a href="{{ urlPrefixIssue }}/projects/{{ .ProjectId }}/">{{ .ProjectName }}</a>
+  </div>
+  <p>{{ .Description }}</p>
+  <p>Branch: <a href="{{ .BranchUrl }}">{{ .BranchName }}</a></p>
   <p>Status: {{ .StatusName }}</p>
   <p>Priority: {{ .PriorityName }}</p>
-  <p>{{ .Description }}</p>
   <p>Created at: {{ .CreatedAt }}</p>
   <h2>Comments</h2>
   <button onclick="document.getElementById('new-comment-dialog').showModal()">Add New Comment</button>

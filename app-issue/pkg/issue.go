@@ -10,6 +10,7 @@ func ReadIssue(db *sql.DB, id string) (*Issue, error) {
 	       issue.title,
 	       issue.description,
 	       issue.project_id,
+	       project.title,
 	       status.name,
 	       priority.name,
 	       branch.name,
@@ -19,6 +20,7 @@ func ReadIssue(db *sql.DB, id string) (*Issue, error) {
 	  JOIN status   ON issue.status_id = status.id
 	  JOIN priority ON issue.priority_id = priority.id
 	  JOIN branch   ON issue.branch_id = branch.id
+	  JOIN project  ON issue.project_id = project.id
 	 WHERE issue.id = $1;
 	`
 
@@ -28,6 +30,7 @@ func ReadIssue(db *sql.DB, id string) (*Issue, error) {
 		&issue.Title,
 		&issue.Description,
 		&issue.ProjectId,
+		&issue.ProjectName,
 		&issue.StatusName,
 		&issue.PriorityName,
 		&issue.BranchName,
