@@ -1,8 +1,11 @@
 {{ define "loginPage" }}
   {{ template "top" }}
   <h1>Login</h1>
+  {{ if .Error }}
+    <div class="error">{{ .Error }}</div>
+  {{ end }}
   <form id="loginForm" method="post" hx-post="/" hx-target="#loginForm" hx-swap="outerHTML">
-    <input type="text" name="username" placeholder="Enter Username" required><br>
+    <input type="text" name="e-mail" placeholder="Enter E-mail" required><br>
     <input type="password" name="password" placeholder="Enter Password" required><br>
     <input type="submit" value="Log In">
   </form>

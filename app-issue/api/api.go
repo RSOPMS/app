@@ -36,7 +36,7 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	log.Println("PORT_APP_LOGIN", os.Getenv("PORT_APP_LOGIN"))
 	jwtHandler := api.NewJwtHandler("jwt", []byte("superDuperSecret"))
 	onUnauthorized := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "http://localhost:"+os.Getenv("PORT_APP_LOGIN")+"/", http.StatusSeeOther)
+		http.Redirect(w, r, os.Getenv("URL_PREFIX_LOGIN")+"/", http.StatusSeeOther)
 	})
 
 	// Middleware
