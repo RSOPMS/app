@@ -1,6 +1,7 @@
 package login
 
 import (
+	"app-login/template"
 	"database/sql"
 	"net/http"
 )
@@ -15,7 +16,13 @@ func NewLoginHandler(db *sql.DB) *LoginHandler {
 	}
 }
 
-func (h *LoginHandler) GetLoginLive(w http.ResponseWriter, r *http.Request) error {
+func (h *LoginHandler) GetLoginPage(w http.ResponseWriter, r *http.Request) error {
+	w.WriteHeader(http.StatusOK)
+
+	return template.RenderLoginLayout(w, "loginPage", "test")
+}
+
+func (h *LoginHandler) PostUserLogin(w http.ResponseWriter, r *http.Request) error {
 	w.WriteHeader(http.StatusOK)
 
 	return nil

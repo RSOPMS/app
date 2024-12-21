@@ -32,3 +32,10 @@ spec:
                 name: bugbase-bulk-service
                 port:
                   number: 8082
+          - path: /login(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: bugbase-login-service
+                port:
+                  number: 8084
