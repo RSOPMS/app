@@ -3,8 +3,8 @@ package api
 import (
 	"app-issue/api/handler/health"
 	"app-issue/api/handler/issue"
-	"app-issue/api/handler/welcome"
 	"app-issue/api/handler/project"
+	"app-issue/api/handler/welcome"
 	"database/sql"
 	"framework/api"
 	"log"

@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-type WelcomeHandler struct {}
+type WelcomeHandler struct{}
 
 func NewWelcomeHandler() *WelcomeHandler {
 	return &WelcomeHandler{}
