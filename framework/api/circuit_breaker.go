@@ -17,7 +17,6 @@ const (
 type CircuitBreaker struct {
 	state            CircuitBreakerState
 	failureCount     int
-	successCount     int
 	failureThreshold int
 	recoveryTimeout  time.Duration
 	mutex            sync.Mutex
