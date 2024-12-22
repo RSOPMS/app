@@ -77,6 +77,12 @@ label {
   color: #104433;
   font-weight: bold;
 }
+input:user-invalid {
+  background-color: #e87f71;
+}
+input:user-valid {
+  background-color: #10b981;
+}
 
 dialog {
   padding: 1rem;

@@ -33,17 +33,15 @@ func (s *ApiServer) Run() error {
 
 func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	jwtHandler := api.NewJwtHandler("jwt", []byte(os.Getenv("JWT_SECRET")))
+	authHandler := api.NewAuthHandler(*jwtHandler, func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, os.Getenv("URL_PREFIX_LOGIN")+"/", http.StatusSeeOther)
+	})
 
 	// Middleware
 	stackLog := api.CreateMiddlewareStack(api.LoggingMiddleware)
 	stackLogAuth := api.CreateMiddlewareStack(
 		api.LoggingMiddleware,
-		func(next http.Handler) http.Handler {
-			return api.AuthMiddleware(*jwtHandler,
-				http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-					http.Redirect(w, r, os.Getenv("URL_PREFIX_LOGIN")+"/", http.StatusSeeOther)
-				}), next)
-		},
+		authHandler.AuthMiddleware,
 	)
 
 	// Project

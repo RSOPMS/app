@@ -1,25 +1,18 @@
 {{ define "loginPage" }}
   {{ template "top" }}
   <h1>Login</h1>
-  <form id="loginForm"
-        action="{{ urlPrefixLogin }}/"
-        method="post" 
-        hx-post="{{ urlPrefixLogin }}/" 
-        hx-boost="true" 
-        hx-trigger="submit"
-        hx-target="#loginForm" 
-        hx-swap="outerHTML">
-    <div>
-      <label for="email">E-mail</label>
-      <input type="text" id="email" name="e-mail" placeholder="Enter E-mail" required>
-    </div>
-    <div>
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Enter Password" required>
-    </div>
-    <div>
+  <div style="display: flex; justify-content: center;">
+    <form action="{{ urlPrefixLogin }}/" method="post" hx-boost="true">
+      <div>
+        <label for="email">E-mail</label>
+        <input type="text" id="email" name="e-mail" placeholder="e-mail" required>
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="password" required>
+      </div>
       <button type="submit">Log In</button>
-    </div>
-  </form>
+    </form>
+  </div>
   {{ template "bot" }}
 {{ end }}
