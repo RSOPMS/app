@@ -62,6 +62,11 @@ spec:
                 configMapKeyRef:
                   name: bugbase-configmap
                   key: URL_PREFIX_LOGIN
+            - name: JWT_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: JWT_NAME
             - name: DB_NAME
               valueFrom:
                 configMapKeyRef:

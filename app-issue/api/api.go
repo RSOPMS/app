@@ -32,7 +32,7 @@ func (s *ApiServer) Run() error {
 }
 
 func (s *ApiServer) registerHandlers(router *http.ServeMux) {
-	jwtHandler := api.NewJwtHandler("jwt", []byte(os.Getenv("JWT_SECRET")))
+	jwtHandler := api.NewJwtHandler(os.Getenv("JWT_NAME"), []byte(os.Getenv("JWT_SECRET")))
 	authHandler := api.NewAuthHandler(*jwtHandler, func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, os.Getenv("URL_PREFIX_LOGIN")+"/", http.StatusSeeOther)
 	})

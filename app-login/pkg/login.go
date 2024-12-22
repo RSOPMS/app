@@ -21,8 +21,13 @@ func ProcessLogin(db *sql.DB, email string, password string) (*http.Cookie, erro
 	}
 
 	// Create a new JwtHandler
-	jwtHandler := api.NewJwtHandler("jwt", []byte(os.Getenv("JWT_SECRET")))
+	jwtHandler := api.NewJwtHandler(os.Getenv("JWT_NAME"), []byte(os.Getenv("JWT_SECRET")))
 
 	// Process the login
 	return jwtHandler.ProcessLogin(email, password, passwordHash)
+}
+
+func ProcessLogout() *http.Cookie {
+	jwtHandler := api.NewJwtHandler(os.Getenv("JWT_NAME"), []byte(os.Getenv("JWT_SECRET")))
+	return jwtHandler.ProcessLogout()
 }

@@ -13,6 +13,8 @@ data:
   URL_PREFIX_BULK: "/bulk"
   URL_PREFIX_LOGIN: "/login"
 
+  JWT_NAME: "bugbase_session"
+
   DB_NAME: "bugbase"
   DB_USER: "bugbase"
   DB_HOST: "bugbase-database-service.default.svc"

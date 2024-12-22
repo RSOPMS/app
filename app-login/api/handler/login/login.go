@@ -36,3 +36,10 @@ func (h *LoginHandler) ProcessLogin(w http.ResponseWriter, r *http.Request) erro
 	w.WriteHeader(http.StatusOK)
 	return nil
 }
+
+func (h *LoginHandler) ProcessLogout(w http.ResponseWriter, r *http.Request) error {
+	cookie := pkg.ProcessLogout()
+	http.SetCookie(w, cookie)
+	http.Redirect(w, r, os.Getenv("URL_PREFIX_LOGIN")+"/", http.StatusSeeOther)
+	return nil
+}
