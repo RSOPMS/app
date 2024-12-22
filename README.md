@@ -12,7 +12,7 @@ Project management software
 
 [![(app-bulk) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/app-bulk.yaml/badge.svg?branch=main&event=push)](https://github.com/RSOPMS/app/actions/workflows/app-bulk.yaml)
 
-[![(login-login) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/app-login.yaml/badge.svg?branch=main&event=push)](https://github.com/RSOPMS/app/actions/workflows/app-login.yaml)
+[![(app-login) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/app-login.yaml/badge.svg?branch=main&event=push)](https://github.com/RSOPMS/app/actions/workflows/app-login.yaml)
 
 ## :construction: Dev statuses
 
