@@ -3,6 +3,7 @@ package api
 import (
 	"app-issue/api/handler/health"
 	"app-issue/api/handler/issue"
+	"app-issue/api/handler/welcome"
 	"app-issue/api/handler/project"
 	"database/sql"
 	"framework/api"
@@ -33,6 +34,10 @@ func (s *ApiServer) Run() error {
 func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	// Middleware
 	stackLog := api.CreateMiddlewareStack(api.LoggingMiddleware)
+
+	// Welcome
+	welcomeHandler := welcome.NewWelcomeHandler()
+	router.Handle("GET /{$}", stackLog(api.CreateHandler(welcomeHandler.GetWelcomePage)))
 
 	// Project
 	projectHandler := project.NewProjectHandler(s.Db)
