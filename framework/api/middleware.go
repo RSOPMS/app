@@ -50,21 +50,3 @@ func (h *RetryHandler) Retry(next Handler) Handler {
 		return err
 	}
 }
-
-func FaultTolerantMiddleware(cb *CircuitBreaker, retryAttempts int, retryDelay time.Duration, bulkhead *Bulkhead, next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		err := cb.Execute(func() error {
-			return Retry(func() error {
-				return bulkhead.Execute(func() error {
-					next.ServeHTTP(w, r)
-					return nil
-				})
-			}, retryAttempts, retryDelay)
-		})
-
-		if err != nil {
-			// TODO: More sophisticated error handling
-			log.Println(err)
-		}
-	})
-}
