@@ -2,6 +2,7 @@ package api
 
 import (
 	"log"
+	"math/rand"
 	"net/http"
 	"time"
 )
@@ -28,6 +29,26 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 		log.Println(r.Method, r.URL.Path, r.RemoteAddr, time.Since(start))
 	})
+}
+
+// Retry wraps the Handler type and provides retry functionality.
+func (h *RetryHandler) Retry(next Handler) Handler {
+	return func(w http.ResponseWriter, r *http.Request) error {
+		var err error
+		delay := h.delay
+
+		for i := 0; i < h.attempts; i++ {
+			if err = next(w, r); err == nil {
+				return nil
+			}
+
+			time.Sleep(delay)
+			delay *= 2
+			delay += time.Duration(rand.Float32()) * h.maxJitter
+		}
+
+		return err
+	}
 }
 
 func FaultTolerantMiddleware(cb *CircuitBreaker, retryAttempts int, retryDelay time.Duration, bulkhead *Bulkhead, next http.Handler) http.Handler {
