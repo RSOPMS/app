@@ -2,7 +2,6 @@ package api
 
 import (
 	"app-ingress/api/handler/health"
-	"app-ingress/api/handler/ingress"
 	"database/sql"
 	"framework/api"
 	"log"
@@ -32,10 +31,6 @@ func (s *ApiServer) Run() error {
 func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	// Middleware
 	stackLog := api.CreateMiddlewareStack(api.LoggingMiddleware)
-
-	// Ingress
-	ingressHandler := ingress.NewIngressHandler(s.Db)
-	router.Handle("POST /api/ingress/{$}", stackLog(api.CreateHandler(ingressHandler.PostIngress))) // TODO WHAT TO DO HERE?
 
 	// Health
 	healthHandler := health.NewHealthHandler(s.Db)

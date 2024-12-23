@@ -2,6 +2,10 @@ package pkg
 
 import (
 	"database/sql"
+	"encoding/json"
+	"log"
+
+	"github.com/nats-io/nats.go"
 )
 
 type ProjectInput struct {
@@ -22,42 +26,98 @@ type InputPayload struct {
 	Issues   []IssueInput   `json:"issues"`
 }
 
-func AddPayloadToDB(db *sql.DB, payload InputPayload) error {
-	for _, project := range payload.Projects {
-		err := CreateNewProject(db, project.Title)
-		if err != nil {
-			return err
-		}
+var nc *nats.Conn
+
+// Initialize NATS connection
+func InitNATS() error {
+	var err error
+	nc, err = nats.Connect("nats://localhost:4222")
+	if err != nil {
+		return err
 	}
-
-	for _, issue := range payload.Issues {
-		projectId, err := GetProjectIdByTitle(db, issue.Project)
-		if err != nil {
-			return err
-		}
-
-		statusId, err := GetStatusIdByName(db, issue.Status)
-		if err != nil {
-			return err
-		}
-
-		priorityId, err := GetPriorityIdByName(db, issue.Priority)
-		if err != nil {
-			return err
-		}
-
-		branchId, err := GetBranchIdByName(db, issue.Branch)
-		if err != nil {
-			return err
-		}
-
-		err = CreateNewIssue(db, issue.Title, issue.Description, projectId, statusId, priorityId, branchId)
-		if err != nil {
-			return err
-		}
-	}
-
 	return nil
+}
+
+// Close the NATS connection
+func CloseNATSConnection() {
+	if nc != nil {
+		nc.Close()
+	}
+}
+
+func SubscribeToMessages(db *sql.DB) {
+	// Ensure NATS is connected before subscribing
+	if nc == nil {
+		log.Fatalf("NATS connection is not initialized")
+		return
+	}
+
+	// Subscribe to the project creation topic
+	_, err := nc.Subscribe("app.ingress.project", func(msg *nats.Msg) {
+		var project ProjectInput
+		err := json.Unmarshal(msg.Data, &project)
+		if err != nil {
+			log.Printf("Error unmarshaling project data: %v", err)
+			return
+		}
+
+		// Insert the project into the database
+		AddProjectToDB(db, project)
+	})
+
+	if err != nil {
+		log.Fatalf("Error subscribing to app.ingress.project: %v", err)
+	}
+
+	// Subscribe to the issue creation topic
+	_, err = nc.Subscribe("app.ingress.issue", func(msg *nats.Msg) {
+		var issue IssueInput
+		err := json.Unmarshal(msg.Data, &issue)
+		if err != nil {
+			log.Printf("Error unmarshaling issue data: %v", err)
+			return
+		}
+
+		// Insert the issue into the database
+		AddIssueToDB(db, issue)
+	})
+
+	if err != nil {
+		log.Fatalf("Error subscribing to app.ingress.issue: %v", err)
+	}
+
+	// Keep the app running to listen for messages
+	select {}
+}
+
+func AddProjectToDB(db *sql.DB, project ProjectInput) error {
+	err := CreateNewProject(db, project.Title)
+	return err
+}
+
+func AddIssueToDB(db *sql.DB, issue IssueInput) error {
+	projectId, err := GetProjectIdByTitle(db, issue.Project)
+	if err != nil {
+		return err
+	}
+
+	statusId, err := GetStatusIdByName(db, issue.Status)
+	if err != nil {
+		return err
+	}
+
+	priorityId, err := GetPriorityIdByName(db, issue.Priority)
+	if err != nil {
+		return err
+	}
+
+	branchId, err := GetBranchIdByName(db, issue.Branch)
+	if err != nil {
+		return err
+	}
+
+	err = CreateNewIssue(db, issue.Title, issue.Description, projectId, statusId, priorityId, branchId)
+	return err
 }
 
 func CreateNewProject(db *sql.DB, title string) error {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"app-ingress/api"
+	"app-ingress/pkg"
 	"database/sql"
 	"fmt"
 	"log"
@@ -37,6 +38,16 @@ func run() error {
 		Addr: ":" + os.Getenv("PORT_APP_INGRESS"),
 		Db:   db,
 	}
+
+	// Initialize NATS connection
+	err = pkg.InitNATS()
+	if err != nil {
+		log.Fatalf("Error connecting to NATS: %v", err)
+	}
+	defer pkg.CloseNATSConnection()
+
+	// Start listening for NATS messages
+	pkg.SubscribeToMessages(db)
 
 	return server.Run()
 }

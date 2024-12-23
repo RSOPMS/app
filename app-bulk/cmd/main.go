@@ -2,6 +2,7 @@ package main
 
 import (
 	"app-bulk/api"
+	"app-bulk/pkg"
 	"database/sql"
 	"fmt"
 	"log"
@@ -37,6 +38,13 @@ func run() error {
 		Addr: ":" + os.Getenv("PORT_APP_BULK"),
 		Db:   db,
 	}
+
+	// Initialize NATS connection
+	err = pkg.InitNATS()
+	if err != nil {
+		log.Fatalf("Error connecting to NATS: %v", err)
+	}
+	defer pkg.CloseNATSConnection()
 
 	return server.Run()
 }
