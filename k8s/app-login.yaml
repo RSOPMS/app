@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bugbase-issue-deployment
+  name: bugbase-login-deployment
   labels:
-    app: bugbase-issue
+    app: bugbase-login
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bugbase-issue
+      app: bugbase-login
   template:
     metadata:
       labels:
-        app: bugbase-issue
+        app: bugbase-login
     spec:
       containers:
-        - name: bugbase-issue
-          image: bugbase-issue
+        - name: bugbase-login
+          image: bugbase-login
           resources:
             limits:
               memory: 128Mi
               cpu: 500m
           ports:
-            - containerPort: 8080
+            - containerPort: 8084
               name: server
           livenessProbe:
             httpGet:
@@ -37,31 +37,21 @@ spec:
             initialDelaySeconds: 20
             periodSeconds: 5
           env:
-            - name: PORT_APP_ISSUE
+            - name: PORT_APP_LOGIN
               valueFrom:
                 configMapKeyRef:
                   name: bugbase-configmap
-                  key: PORT_APP_ISSUE
-            - name: PORT_APP_STATIC
-              valueFrom:
-                configMapKeyRef:
-                  name: bugbase-configmap
-                  key: PORT_APP_STATIC
-            - name: URL_PREFIX_ISSUE
-              valueFrom:
-                configMapKeyRef:
-                  name: bugbase-configmap
-                  key: URL_PREFIX_ISSUE
-            - name: URL_PREFIX_STATIC
-              valueFrom:
-                configMapKeyRef:
-                  name: bugbase-configmap
-                  key: URL_PREFIX_STATIC
+                  key: PORT_APP_LOGIN
             - name: URL_PREFIX_LOGIN
               valueFrom:
                 configMapKeyRef:
                   name: bugbase-configmap
                   key: URL_PREFIX_LOGIN
+            - name: URL_PREFIX_ISSUE
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: URL_PREFIX_ISSUE
             - name: JWT_NAME
               valueFrom:
                 configMapKeyRef:
@@ -97,18 +87,23 @@ spec:
                 secretKeyRef:
                   name: bugbase-secret
                   key: DB_PASSWORD
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: bugbase-secret
+                  key: JWT_SECRET
           # WARN: Currently only for local testing. Remove for production deployment.
           imagePullPolicy: Never
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: bugbase-issue-service
+  name: bugbase-login-service
 spec:
   type: ClusterIP
   selector:
-    app: bugbase-issue
+    app: bugbase-login
   ports:
-    - port: 8080
+    - port: 8084
       protocol: TCP
       targetPort: server

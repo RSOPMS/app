@@ -31,15 +31,30 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 	})
 }
 
+// AuthHandler handles authentication.
+type AuthHandler struct {
+	jwtHandler    JwtHandler
+	onUnautorized http.HandlerFunc
+}
+
+// NewAuthHandler creates a new AuthMiddleware that validates the JWT and
+// sets the erquest context.
+func NewAuthHandler(jwtHandler JwtHandler, onUnautorized http.HandlerFunc) *AuthHandler {
+	return &AuthHandler{
+		jwtHandler:    jwtHandler,
+		onUnautorized: onUnautorized,
+	}
+}
+
 // AuthMiddleware validates the JWT and sets the request context.
-func AuthMiddleware(jwtHandler JwtHandler, onUnautorized http.HandlerFunc, next http.Handler) http.Handler {
+func (h *AuthHandler) AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		onErr := func(err error) {
 			log.Println(err)
-			onUnautorized.ServeHTTP(w, r)
+			h.onUnautorized.ServeHTTP(w, r)
 		}
 
-		cookie, err := r.Cookie(jwtHandler.cookieName)
+		cookie, err := r.Cookie(h.jwtHandler.cookieName)
 		if err != nil {
 			onErr(err)
 			return
@@ -51,7 +66,7 @@ func AuthMiddleware(jwtHandler JwtHandler, onUnautorized http.HandlerFunc, next 
 			return
 		}
 
-		token, err := jwtHandler.ParseJwt(cookie.Value)
+		token, err := h.jwtHandler.ParseJwt(cookie.Value)
 		if err != nil {
 			onErr(err)
 			return
