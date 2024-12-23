@@ -12,7 +12,7 @@ var (
 	layout embed.FS
 )
 
-func RenderLoginLayout(wr io.Writer, name string, data any) error {
+func RenderLayout(wr io.Writer, name string, data any) error {
 	return template.Must(template.New("layout").Funcs(getFuncMap()).ParseFS(layout, "layout/*.tmpl")).ExecuteTemplate(wr, name, data)
 }
 

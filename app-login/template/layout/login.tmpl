@@ -11,7 +11,8 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="password" required>
       </div>
-      <button type="submit">Log In</button>
+      <button type="submit" style="margin-top: 5px">Log In</button>
+      <button type="button" onclick="window.location.href='{{ urlPrefixLogin }}/register'">Register</button>
     </form>
   </div>
   {{ template "bot" }}

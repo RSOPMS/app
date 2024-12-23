@@ -19,7 +19,7 @@ func NewLoginHandler(db *sql.DB) *LoginHandler {
 }
 
 func (h *LoginHandler) GetLoginPage(w http.ResponseWriter, r *http.Request) error {
-	return template.RenderLoginLayout(w, "loginPage", nil)
+	return template.RenderLayout(w, "loginPage", nil)
 }
 
 func (h *LoginHandler) ProcessLogin(w http.ResponseWriter, r *http.Request) error {

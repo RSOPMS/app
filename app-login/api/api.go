@@ -3,6 +3,7 @@ package api
 import (
 	"app-login/api/handler/health"
 	"app-login/api/handler/login"
+	"app-login/api/handler/register"
 	"database/sql"
 	"framework/api"
 	"log"
@@ -38,6 +39,12 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	router.Handle("GET /{$}", stackLog(api.CreateHandler(loginHandler.GetLoginPage)))
 	router.Handle("POST /{$}", stackLog(api.CreateHandler(loginHandler.ProcessLogin)))
 	router.Handle("GET /logout/{$}", stackLog(api.CreateHandler(loginHandler.ProcessLogout)))
+
+	// Register
+	registerHandler := register.NewRegisterHandler(s.Db)
+	router.Handle("GET /register/{$}", stackLog(api.CreateHandler(registerHandler.GetRegisterPage)))
+	router.Handle("POST /register/{$}", stackLog(api.CreateHandler(registerHandler.ProcessRegister)))
+	router.Handle("GET /api/role/form/{$}", stackLog(api.CreateHandler(registerHandler.GetRolesForm)))
 
 	// Health
 	healthHandler := health.NewHealthHandler(s.Db)
