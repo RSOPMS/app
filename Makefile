@@ -6,22 +6,26 @@
 init: clean
 	@ln -s ../.env app-bulk/.env
 	@ln -s ../.env app-issue/.env
+	@ln -s ../.env app-login/.env
 	@ln -s ../.env app-static/.env
 	@ln -s ../.env database/.env
 
 	@ln -s ../.air.toml app-bulk/.air.toml
 	@ln -s ../.air.toml app-issue/.air.toml
+	@ln -s ../.air.toml app-login/.air.toml
 	@ln -s ../.air.toml app-static/.air.toml
 
 .PHONY: clean
 clean:
 	@rm -rf app-bulk/.env
 	@rm -rf app-issue/.env
+	@rm -rf app-login/.env
 	@rm -rf app-static/.env
 	@rm -rf database/.env
 
 	@rm -rf app-bulk/.air.toml
 	@rm -rf app-issue/.air.toml
+	@rm -rf app-login/.air.toml
 	@rm -rf app-static/.air.toml
 
 # =============================================================================
@@ -46,12 +50,15 @@ k8s-dev-issue: app-issue-build app-issue-start
 .PHONY: k8s-dev-bulk
 k8s-dev-bulk: app-bulk-build app-bulk-start
 
+.PHONY: k8s-dev-login
+k8s-dev-login: app-login-build app-login-start
+
 ## ----------------------------------------------------------------------------
 ## k8s dev build
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-build
-k8s-dev-build: database-build grafana-build app-static-build app-issue-build app-bulk-build
+k8s-dev-build: database-build grafana-build app-static-build app-issue-build app-bulk-build app-login-build
 
 .PHONY: database-build
 database-build:
@@ -77,12 +84,16 @@ app-issue-build:
 app-bulk-build:
 	@docker build -f ./app-bulk/Dockerfile --tag bugbase-bulk:latest .
 
+.PHONY: app-login-build
+app-login-build:
+	@docker build -f ./app-login/Dockerfile --tag bugbase-login:latest .
+
 ## ----------------------------------------------------------------------------
 ## k8s dev start
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-start
-k8s-dev-start: configmap-start secret-start ingress-start database-start grafana-start app-static-start app-issue-start app-bulk-start
+k8s-dev-start: configmap-start secret-start ingress-start database-start grafana-start app-static-start app-issue-start app-bulk-start app-login-start
 
 .PHONY: configmap-start
 configmap-start:
@@ -116,12 +127,16 @@ app-issue-start:
 app-bulk-start:
 	@kubectl apply -f ./k8s/app-bulk.yaml
 
+.PHONY: app-login-start
+app-login-start:
+	@kubectl apply -f ./k8s/app-login.yaml
+
 ## ----------------------------------------------------------------------------
 ## k8s dev stop
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-stop
-k8s-dev-stop: configmap-stop secret-stop ingress-stop database-stop grafana-stop app-static-stop app-issue-stop app-bulk-stop
+k8s-dev-stop: configmap-stop secret-stop ingress-stop database-stop grafana-stop app-static-stop app-issue-stop app-bulk-stop app-login-stop
 
 .PHONY: configmap-stop
 configmap-stop:
@@ -154,3 +169,7 @@ app-issue-stop:
 .PHONY: app-bulk-stop
 app-bulk-stop:
 	@kubectl delete -f ./k8s/app-bulk.yaml
+
+.PHONY: app-login-stop
+app-login-stop:
+	@kubectl delete -f ./k8s/app-login.yaml
