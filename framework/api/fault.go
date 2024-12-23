@@ -1,7 +1,6 @@
 package api
 
 import (
-	"context"
 	"errors"
 	"sync"
 	"time"
@@ -55,20 +54,6 @@ func NewRetryHandler(options ...RetryHandlerOptionFunc) *RetryHandler {
 	return r
 }
 
-// Execute runs the request with retry logic.
-func (r *RetryHandler) Execute(request func() error) error {
-	var err error
-	delay := r.delay
-	for i := 0; i < r.attempts; i++ {
-		if err = request(); err == nil {
-			return nil
-		}
-		time.Sleep(delay)
-		delay *= 2
-	}
-	return err
-}
-
 // ------ Timeout -------
 
 // TimeoutHandler handles timeout for requests.
@@ -99,24 +84,7 @@ func NewTimeoutHandler(options ...TimeoutHandlerOptionFunc) *TimeoutHandler {
 	return t
 }
 
-// Execute runs the request with the specified timeout.
-func (t *TimeoutHandler) Execute(request func(ctx context.Context) error) error {
-	ctx, cancel := context.WithTimeout(context.Background(), t.timeout)
-	defer cancel()
-
-	done := make(chan error, 1)
-	go func() {
-		done <- request(ctx)
-	}()
-
-	select {
-	case err := <-done:
-		return err
-	case <-ctx.Done():
-		return errors.New("request timed out")
-	}
-}
-
+// The ones below are not used in the app, but are provided for reference.
 // ------ Circuit Breaker -------
 
 type CircuitBreakerState int

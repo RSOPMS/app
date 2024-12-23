@@ -4,6 +4,7 @@ import (
 	"app-issue/api/handler/health"
 	"app-issue/api/handler/issue"
 	"app-issue/api/handler/project"
+	"app-issue/api/handler/test"
 	"database/sql"
 	"framework/api"
 	"log"
@@ -33,6 +34,11 @@ func (s *ApiServer) Run() error {
 func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	// Middleware
 	stackLog := api.CreateMiddlewareStack(api.LoggingMiddleware)
+	retryHandler := api.NewRetryHandler()
+	timeoutHandler := api.NewTimeoutHandler()
+
+	faultTestHandler := test.NewFaultTestHandler()
+	router.Handle("GET /fault-test/{$}", stackLog(api.CreateHandler(retryHandler.Retry(timeoutHandler.Timeout(faultTestHandler.GetFaultTest)))))
 
 	// Project
 	projectHandler := project.NewProjectHandler(s.Db)

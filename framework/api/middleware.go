@@ -1,8 +1,10 @@
 package api
 
 import (
+	"context"
+	"errors"
 	"log"
-	"math/rand"
+	"math/rand/v2"
 	"net/http"
 	"time"
 )
@@ -42,9 +44,31 @@ func (h *RetryHandler) Retry(next Handler) Handler {
 				return nil
 			}
 
+			log.Printf("Retry attempt %d failed: %v", i+1, err)
 			time.Sleep(delay)
 			delay *= 2
 			delay += time.Duration(rand.Float32()) * h.maxJitter
+		}
+
+		return err
+	}
+}
+
+func (h *TimeoutHandler) Timeout(next Handler) Handler {
+	return func(w http.ResponseWriter, r *http.Request) error {
+		// Create a timeout context with the specified duration
+		ctx, cancel := context.WithTimeout(r.Context(), h.timeout)
+		defer cancel() // Ensure context cleanup
+
+		// Attach the new context to the request
+		r = r.WithContext(ctx)
+
+		// Call the next handler and pass the updated request
+		err := next(w, r)
+
+		// Check if the context timed out
+		if ctx.Err() == context.DeadlineExceeded {
+			return errors.New("request timed out")
 		}
 
 		return err
