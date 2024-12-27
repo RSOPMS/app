@@ -72,6 +72,9 @@ form {
   display: flex;
   flex-direction: column;
 }
+form div {
+  margin: 0.2rem 0;
+}
 label {
   display: block;
   font-size: 12px;
@@ -88,9 +91,6 @@ input:user-valid {
 dialog {
   padding: 1rem;
   margin: auto;
-}
-dialog div {
-  margin: 0.2rem 0;
 }
 
 button {

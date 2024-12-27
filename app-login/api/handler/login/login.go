@@ -32,7 +32,7 @@ func (h *LoginHandler) ProcessLogin(w http.ResponseWriter, r *http.Request) erro
 	}
 
 	http.SetCookie(w, cookie)
-	w.Header().Set("HX-Redirect", os.Getenv("URL_PREFIX_ISSUE")+"/projects/")
+	w.Header().Set("HX-Redirect", os.Getenv("URL_PREFIX_ISSUE")+"/")
 	w.WriteHeader(http.StatusOK)
 	return nil
 }
