@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"errors"
 	"log"
 	"math/rand/v2"
 	"net/http"
@@ -45,6 +44,10 @@ func (h *RetryHandler) Retry(next Handler) Handler {
 			}
 
 			log.Printf("Retry attempt %d failed: %v", i+1, err)
+			if i == h.attempts-1 {
+				return err
+			}
+
 			time.Sleep(delay)
 			delay *= 2
 			delay += time.Duration(rand.Float32()) * h.maxJitter
@@ -54,23 +57,25 @@ func (h *RetryHandler) Retry(next Handler) Handler {
 	}
 }
 
+// Timeout wraps the Handler type and provides timeout functionality.
 func (h *TimeoutHandler) Timeout(next Handler) Handler {
 	return func(w http.ResponseWriter, r *http.Request) error {
-		// Create a timeout context with the specified duration
 		ctx, cancel := context.WithTimeout(r.Context(), h.timeout)
-		defer cancel() // Ensure context cleanup
-
-		// Attach the new context to the request
+		defer cancel()
 		r = r.WithContext(ctx)
 
-		// Call the next handler and pass the updated request
-		err := next(w, r)
+		errChan := make(chan error, 1)
+		go func(w http.ResponseWriter, r *http.Request) {
+			errChan <- next(w, r)
+		}(w, r)
 
-		// Check if the context timed out
-		if ctx.Err() == context.DeadlineExceeded {
-			return errors.New("request timed out")
+		for {
+			select {
+			case <-ctx.Done():
+				return ctx.Err()
+			case err := <-errChan:
+				return err
+			}
 		}
-
-		return err
 	}
 }

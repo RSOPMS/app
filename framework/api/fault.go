@@ -6,8 +6,6 @@ import (
 	"time"
 )
 
-// -------- Retry --------
-
 // RetryHandler handles retry attempts on errors.
 type RetryHandler struct {
 	attempts  int
@@ -54,9 +52,7 @@ func NewRetryHandler(options ...RetryHandlerOptionFunc) *RetryHandler {
 	return r
 }
 
-// ------ Timeout -------
-
-// TimeoutHandler handles timeout for requests.
+// TimeoutHandler handles request timeouts.
 type TimeoutHandler struct {
 	timeout time.Duration
 }
@@ -74,7 +70,7 @@ func WithTimeout(timeout time.Duration) TimeoutHandlerOptionFunc {
 // NewTimeoutHandler creates a new timeout handler.
 func NewTimeoutHandler(options ...TimeoutHandlerOptionFunc) *TimeoutHandler {
 	t := &TimeoutHandler{
-		timeout: time.Second, // default timeout
+		timeout: time.Second,
 	}
 
 	for _, optionFunc := range options {
