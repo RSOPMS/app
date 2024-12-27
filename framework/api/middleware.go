@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"log"
+	"math/rand/v2"
 	"net/http"
 	"time"
 )
@@ -82,4 +83,52 @@ func (h *AuthHandler) AuthMiddleware(next http.Handler) http.Handler {
 
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
+}
+
+// Retry wraps the Handler type and provides retry functionality.
+func (h *RetryHandler) Retry(next Handler) Handler {
+	return func(w http.ResponseWriter, r *http.Request) error {
+		var err error
+		delay := h.delay
+
+		for i := 0; i < h.attempts; i++ {
+			if err = next(w, r); err == nil {
+				return nil
+			}
+
+			log.Printf("Retry attempt %d failed: %v", i+1, err)
+			if i == h.attempts-1 {
+				return err
+			}
+
+			time.Sleep(delay)
+			delay *= 2
+			delay += time.Duration(rand.Float32()) * h.maxJitter
+		}
+
+		return err
+	}
+}
+
+// Timeout wraps the Handler type and provides timeout functionality.
+func (h *TimeoutHandler) Timeout(next Handler) Handler {
+	return func(w http.ResponseWriter, r *http.Request) error {
+		ctx, cancel := context.WithTimeout(r.Context(), h.timeout)
+		defer cancel()
+		r = r.WithContext(ctx)
+
+		errChan := make(chan error, 1)
+		go func(w http.ResponseWriter, r *http.Request) {
+			errChan <- next(w, r)
+		}(w, r)
+
+		for {
+			select {
+			case <-ctx.Done():
+				return ctx.Err()
+			case err := <-errChan:
+				return err
+			}
+		}
+	}
 }
