@@ -11,9 +11,8 @@
     <form action="{{ urlPrefixIssue }}/api/projects/new/"
           method="dialog"
           hx-post="{{ urlPrefixIssue }}/api/projects/new/"
-          hx-boost="true"
           hx-trigger="submit"
-          hx-swap="afterend"
+          hx-swap="afterbegin"
           hx-target="#projectsTableBody">
       <h3>Create New Project</h3>
 
@@ -45,9 +44,8 @@
     <form action="{{ urlPrefixIssue }}/api/issues/new/"
           method="dialog"
           hx-post="{{ urlPrefixIssue }}/api/issues/new/"
-          hx-boost="true"
           hx-trigger="submit"
-          hx-swap="beforebegin"
+          hx-swap="afterbegin"
           hx-target="#issuesTableBody">
       <h3>Create New Issue</h3>
 
@@ -63,28 +61,22 @@
 
       <input type="hidden" id="projectId" name="projectId" value="{{ .Id }}" readonly>
 
-      <div>
-        <div hx-get="{{ urlPrefixIssue }}/api/status/form/"
-            hx-trigger="revealed"
-            hx-target="this"
-            hx-swap="innerHTML">
-        </div>
+      <div hx-get="{{ urlPrefixIssue }}/api/status/form/"
+           hx-trigger="revealed"
+           hx-target="this"
+           hx-swap="innerHTML">
       </div>
 
-      <div>
-        <div hx-get="{{ urlPrefixIssue }}/api/priority/form/"
-            hx-trigger="revealed"
-            hx-target="this"
-            hx-swap="innerHTML">
-        </div>
+      <div hx-get="{{ urlPrefixIssue }}/api/priority/form/"
+           hx-trigger="revealed"
+           hx-target="this"
+           hx-swap="innerHTML">
       </div>
 
-      <div>
-        <div hx-get="{{ urlPrefixIssue }}/api/branch/form/"
-            hx-trigger="revealed"
-            hx-target="this"
-            hx-swap="innerHTML">
-        </div>
+      <div hx-get="{{ urlPrefixIssue }}/api/branch/form/"
+           hx-trigger="revealed"
+           hx-target="this"
+           hx-swap="innerHTML">
       </div>
 
       <div>

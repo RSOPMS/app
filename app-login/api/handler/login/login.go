@@ -19,7 +19,7 @@ func NewLoginHandler(db *sql.DB) *LoginHandler {
 }
 
 func (h *LoginHandler) GetLoginPage(w http.ResponseWriter, r *http.Request) error {
-	return template.RenderLoginLayout(w, "loginPage", nil)
+	return template.RenderLayout(w, "loginPage", nil)
 }
 
 func (h *LoginHandler) ProcessLogin(w http.ResponseWriter, r *http.Request) error {
@@ -32,7 +32,7 @@ func (h *LoginHandler) ProcessLogin(w http.ResponseWriter, r *http.Request) erro
 	}
 
 	http.SetCookie(w, cookie)
-	w.Header().Set("HX-Redirect", os.Getenv("URL_PREFIX_ISSUE")+"/projects/")
+	w.Header().Set("HX-Redirect", os.Getenv("URL_PREFIX_ISSUE")+"/")
 	w.WriteHeader(http.StatusOK)
 	return nil
 }

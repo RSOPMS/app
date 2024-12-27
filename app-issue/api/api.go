@@ -48,7 +48,7 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 
 	// Welcome
 	welcomeHandler := welcome.NewWelcomeHandler()
-	router.Handle("GET /{$}", stackLog(api.CreateHandler(welcomeHandler.GetWelcomePage)))
+	router.Handle("GET /{$}", stackLogAuth(api.CreateHandler(welcomeHandler.GetWelcomePage)))
 
 	// Project
 	projectHandler := project.NewProjectHandler(s.Db)
