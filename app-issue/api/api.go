@@ -1,6 +1,7 @@
 package api
 
 import (
+	"app-issue/api/handler/fault"
 	"app-issue/api/handler/health"
 	"app-issue/api/handler/issue"
 	"app-issue/api/handler/project"
@@ -73,4 +74,9 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	healthHandler := health.NewHealthHandler(s.Db)
 	router.Handle("GET /health/live/{$}", stackLog(api.CreateHandler(healthHandler.GetHealthLive)))
 	router.Handle("GET /health/ready/{$}", stackLog(api.CreateHandler(healthHandler.GetHealthReady)))
+
+	// Fault tolerance testing
+	faultTestHandler := fault.NewFaultTestHandler()
+	router.Handle("GET /fault/timeout/{$}", stackLog(api.CreateHandler(faultTestHandler.GetTimeoutBad)))
+	router.Handle("GET /fault/retry/{$}", stackLog(api.CreateHandler(faultTestHandler.GetRetryBad)))
 }
