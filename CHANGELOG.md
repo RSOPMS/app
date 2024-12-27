@@ -48,6 +48,24 @@ All notable changes to this project will be documented in this file.
 - #49 README update to include app-bulk status ([c562302](c562302837589153acb6ba92708488a7d8c3de09))
 - #49 README update, forgot dev status ([f01d352](f01d352ff395e9f11ecf5b2a7772a71f5c66c6f7))
 - #56 added missing data to issue page ([98eeafc](98eeafce623a5c1e57551167bd55ff52f3558164))
+- #58 unify configuration files ([62f8a31](62f8a317a070a54080fec913eb5b418ba0bc13b7))
+- #64 add mock users ([2ebf034](2ebf034fe646e8e8efd486e35cadcbdc8c9e6af9))
+- #62 add grafana ([b62dddb](b62dddb91ce1f7df78827ba2fd0b942af7f1f95f))
+- #53 add back link and style all links ([965212b](965212bc8f59af2f84ceff697096fc7457037aa1))
+- #66 add main page ([fe0f5fe](fe0f5fe45d9871748627084b3e3e38d41055b5e4))
+- #50 working login service skeleton ([660f07b](660f07b94f47b2d5081bf7be9cb7d9a90b7796d2))
+- #50 login page layout, some path routing corrections ([1f6140c](1f6140c5e6182953f2fbf95d086644c10db99c29))
+- #50 redirect to login page for unauthorized ([e36226c](e36226cd627bbc3f0bc8456612e3bae8d591f7f6))
+- #50 working login/redirects ([9fdb27b](9fdb27b9d6637fe28aabb5fef0dbcf0ae18b4e60))
+- #50 Makefile clean/init for login service ([942f81d](942f81dc0cbc755c302c714411aa0864aa5103cd))
+- #50 update authorization and style login form ([cb027cb](cb027cb9914e27fd5919965254c019f082d2c22a))
+- #67 add logout button ([1319302](1319302c8d1ead4678cf15c31292e82e642af3b8))
+- #34 fault tolerance methods + middleware, TODO testing ([8c4269f](8c4269f28b8b10bd811a338a6628fd4395dbf24a))
+- #34 tests ([6d82ec3](6d82ec3a1732da0e2e8db1088670465126a62315))
+- #34 add retry tolerance ([f3c46a3](f3c46a36f72779828f9f9c4bf33c57f1acbd04f7))
+- #34 file structure, timeout, retry fix ([f9d20f8](f9d20f8be130a587e04963fee892cd7a992d8d17))
+- #34 testing done ([b2010c6](b2010c601e39e2649575445242d19a4f7ca8d1af))
+- #70 added register - tested ([7386f0c](7386f0c8623736fc8fca5ceeaace8f6cf8937a3e))
 
 ### <!-- 1 -->🐛 Bug Fixes
 
@@ -77,6 +95,17 @@ All notable changes to this project will be documented in this file.
 - #49 bug fixes for running app-bulk service in k8s (works now) ([3e7ea0b](3e7ea0bd8dd74a2110d0854e2e98956b27fbf51c))
 - #49 requisted fixes ([b0fce48](b0fce489cef8789a00dda9e1d8bd1290290663dc))
 - #49 fix ([6cb144d](6cb144da4fca62f7e2b1748277b0313fd6402bb4))
+- #50 k8s fixes ([8a3f0db](8a3f0dbc1022d3f6a15bb697f164bec50fa107f9))
+- #50 removing unnecessary files ([d991482](d9914826df3142a18f20fc332a25dfb7f02ccf4a))
+- #50 login fail err msg can go f itself ([e7687d9](e7687d9a8a5a2040c74273045f23574d5cec7683))
+- #50 readme + sercret fix ([f4b8196](f4b8196b02bccc025c0a61508c0bb3efc340eebb))
+- #34 fix fault tolerance code ([dc7b6e7](dc7b6e7a1725b99238c8a488a834d625347212ec))
+- #70 dependencies ([374379d](374379d8c274db398f467e3d9cce7dd44beaaac1))
+- #70 typo ([b09847b](b09847b663c2304c47e93eb4f27f0a5bd6232d4a))
+- #70 change login redirect and form style ([f871f00](f871f005ec6171b51ba98a01f4063b4ad5c44615))
+- #70 add authorization to the welcome page ([e07b4f3](e07b4f3ed9b8314b396f177a8f55e0ca0e8de556))
+- #70 random fixes ([7e61b9b](7e61b9b6bc2606f73e092683c722d516e38a6186))
+- #70 fix htmx and relocate register link ([bec393b](bec393b1051cb4170fd83b2338d187eda1e13f4d))
 
 ### <!-- 10 -->💼 Other
 
@@ -98,6 +127,11 @@ All notable changes to this project will be documented in this file.
 - Merge pull request #57 from RSOPMS/49-create-bulk-ingress-service ([13fbe23](13fbe236591247ee2c5a3904df96fad1431782b7))
 - Merge 56-missing-data into prb/dev/56-missing-data ([7b8ef7c](7b8ef7ccc28efab30bbd5c74ffa1f2ca3feaa4b2))
 - Merge pull request #60 from RSOPMS/prb/dev/56-missing-data ([1622959](16229599d0b86121d4dce0ee7aa6e8e218b37055))
+- Merge branch '50-create-login-service' into prb/dev/50-create-login-service ([4ba7a02](4ba7a02b56346834c64c2d9f48a601cb8c2c9393))
+- Merge pull request #69 from RSOPMS/prb/dev/50-create-login-service ([314ea80](314ea80ef489ebf788a5c45c06d32873ab2e65c7))
+- Merge branch '34-fault-tolerance' into prb/dev/34-fault-tolerance ([6b35e33](6b35e335418b1dccaa60b061fb3a2535914dba3f))
+- Merge pull request #72 from RSOPMS/prb/dev/34-fault-tolerance ([eef2e0a](eef2e0ab9376ae63da41ab096d165ab55a18e7ee))
+- Merge pull request #71 from RSOPMS/70-register-new-user ([55d7871](55d7871260b62386d71cbeb102ae9b9e73ca160d))
 
 ### <!-- 2 -->🚜 Refactor
 
@@ -125,5 +159,6 @@ All notable changes to this project will be documented in this file.
 - #31 update modal code ([46022bd](46022bd6eb5d65f4e2e952792fb5b3f39e9f592f))
 - #32 code formatting and update changelog ([e578ae7](e578ae7f99c0215949495e588ecdf8098e509493))
 - #56 code formatting ([d3a17a6](d3a17a62eaf452061499ff178a439efe2f592da4))
+- #66 code lint ([3006bfd](3006bfd2bc597e10c510f6e2bdad0532ea83a3da))
 
 
