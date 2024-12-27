@@ -31,7 +31,7 @@ var nc *nats.Conn
 // Initialize NATS connection
 func InitNATS() error {
 	var err error
-	nc, err = nats.Connect("nats://localhost:4222")
+	nc, err = nats.Connect("nats://localhost:4222") // TODO should this be in .env and configmap?
 	if err != nil {
 		return err
 	}
@@ -69,7 +69,6 @@ func AddPayloadToDB(db *sql.DB, payload InputPayload) error {
 		if err != nil {
 			return fmt.Errorf("error sending project data to NATS: %w", err)
 		}
-		// TODO wait for confirmation from app-ingress?
 	}
 
 	for _, issue := range payload.Issues {
@@ -83,7 +82,6 @@ func AddPayloadToDB(db *sql.DB, payload InputPayload) error {
 		if err != nil {
 			return fmt.Errorf("error sending issue data to NATS: %w", err)
 		}
-		// TODO wait for confirmation from app-ingress?
 	}
 
 	return nil

@@ -31,7 +31,7 @@ var nc *nats.Conn
 // Initialize NATS connection
 func InitNATS() error {
 	var err error
-	nc, err = nats.Connect("nats://localhost:4222")
+	nc, err = nats.Connect("nats://localhost:4222") // TODO should this be in .env and configmap?
 	if err != nil {
 		return err
 	}
@@ -85,9 +85,6 @@ func SubscribeToMessages(db *sql.DB) {
 	if err != nil {
 		log.Fatalf("Error subscribing to app.ingress.issue: %v", err)
 	}
-
-	// Keep the app running to listen for messages
-	select {}
 }
 
 func AddProjectToDB(db *sql.DB, project ProjectInput) error {
