@@ -21,7 +21,7 @@
         <input type="text" id="surname" name="surname" placeholder="Enter Surname" required>
       </div>
       <div>
-        <div hx-get="{{ urlPrefixLogin }}/api/role/form/"
+        <div hx-get="{{ urlPrefixLogin }}/api/user/new/"
             hx-trigger="revealed"
             hx-target="this"
             hx-swap="innerHTML">
@@ -37,9 +37,11 @@
       </div>
       <div>
         <label for="rep_password">Repeat Password</label>
-        <input type="password" id="rep_password" name="rep_password" placeholder="Repeat Password" required>
+        <input type="password" id="passwordRepeat" name="passwordRepeat" placeholder="Repeat Password" required>
       </div>
-      <button type="submit" style="margin-top: 5px">Register</button>
+      <div>
+        <button type="submit">Register</button>
+      </div>
     </form>
   </div>
   {{ template "bot" }}

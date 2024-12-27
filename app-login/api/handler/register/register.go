@@ -4,6 +4,7 @@ import (
 	"app-login/pkg"
 	"app-login/template"
 	"database/sql"
+	"errors"
 	"net/http"
 	"os"
 	"strconv"
@@ -23,7 +24,7 @@ func (h *RegisterHandler) GetRegisterPage(w http.ResponseWriter, r *http.Request
 	return template.RenderLayout(w, "registerPage", nil)
 }
 
-func (h *RegisterHandler) ProcessRegister(w http.ResponseWriter, r *http.Request) error {
+func (h *RegisterHandler) PostRegisterNew(w http.ResponseWriter, r *http.Request) error {
 	err := r.ParseForm()
 	if err != nil {
 		return err
@@ -33,10 +34,10 @@ func (h *RegisterHandler) ProcessRegister(w http.ResponseWriter, r *http.Request
 	surname := r.FormValue("surname")
 	email := r.FormValue("email")
 	password := r.FormValue("password")
-	rep_password := r.FormValue("rep_password")
+	passwordRepeat := r.FormValue("passwordRepeat")
 
-	if password != rep_password {
-		return nil
+	if password != passwordRepeat {
+		return errors.New("passwords do not match")
 	}
 
 	roleId, err := strconv.Atoi(r.FormValue("roleId"))
@@ -49,8 +50,7 @@ func (h *RegisterHandler) ProcessRegister(w http.ResponseWriter, r *http.Request
 		return err
 	}
 
-	w.Header().Set("HX-Redirect", os.Getenv("URL_PREFIX_LOGIN")+"/")
-	w.WriteHeader(http.StatusOK)
+	http.Redirect(w, r, os.Getenv("URL_PREFIX_LOGIN")+"/", http.StatusMovedPermanently)
 	return nil
 }
 

@@ -43,8 +43,8 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	// Register
 	registerHandler := register.NewRegisterHandler(s.Db)
 	router.Handle("GET /register/{$}", stackLog(api.CreateHandler(registerHandler.GetRegisterPage)))
-	router.Handle("POST /register/{$}", stackLog(api.CreateHandler(registerHandler.ProcessRegister)))
-	router.Handle("GET /api/role/form/{$}", stackLog(api.CreateHandler(registerHandler.GetRolesForm)))
+	router.Handle("POST /register/{$}", stackLog(api.CreateHandler(registerHandler.PostRegisterNew)))
+	router.Handle("GET /api/user/new/{$}", stackLog(api.CreateHandler(registerHandler.GetRolesForm)))
 
 	// Health
 	healthHandler := health.NewHealthHandler(s.Db)
