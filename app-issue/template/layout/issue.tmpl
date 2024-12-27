@@ -20,9 +20,8 @@
     <form action="{{ urlPrefixIssue }}/api/comments/new/"
           method="dialog"
           hx-post="{{ urlPrefixIssue }}/api/comments/new/"
-          hx-boost="true"
           hx-trigger="submit"
-          hx-swap="beforebegin"
+          hx-swap="afterbegin"
           hx-target="#commentsTableBody">
       <h3>Create New Comment</h3>
 
