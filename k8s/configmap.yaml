@@ -18,3 +18,5 @@ data:
   DB_HOST: "bugbase-database-service.default.svc"
   DB_PORT: "5432"
   DB_SSL_MODE: "disable"
+
+  URL_NATS: "nats://nats-service:4222"

@@ -86,7 +86,7 @@ app-ingress-build:
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-start
-k8s-dev-start: configmap-start secret-start ingress-start database-start app-static-start app-issue-start app-bulk-start app-ingress-start
+k8s-dev-start: configmap-start secret-start ingress-start database-start nats-start app-static-start app-issue-start app-bulk-start app-ingress-start
 
 .PHONY: configmap-start
 configmap-start:
@@ -120,12 +120,16 @@ app-bulk-start:
 app-ingress-start:
 	@kubectl apply -f ./k8s/app-ingress.yaml
 
+.PHONY: nats-start
+nats-start:
+	@kubectl apply -f ./k8s/nats.yaml
+
 ## ----------------------------------------------------------------------------
 ## k8s dev stop
 ## ----------------------------------------------------------------------------
 
 .PHONY: k8s-dev-stop
-k8s-dev-stop: configmap-stop secret-stop ingress-stop database-stop app-static-stop app-issue-stop app-bulk-stop app-ingress-stop
+k8s-dev-stop: configmap-stop secret-stop ingress-stop database-stop nats-stop app-static-stop app-issue-stop app-bulk-stop app-ingress-stop
 
 .PHONY: configmap-stop
 configmap-stop:
@@ -158,3 +162,7 @@ app-bulk-stop:
 .PHONY: app-ingress-stop
 app-ingress-stop:
 	@kubectl delete -f ./k8s/app-ingress.yaml
+
+.PHONY: nats-stop
+nats-stop:
+	@kubectl delete -f ./k8s/nats.yaml

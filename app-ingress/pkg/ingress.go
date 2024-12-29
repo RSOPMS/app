@@ -31,7 +31,11 @@ var nc *nats.Conn
 // Initialize NATS connection
 func InitNATS() error {
 	var err error
-	nc, err = nats.Connect("nats://localhost:4222") // TODO should this be in .env and configmap?
+
+	// TODO CONFIGMAP URL DOESN'T WORK HERE
+	// natsUrl := os.Getenv("URL_NATS")
+	// nc, err = nats.Connect(natsUrl)
+	nc, err = nats.Connect("nats://nats-service:4222") // TODO HERE THE URL SHOULD BE READ FROM .ENV OR CONFIGMAP
 	if err != nil {
 		return err
 	}
