@@ -44,4 +44,6 @@ jobs:
       - name: Log into GHCR
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Push Docker image to GHCR
+        run: docker push ghcr.io/rsopms/bugbase-bulk:latest
+      - name: Push Docker image to GHCR
         run: docker push ghcr.io/rsopms/bugbase-bulk:${{ github.run_id }}
