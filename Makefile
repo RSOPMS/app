@@ -1,8 +1,19 @@
+include .env
+
+.PHONY: $(wildcard *)
+
+##  help; Print this help message
+help:
+	@echo Tip:
+	@echo "  review Makefile for more detailed targets"
+	@echo Usage:
+	@sed -n 's/^##//p' Makefile | column -t -s ';' | sed -e 's/^//'
+
 # =============================================================================
 # Init
 # =============================================================================
 
-.PHONY: init
+##  init; Initialize the repository for local development
 init: clean
 	@ln -s ../.env app-bulk/.env
 	@ln -s ../.env app-issue/.env
@@ -15,7 +26,7 @@ init: clean
 	@ln -s ../.air.toml app-login/.air.toml
 	@ln -s ../.air.toml app-static/.air.toml
 
-.PHONY: clean
+##  clean; Remove all generated files
 clean:
 	@rm -rf app-bulk/.env
 	@rm -rf app-issue/.env
@@ -32,144 +43,144 @@ clean:
 # k8s dev
 # =============================================================================
 
-.PHONY: k8s-dev
-k8s-dev: k8s-dev-build k8s-dev-start
+kd: k8s/dev
+##  k8s/dev; Build and start the k8s cluster; (alias: kd)
+k8s/dev: k8s/dev/build k8s/dev/start
 
-.PHONY: k8s-dev-database
-k8s-dev-database: database-build database-start
+k8s/dev/database: database/build database/start
 
-.PHONY: k8s-dev-grafana
-k8s-dev-grafana: grafana-build grafana-start
+k8s/dev/grafana: grafana/build grafana/start
 
-.PHONY: k8s-dev-static
-k8s-dev-static: app-static-build app-static-start
+k8s/dev/static: app-static/build app-static/start
 
-.PHONY: k8s-dev-issue
-k8s-dev-issue: app-issue-build app-issue-start
+k8s/dev/issue: app-issue/build app-issue/start
 
-.PHONY: k8s-dev-bulk
-k8s-dev-bulk: app-bulk-build app-bulk-start
+k8s/dev/bulk: app-bulk/build app-bulk/start
 
-.PHONY: k8s-dev-login
-k8s-dev-login: app-login-build app-login-start
+k8s/dev/login: app-login/build app-login/start
 
-## ----------------------------------------------------------------------------
-## k8s dev build
-## ----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# k8s dev build
+# -----------------------------------------------------------------------------
 
-.PHONY: k8s-dev-build
-k8s-dev-build: database-build grafana-build app-static-build app-issue-build app-bulk-build app-login-build
+kdb: k8s/dev/build
+##  k8s/dev/build; Build Docker container images; (alias: kdb)
+k8s/dev/build: database/build grafana/build app-static/build app-issue/build app-bulk/build app-login/build
 
-.PHONY: database-build
-database-build:
+database/build:
 	@rm -rf ./database/initdb
 	@mkdir -p ./database/initdb
 	@cp ./database/alter/* ./database/initdb/
 	@cp ./database/mock/* ./database/initdb/
 	@docker build -f ./database/Dockerfile --tag bugbase-database:latest .
 
-.PHONY: grafana-build
-grafana-build:
+grafana/build:
 	@echo "TODO"
 
-.PHONY: app-static-build
-app-static-build:
+app-static/build:
 	@docker build -f ./app-static/Dockerfile --tag bugbase-static:latest .
 
-.PHONY: app-issue-build
-app-issue-build:
+app-issue/build:
 	@docker build -f ./app-issue/Dockerfile --tag bugbase-issue:latest .
 
-.PHONY: app-bulk-build
-app-bulk-build:
+app-bulk/build:
 	@docker build -f ./app-bulk/Dockerfile --tag bugbase-bulk:latest .
 
-.PHONY: app-login-build
-app-login-build:
+app-login/build:
 	@docker build -f ./app-login/Dockerfile --tag bugbase-login:latest .
 
-## ----------------------------------------------------------------------------
-## k8s dev start
-## ----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# k8s dev start
+# -----------------------------------------------------------------------------
 
-.PHONY: k8s-dev-start
-k8s-dev-start: configmap-start secret-start ingress-start database-start grafana-start app-static-start app-issue-start app-bulk-start app-login-start
+kds: k8s/dev/start
+##  k8s/dev/start; Apply k8s configurations; (alias: kds)
+k8s/dev/start: configmap/start secret/start ingress/start database/start grafana/start app-static/start app-issue/start app-bulk/start app-login/start
 
-.PHONY: configmap-start
-configmap-start:
+configmap/start:
 	@kubectl apply -f ./k8s/configmap.yaml
 
-.PHONY: secret-start
-secret-start:
+secret/start:
 	@kubectl apply -f ./k8s/secret.yaml
 
-.PHONY: ingress-start
-ingress-start:
+ingress/start:
 	@kubectl apply -f ./k8s/ingress.yaml
 
-.PHONY: database-start
-database-start:
+database/start:
 	@kubectl apply -f ./k8s/database.yaml
 
-.PHONY: grafana-start
-grafana-start:
+grafana/start:
 	@kubectl apply -f ./k8s/grafana.yaml
 
-.PHONY: app-static-start
-app-static-start:
+app-static/start:
 	@kubectl apply -f ./k8s/app-static.yaml
 
-.PHONY: app-issue-start
-app-issue-start:
+app-issue/start:
 	@kubectl apply -f ./k8s/app-issue.yaml
 
-.PHONY: app-bulk-start
-app-bulk-start:
+app-bulk/start:
 	@kubectl apply -f ./k8s/app-bulk.yaml
 
-.PHONY: app-login-start
-app-login-start:
+app-login/start:
 	@kubectl apply -f ./k8s/app-login.yaml
 
-## ----------------------------------------------------------------------------
-## k8s dev stop
-## ----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# k8s dev delete
+# -----------------------------------------------------------------------------
 
-.PHONY: k8s-dev-stop
-k8s-dev-stop: configmap-stop secret-stop ingress-stop database-stop grafana-stop app-static-stop app-issue-stop app-bulk-stop app-login-stop
+kdd: k8s/dev/delete
+##  k8s/dev/delete; Delete the k8s cluster; (alias: kdd)
+k8s/dev/delete: configmap/delete secret/delete ingress/delete database/delete grafana/delete app-static/delete app-issue/delete app-bulk/delete app-login/delete
 
-.PHONY: configmap-stop
-configmap-stop:
+configmap/delete:
 	@kubectl delete -f ./k8s/configmap.yaml
 
-.PHONY: secret-stop
-secret-stop:
+secret/delete:
 	@kubectl delete -f ./k8s/secret.yaml
 
-.PHONY: ingress-stop
-ingress-stop:
+ingress/delete:
 	@kubectl delete -f ./k8s/ingress.yaml
 
-.PHONY: database-stop
-database-stop:
+database/delete:
 	@kubectl delete -f ./k8s/database.yaml
 
-.PHONY: grafana-stop
-grafana-stop:
+grafana/delete:
 	@kubectl delete -f ./k8s/grafana.yaml
 
-.PHONY: app-static-stop
-app-static-stop:
+app-static/delete:
 	@kubectl delete -f ./k8s/app-static.yaml
 
-.PHONY: app-issue-stop
-app-issue-stop:
+app-issue/delete:
 	@kubectl delete -f ./k8s/app-issue.yaml
 
-.PHONY: app-bulk-stop
-app-bulk-stop:
+app-bulk/delete:
 	@kubectl delete -f ./k8s/app-bulk.yaml
 
-.PHONY: app-login-stop
-app-login-stop:
+app-login/delete:
 	@kubectl delete -f ./k8s/app-login.yaml
+
+# -----------------------------------------------------------------------------
+# database
+# -----------------------------------------------------------------------------
+
+mu: migrate/up
+##  migrate/up; Run up migrations; (alias: mu)
+migrate/up:
+	@goose -dir=database/migrations up
+
+md: migrate/down
+##  migrate/down; Run down migrations; (alias: md)
+migrate/down:
+	@goose -dir=database/migrations down
+
+mf: migrate/fresh
+##  migrate/fresh; Rebuild the database; (alias: mf)
+migrate/fresh:
+	@goose -dir=database/migrations reset
+	@make migrate/up
+
+mfs: migrate/fresh/seed
+##  migrate/fresh/seed; Rebuild the database and seed it; (alias: mfs)
+migrate/fresh/seed:
+	@make migrate/fresh
+	@goose -dir=database/seeds -no-versioning up
