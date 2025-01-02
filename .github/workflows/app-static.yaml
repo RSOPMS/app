@@ -32,3 +32,16 @@ jobs:
         run: gofmt -l -s -w . && git diff --exit-code
       - name: Test GO code
         run: go test ./...
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build -f ./app-static/Dockerfile --tag ghcr.io/rsopms/bugbase-static:${{ github.run_id }} .
+      - name: Log into GHCR
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Push Docker image to GHCR
+        run: docker push ghcr.io/rsopms/bugbase-static:${{ github.run_id }}
