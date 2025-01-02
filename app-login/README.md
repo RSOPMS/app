@@ -22,3 +22,4 @@ Build the project binary
 ```sh
 make all
 ```
+
