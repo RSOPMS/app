@@ -1,0 +1,20 @@
+name: (database) Publish database image and deploy it
+
+on:
+  push:
+    paths:
+      - 'database/**'
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build -f ./database/Dockerfile --tag ghcr.io/rsopms/database:${{ github.run_id }} .
+      - name: Log into GHCR
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Push Docker image to GHCR
+        run: docker push ghcr.io/rsopms/database:${{ github.run_id }}
