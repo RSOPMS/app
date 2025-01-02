@@ -16,7 +16,7 @@ jobs:
         run: make start-mock
         working-directory: ./database
       - name: Build Docker image
-        run: docker build -f ./database/Dockerfile --tag ghcr.io/rsopms/database:${{ github.run_id }} .
+        run: docker build -f ./database/Dockerfile --tag ghcr.io/rsopms/database:${{ github.run_id }} --tag latest .
       - name: Log into GHCR
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Push Docker image to GHCR

@@ -40,7 +40,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Build Docker image
-        run: docker build -f ./app-login/Dockerfile --tag ghcr.io/rsopms/bugbase-login:${{ github.run_id }} .
+        run: docker build -f ./app-login/Dockerfile --tag ghcr.io/rsopms/bugbase-login:${{ github.run_id }} --tag latest .
       - name: Log into GHCR
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Push Docker image to GHCR
