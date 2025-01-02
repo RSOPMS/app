@@ -12,6 +12,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Populate initdb
+        run: make start-mock
+        working-directory: ./database
       - name: Build Docker image
         run: docker build -f ./database/Dockerfile --tag ghcr.io/rsopms/database:${{ github.run_id }} .
       - name: Log into GHCR
