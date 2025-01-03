@@ -4,6 +4,7 @@ import (
 	"app-issue/api/handler/fault"
 	"app-issue/api/handler/health"
 	"app-issue/api/handler/issue"
+	"app-issue/api/handler/profile"
 	"app-issue/api/handler/project"
 	"app-issue/api/handler/welcome"
 	"database/sql"
@@ -49,6 +50,10 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	// Welcome
 	welcomeHandler := welcome.NewWelcomeHandler()
 	router.Handle("GET /{$}", stackLogAuth(api.CreateHandler(welcomeHandler.GetWelcomePage)))
+
+	// Profile
+	profileHandler := profile.NewProfileHandler(s.Db)
+	router.Handle("GET /profile/{$}", stackLogAuth(api.CreateHandler(profileHandler.GetProfilePage)))
 
 	// Project
 	projectHandler := project.NewProjectHandler(s.Db)
