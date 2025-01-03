@@ -42,41 +42,11 @@ spec:
                 configMapKeyRef:
                   name: bugbase-configmap
                   key: PORT_APP_BULK
-            - name: DB_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: bugbase-configmap
-                  key: DB_NAME
-            - name: DB_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: bugbase-configmap
-                  key: DB_USER
-            - name: DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: bugbase-configmap
-                  key: DB_HOST
-            - name: DB_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: bugbase-configmap
-                  key: DB_PORT
-            - name: DB_SSL_MODE
-              valueFrom:
-                configMapKeyRef:
-                  name: bugbase-configmap
-                  key: DB_SSL_MODE
             - name: URL_NATS
               valueFrom:
                 configMapKeyRef:
                   name: bugbase-configmap
                   key: URL_NATS
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: bugbase-secret
-                  key: DB_PASSWORD
           # WARN: Currently only for local testing. Remove for production deployment.
           imagePullPolicy: Never
 ---

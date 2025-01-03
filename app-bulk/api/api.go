@@ -3,7 +3,6 @@ package api
 import (
 	"app-bulk/api/handler/bulk"
 	"app-bulk/api/handler/health"
-	"database/sql"
 	"framework/api"
 	"log"
 	"net/http"
@@ -11,7 +10,6 @@ import (
 
 type ApiServer struct {
 	Addr string
-	Db   *sql.DB
 }
 
 func (s *ApiServer) Run() error {
@@ -34,11 +32,11 @@ func (s *ApiServer) registerHandlers(router *http.ServeMux) {
 	stackLog := api.CreateMiddlewareStack(api.LoggingMiddleware)
 
 	// Bulk
-	bulkHandler := bulk.NewBulkHandler(s.Db)
+	bulkHandler := bulk.NewBulkHandler()
 	router.Handle("POST /api/bulk/{$}", stackLog(api.CreateHandler(bulkHandler.PostBulk)))
 
 	// Health
-	healthHandler := health.NewHealthHandler(s.Db)
+	healthHandler := health.NewHealthHandler()
 	router.Handle("GET /health/live/{$}", stackLog(api.CreateHandler(healthHandler.GetHealthLive)))
 	router.Handle("GET /health/ready/{$}", stackLog(api.CreateHandler(healthHandler.GetHealthReady)))
 }

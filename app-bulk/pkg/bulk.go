@@ -1,7 +1,6 @@
 package pkg
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -59,7 +58,7 @@ func PublishMessage(subject string, message []byte) error {
 	return nil
 }
 
-func AddPayloadToDB(db *sql.DB, payload InputPayload) error {
+func AddPayloadToDB(payload InputPayload) error {
 	for _, project := range payload.Projects {
 		// Send project info to app-ingress through NATS
 		projectData, err := json.Marshal(project)

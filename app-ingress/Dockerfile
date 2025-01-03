@@ -2,30 +2,30 @@
 # BUILDER
 # -------------------------------------
 
-    FROM golang:alpine AS build
+FROM golang:alpine AS build
 
-    WORKDIR /app
+WORKDIR /app
 
-    COPY . .
+COPY . .
 
-    WORKDIR /app/app-ingress
+WORKDIR /app/app-ingress
 
-    RUN go mod download
+RUN go mod download
 
-    RUN go build -o ./bin/service ./cmd/main.go
+RUN go build -o ./bin/service ./cmd/main.go
 
-    # -------------------------------------
-    # RUNNER
-    # -------------------------------------
+# -------------------------------------
+# RUNNER
+# -------------------------------------
 
-    FROM scratch
+FROM scratch
 
-    ENV APP_PORT=8080
+ENV APP_PORT=8080
 
-    WORKDIR /
+WORKDIR /
 
-    COPY --from=build /app/app-ingress/bin/service /service
+COPY --from=build /app/app-ingress/bin/service /service
 
-    EXPOSE ${APP_PORT}
+EXPOSE ${APP_PORT}
 
-    CMD [ "/service" ]
+CMD [ "/service" ]
