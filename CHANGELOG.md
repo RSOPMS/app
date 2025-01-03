@@ -2,7 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 1.0.0 - 2025-01-03
+
+[6d0dc8c](6d0dc8cc5ae50b7728f7e800f72407b9191e44f3)...[aded5eb](aded5ebd6eeff7f66d1b73795afb093095bfef41)
 
 ### <!-- 0 -->🚀 Features
 
@@ -191,6 +193,7 @@ All notable changes to this project will be documented in this file.
 - #73 Fixes in openapi-login.yaml ([1384302](1384302c1900c55bfb73fb83169c3f966b37bd69))
 - #73 Fixes in openapi-login.yaml ([a677e75](a677e75cd2ce23765491eb46ce24dcf6b95d75c6))
 - #73 Fixes in openapi-issue.yaml ([953b3b0](953b3b00070b6f62833a29ef2ab91b5297505eca))
+- #86 update changelog ([aded5eb](aded5ebd6eeff7f66d1b73795afb093095bfef41))
 
 ### <!-- 5 -->🎨 Styling
 
