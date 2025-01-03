@@ -4,6 +4,8 @@ import (
 	"app-issue/pkg"
 	"app-issue/template"
 	"database/sql"
+	"framework/api"
+	"log"
 	"net/http"
 )
 
@@ -18,6 +20,13 @@ func NewProjectHandler(db *sql.DB) *ProjectHandler {
 }
 
 func (h *ProjectHandler) GetProjectsPage(w http.ResponseWriter, r *http.Request) error {
+	user, ok := r.Context().Value(api.ContextSubjectKey).(string)
+	if !ok {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return nil
+	}
+
+	log.Println(user)
 	return template.RenderLayout(w, "projectsPage", nil)
 }
 

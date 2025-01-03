@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS bugbase_user (
     name          TEXT   NOT NULL,
     surname       TEXT   NOT NULL,
     avatar        TEXT,
-    role_id       SERIAL REFERENCES role(id)
+    role_id       SERIAL REFERENCES role(id),
+    avatar_svg    TEXT
 );
 
 

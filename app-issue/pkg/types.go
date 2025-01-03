@@ -1,5 +1,14 @@
 package pkg
 
+type User struct {
+	Id        int
+	Name      string
+	Surname   string
+	Role      string
+	Email     string
+	AvatarSVG string
+}
+
 type Project struct {
 	Id    int
 	Title string
