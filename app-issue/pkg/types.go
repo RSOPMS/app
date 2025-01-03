@@ -1,12 +1,11 @@
 package pkg
 
 type User struct {
-	Id        int
-	Name      string
-	Surname   string
-	Role      string
-	Email     string
-	AvatarSVG string
+	Id      int
+	Name    string
+	Surname string
+	Role    string
+	Email   string
 }
 
 type Project struct {
