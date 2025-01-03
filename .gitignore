@@ -1,0 +1,6 @@
+bin
+tmp
+initdb
+**/.env
+**/.air.toml
+go.work.sum

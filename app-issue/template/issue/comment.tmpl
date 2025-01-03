@@ -6,17 +6,18 @@
       <th>Date</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="commentsTableBody">
     {{ range . }}
-    <tr>
-      <td>
-        {{ .Content }}
-      </td>
-      <td>
-        {{ .CreatedAt }}
-    </td>
-    </tr>
+    {{ template "commentRow" . }}
     {{ end }}
   </tbody>
 </table>
+{{ end }}
+
+
+{{ define "commentRow" }}
+<tr>
+  <td>{{ .Content }}</td>
+  <td>{{ .CreatedAt }}</td>
+</tr>
 {{ end }}

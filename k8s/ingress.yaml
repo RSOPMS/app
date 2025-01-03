@@ -25,3 +25,24 @@ spec:
                 name: bugbase-static-service
                 port:
                   number: 8081
+          - path: /bulk(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: bugbase-bulk-service
+                port:
+                  number: 8082
+          - path: /ingress(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: bugbase-ingress-service
+                port:
+                  number: 8083
+          - path: /login(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: bugbase-login-service
+                port:
+                  number: 8084

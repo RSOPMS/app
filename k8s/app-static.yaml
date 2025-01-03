@@ -16,11 +16,7 @@ spec:
     spec:
       containers:
         - name: bugbase-static
-          image: bugbase-static
-          resources:
-            limits:
-              memory: 128Mi
-              cpu: 500m
+          image: ghcr.io/rsopms/bugbase-static
           ports:
             - containerPort: 8081
               name: server
@@ -42,8 +38,6 @@ spec:
                 configMapKeyRef:
                   name: bugbase-configmap
                   key: PORT_APP_STATIC
-          # TODO: Currently only for local testing. Remove for production deployment.
-          imagePullPolicy: Never
 ---
 apiVersion: v1
 kind: Service

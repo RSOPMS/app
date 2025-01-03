@@ -4,4 +4,7 @@ use (
 	./framework
 	./app-static
 	./app-issue
+	./app-bulk
+	./app-ingress
+	./app-login
 )

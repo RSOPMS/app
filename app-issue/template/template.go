@@ -35,6 +35,9 @@ func getFuncMap() template.FuncMap {
 		"urlPrefixIssue": func() template.URL {
 			return template.URL(os.Getenv("URL_PREFIX_ISSUE"))
 		},
+		"urlPrefixLogin": func() template.URL {
+			return template.URL(os.Getenv("URL_PREFIX_LOGIN"))
+		},
 		"urlPrefixStatic": func() template.URL {
 			return template.URL(os.Getenv("URL_PREFIX_STATIC"))
 		},

@@ -9,8 +9,14 @@
   </head>
   <body>
     <nav class="menu">
-      <a href="{{ urlPrefixIssue }}/">Home</a>
-      <a href="{{ urlPrefixIssue }}/projects/">Projects</a>
+      <div style="display: flex">
+        <a href="{{ urlPrefixIssue }}/">Home</a>
+        <a href="{{ urlPrefixIssue }}/projects/">Projects</a>
+      </div>
+      <div style="display: flex">
+        <a href="{{ urlPrefixIssue }}/profile/">Profile</a>
+        <a href="{{ urlPrefixLogin }}/logout/">Logout</a>
+      </div>
     </nav>
     <main>
 {{ end }}

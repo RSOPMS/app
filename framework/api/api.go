@@ -12,6 +12,9 @@ type Handler func(http.ResponseWriter, *http.Request) error
 
 // CreateHandler handles errors and returns a HandlerFunc.
 func CreateHandler(handler Handler) http.HandlerFunc {
+	handler = NewTimeoutHandler().Timeout(handler)
+	handler = NewRetryHandler(WithAttempts(3)).Retry(handler)
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		if err := handler(w, r); err != nil {
 			log.Println(err)
