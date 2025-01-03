@@ -2,6 +2,8 @@
 
 Project management software
 
+![screenshot](doc/screenshot.png)
+
 ## :rocket: Main statuses
 
 [![(framework) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/framework.yaml/badge.svg?branch=main&event=push)](https://github.com/RSOPMS/app/actions/workflows/framework.yaml)

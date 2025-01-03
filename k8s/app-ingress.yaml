@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: bugbase-ingress
-          image: bugbase-ingress
+          image: ghcr.io/rsopms/bugbase-issue
           resources:
             limits:
               memory: 128Mi
@@ -77,8 +77,6 @@ spec:
                 secretKeyRef:
                   name: bugbase-secret
                   key: DB_PASSWORD
-          # WARN: Currently only for local testing. Remove for production deployment.
-          imagePullPolicy: Never
 ---
 apiVersion: v1
 kind: Service

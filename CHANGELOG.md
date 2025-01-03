@@ -77,6 +77,8 @@ All notable changes to this project will be documented in this file.
 - #79 fix types remove redundant ([088d497](088d4979f11cfb33826020efabbaa91eb17eb7a5))
 - Feat #63: Pushing current progress on creating ingress service ([482a51b](482a51b80ff6054da74720373c209942bdd091b2))
 - Feat #61: Added NATS communication between app-bulk and app-ingress ([1da4128](1da4128a3f37b4762420381122b225346424d23e))
+- #86 add deploy for ingress service ([cca0856](cca08569e20b46116cc7ccaa7e766c4a6c45796d))
+- #86 add application screenshot ([d56b9b6](d56b9b6e1b542a2a25984a80850b16a765c52f14))
 
 ### <!-- 1 -->🐛 Bug Fixes
 
@@ -161,6 +163,7 @@ All notable changes to this project will be documented in this file.
 - Merge branch '63-add-ingress-service' into prb/dev/63-add-ingress-service ([77a735a](77a735a8e7eecf1415147173d0fc3e693074fda6))
 - #63 makefile comments ([dda072a](dda072afe403b513752823d2607c72cc52d69e6a))
 - Merge pull request #84 from RSOPMS/prb/dev/63-add-ingress-service ([944ce94](944ce9468a9142b68a76b1ef34b99b35b755a32e))
+- Merge pull request #76 from RSOPMS/73-update-openapi-doc ([2013642](2013642a92840e45f05ba8ae44b43b2ac306c33e))
 
 ### <!-- 2 -->🚜 Refactor
 
@@ -183,6 +186,11 @@ All notable changes to this project will be documented in this file.
 - #37 fixed responses in OpenAPI docs .yaml ([197a5a5](197a5a5b1aa36e9417e1495a5a1e8daa23d5dd17))
 - #40 update changelog ([4ee984f](4ee984f2d366b32f26c3986bbaf15c8ed6daffae))
 - #83 add AKS documentation ([f69c3e2](f69c3e24f6eae2a0e061848227c49fea37d06a52))
+- #40 update changelog ([1953700](19537003e676ccd31d5a093e8ed7d63363eb51e1))
+- #73 split openapi.yaml, added login, bulk paths with examples ([9b84bdb](9b84bdb09c0fdeb16cab54b3dcacefd2f1c5f406))
+- #73 Fixes in openapi-login.yaml ([1384302](1384302c1900c55bfb73fb83169c3f966b37bd69))
+- #73 Fixes in openapi-login.yaml ([a677e75](a677e75cd2ce23765491eb46ce24dcf6b95d75c6))
+- #73 Fixes in openapi-issue.yaml ([953b3b0](953b3b00070b6f62833a29ef2ab91b5297505eca))
 
 ### <!-- 5 -->🎨 Styling
 
@@ -199,5 +207,7 @@ All notable changes to this project will be documented in this file.
 - #52 update images ([4d10ff5](4d10ff57e866e68cc5c3e944f5f4cde2d271f693))
 - #52 update images ([b101717](b10171727bb3ad98ac618780efe580204e57f619))
 - #52 add deployment workflow ([91e3c0e](91e3c0e0b46deea9eeabe5f73290ec406842c102))
+- #86 upload image to ghcr ([695d52f](695d52fe6ede9e40a10ef65a4ab64e6b53a08f61))
+- #86 fix ingress yaml ([a3c7c9f](a3c7c9f5da4eac943a4918bacda142259f40c4c5))
 
 
