@@ -16,11 +16,7 @@ spec:
     spec:
       containers:
         - name: bugbase-bulk
-          image: bugbase-bulk
-          resources:
-            limits:
-              memory: 128Mi
-              cpu: 500m
+          image: ghcr.io/rsopms/bugbase-bulk
           ports:
             - containerPort: 8082
               name: server
@@ -72,8 +68,6 @@ spec:
                 secretKeyRef:
                   name: bugbase-secret
                   key: DB_PASSWORD
-          # WARN: Currently only for local testing. Remove for production deployment.
-          imagePullPolicy: Never
 ---
 apiVersion: v1
 kind: Service

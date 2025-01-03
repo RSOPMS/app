@@ -16,11 +16,7 @@ spec:
     spec:
       containers:
         - name: bugbase-login
-          image: bugbase-login
-          resources:
-            limits:
-              memory: 128Mi
-              cpu: 500m
+          image: ghcr.io/rsopms/bugbase-login
           ports:
             - containerPort: 8084
               name: server
@@ -92,8 +88,6 @@ spec:
                 secretKeyRef:
                   name: bugbase-secret
                   key: JWT_SECRET
-          # WARN: Currently only for local testing. Remove for production deployment.
-          imagePullPolicy: Never
 ---
 apiVersion: v1
 kind: Service
