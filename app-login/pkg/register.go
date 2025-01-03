@@ -13,8 +13,8 @@ type Role struct {
 
 func ProcessRegister(db *sql.DB, name string, surname string, roleId int, email string, password string) error {
 	query := `
-	INSERT INTO bugbase_user (email, password_hash, name, surname, role_id, avatar_svg)
-	  VALUES ($1, $2, $3, $4, $5, $6);
+	INSERT INTO bugbase_user (email, password_hash, name, surname, role_id)
+	  VALUES ($1, $2, $3, $4, $5);
 	`
 
 	passwordHash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)

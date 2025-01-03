@@ -2,8 +2,13 @@
   {{ template "top" }}
   <h1>User Profile</h1>
   <div style="display: flex; align-items: center;">
-    <div>
-      <img src="data:image/svg+xml;base64,{{ .AvatarSVG }}" alt="User Avatar" style="width: 100px; height: 100px; margin-right: 20px;">
+    <meta name="htmx-config" content='{"selfRequestsOnly": false}' />
+    <div id="avatar-image" 
+      hx-get='https://api.dicebear.com/9.x/bottts-neutral/svg?seed={{ urlquery .Name }}{{ urlquery .Surname }}{{ urlquery .Email }}' 
+      hx-trigger="load" 
+      hx-swap="innerHTML" 
+      style="width: 100px; height: 100px; margin-right: 20px;">
+     <!-- Avatar image will be loaded here -->
     </div>
     <div>
       <p>Name: {{ .Name }}</p>

@@ -2,10 +2,6 @@ package pkg
 
 import (
 	"database/sql"
-	"encoding/base64"
-	"fmt"
-	"io"
-	"net/http"
 )
 
 func ReadUserProfile(db *sql.DB, email string) (*User, error) {
@@ -32,25 +28,6 @@ func ReadUserProfile(db *sql.DB, email string) (*User, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	// Generate unique avatar URL
-	seed := fmt.Sprintf("%s%s%s", user.Name, user.Surname, user.Email)
-	avatarURL := fmt.Sprintf("https://api.dicebear.com/9.x/pixel-art/svg?seed=%s", seed)
-
-	// Fetch the avatar SVG image
-	resp, err := http.Get(avatarURL)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	// Read the SVG image content
-	avatarSVG, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	user.AvatarSVG = base64.StdEncoding.EncodeToString(avatarSVG)
 
 	return user, nil
 }
