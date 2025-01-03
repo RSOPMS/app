@@ -1,0 +1,256 @@
+openapi: 3.0.3
+info:
+  title: App Login API
+  description: API for managing logins, logouts and new user registration.
+  version: 1.0.0
+paths:
+  /login/:
+    get:
+      summary: Get login page
+      description: Returns an HTML page with the login form.
+      responses:
+        '200':
+          description: HTML page for login.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <div style="display: flex; justify-content: center;">
+                    <form action="/login/" method="post" hx-boost="true">
+                      <div>
+                        <label for="email">E-mail</label>
+                        <input type="text" id="email" name="e-mail" placeholder="E-mail" required>
+                      </div>
+                      <div>
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                      </div>
+                      <div>
+                        <button type="submit">Log In</button>
+                      </div>
+                    </form>
+                  </div>
+                  <a href="/login/register/" style="display: block; text-align: center;">Register</a>
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+    post:
+      summary: Process login
+      description: Authenticates the user and starts a session.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  format: password
+                  example: password
+              required:
+                - email
+                - password
+      responses:
+        '200':
+          description: Login successful, redirecting to home page.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        '400':
+          description: Invalid credentials or bad request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /login/logout/:
+    get:
+      summary: Process logout
+      description: Logs the user out and invalidates the session.
+      responses:
+        '200':
+          description: Logged out successfully, redirect to login page.
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /login/register/:
+    get:
+      summary: Get registration page
+      description: Returns an HTML page with the registration form.
+      responses:
+        '200':
+          description: HTML page for registration.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <h1>Register</h1>
+                  <div style="display: flex; justify-content: center;">
+                    <form action="/login/register/" method="post" hx-boost="true">
+                      <div>
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Name" required>
+                      </div>
+                      <div>
+                        <label for="surname">Surname</label>
+                        <input type="text" id="surname" name="surname" placeholder="Surname" required>
+                      </div>
+                      <div hx-get="/login/api/user/new/"
+                          hx-trigger="revealed"
+                          hx-swap="innerHTML">
+                      </div>
+                      <div>
+                        <label for="email">E-mail</label>
+                        <input type="text" id="email" name="email" placeholder="E-mail" required>
+                      </div>
+                      <div>
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                      </div>
+                      <div>
+                        <label for="passwordRepeat">Repeat Password</label>
+                        <input type="password" id="passwordRepeat" name="passwordRepeat" placeholder="Password" required>
+                      </div>
+                      <div>
+                        <button type="submit">Register</button>
+                      </div>
+                    </form>
+                  </div>
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+    post:
+      summary: Process registration
+      description: Registers a new user and assigns a role.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: John
+                surname:
+                  type: string
+                  example: Doe
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  format: password
+                  example: password
+                passwordRepeat:
+                  type: string
+                  format: password
+                  example: password
+                roleId:
+                  type: integer
+                  example: 0
+              required:
+                - name
+                - surname
+                - email
+                - password
+                - passwordRepeat
+                - roleId
+      responses:
+        '200':
+          description: Registration successful, redirect to login page.
+        '400':
+          description: Invalid input or missing fields.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /login/api/user/new/:
+    get:
+      summary: Get roles form
+      description: Returns an HTML form dropdown with available roles for user registration.
+      responses:
+        '200':
+          description: HTML dropdown for role selection.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <label for="roleId">Role</label>
+                  <select id="roleId" name="roleId">
+                    <option value="0">Admin</option>
+                    <option value="1">Editor</option>
+                    <option value="2">Viewer</option>
+                  </select>
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /login/health/live/:
+    get:
+      summary: Liveness health check
+      description: Verifies if the login service is running and the database connection is alive.
+      responses:
+        '200':
+          description: Service is live.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /login/health/ready/:
+    get:
+      summary: Readiness health check
+      description: Verifies if the login service is ready to accept requests.
+      responses:
+        '200':
+          description: Service is ready.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"

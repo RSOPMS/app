@@ -1,0 +1,114 @@
+openapi: 3.0.3
+info:
+  title: Bulk Data API
+  description: API for bulk data transfer of projects and issues into the database.
+  version: 1.0.0
+paths:
+  /bulk/api/bulk/:
+    post:
+      summary: Bulk data upload
+      description: Accepts a JSON payload containing projects and issues, and inserts the data into the database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projects:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                issues:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      project:
+                        type: string
+                      status:
+                        type: string
+                      priority:
+                        type: string
+                      branch:
+                        type: string
+              example: {
+                "projects": [
+                  { "title": "Project A" },
+                  { "title": "Project B" }
+                ],
+                "issues": [
+                  { "title": "Issue 1", 
+                    "description": "Issue 1 description", 
+                    "project": "Project A", 
+                    "status": "Open", 
+                    "priority": "High", 
+                    "branch": "main" },
+                  { "title": "Issue 2", 
+                    "description": "Issue 2 description", 
+                    "project": "Project B", 
+                    "status": "Closed", 
+                    "priority": "Low", 
+                    "branch": "feature-1" }
+                ]
+              }
+      responses:
+        '200':
+          description: Data successfully inserted.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /bulk/health/live/:
+    get:
+      summary: Liveness health check
+      description: Verifies if the bulk service is running and the database connection is alive.
+      responses:
+        '200':
+          description: Service is live.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /bulk/health/ready/:
+    get:
+      summary: Readiness health check
+      description: Verifies if the bulk service is ready to accept requests.
+      responses:
+        '200':
+          description: Service is ready.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"

@@ -1,0 +1,611 @@
+openapi: 3.0.3
+info:
+  title: App Issue API
+  description: API for managing projects, issues, and health checks.
+  version: 1.0.0
+paths:
+  /issue/:
+    get:
+      summary: Get welcome page
+      description: Returns the welcome page.
+      responses:
+        '200':
+          description: HTML welcome page.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <h1 style="text-align: center; font-size: 6rem; color: #10b981; text-shadow: 5px 5px 2px #104433;">BugBase</h1>
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /issue/projects/:
+    get:
+      summary: Get projects page
+      description: Returns an HTML page displaying the list of all projects and a button to create a new project.
+      responses:
+        '200':
+          description: HTML page for all projects.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <h1>Projects</h1>
+                  <button onclick="document.getElementById('new-project-dialog').showModal()">Add New Project</button>
+                  <div hx-get="/issue/api/projects/table/"
+                       hx-trigger="load"
+                       hx-swap="outerHTML">
+                  </div>
+
+                  <dialog id="new-project-dialog">
+                    <form action="/issue/api/projects/new/"
+                          method="dialog"
+                          hx-post="/issue/api/projects/new/"
+                          hx-trigger="submit"
+                          hx-swap="afterbegin"
+                          hx-target="#projectsTableBody">
+                      <h3>Create New Project</h3>
+
+                      <div>
+                        <label for="title">Title</label>
+                        <input type="text" id="title" name="title" placeholder="Project title" required>
+                      </div>
+
+                      <div>
+                        <button type="submit" onclick="document.getElementById('new-project-dialog').close()">Create project</button>
+                        <button type="button" onclick="document.getElementById('new-project-dialog').close()">Cancel</button>
+                      </div>
+                    </form>
+                  </dialog>
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /issue/api/projects/table/:
+    get:
+      summary: Get projects table
+      description: Returns an HTML table of all projects with links to their respective pages.
+      responses:
+        '200':
+          description: HTML table of all projects.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                      </tr>
+                    </thead>
+                    <tbody id="projectsTableBody">
+                      <tr>
+                        <td>
+                          <a href="/issue/projects/1/">Project Alpha</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <a href="/issue/projects/2/">Project Beta</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <a href="/issue/projects/3/">Project Gamma</a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /issue/api/projects/new/:
+    post:
+      summary: Create a new project
+      description: Endpoint to create a new project.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: The title of the project
+                  example: "New Project"
+              required:
+                - title
+      responses:
+        '200':
+          description: Project created successfully.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <tr>
+                    <td>
+                      <a href="/issue/projects/1/">New Project</a>
+                    </td>
+                  </tr>
+        '400':
+          description: Invalid input or bad request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+                    example: "Invalid input data"
+  /issue/projects/{projectId}/:
+    get:
+      summary: Get project page
+      description: Returns an HTML page for a specific project and its issues.
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: The ID of the project.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: HTML page for the specified project.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <h1>Project Name Example</h1>
+                  <div>
+                    <h2>Issues</h2>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Title</th>
+                          <th>Description</th>
+                          <th>Branch</th>
+                          <th>Status</th>
+                          <th>Priority</th>
+                        </tr>
+                      </thead>
+                      <tbody id="issuesTableBody">
+                        <tr>
+                          <td>Issue 1</td>
+                          <td>Description of issue 1</td>
+                          <td><a href="https://example.com/branch-url-1">feature-branch-1</a></td>
+                          <td>Open</td>
+                          <td>High</td>
+                        </tr>
+                        <tr>
+                          <td>Issue 2</td>
+                          <td>Description of issue 2</td>
+                          <td><a href="https://example.com/branch-url-2">feature-branch-2</a></td>
+                          <td>Closed</td>
+                          <td>Medium</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /issue/api/projects/{projectId}/issues/table/:
+    get:
+      summary: Get issues table for a project
+      description: Returns an HTML table of issues for a specific project.
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: The ID of the project.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: HTML table of issues for the project.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Branch</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                      </tr>
+                    </thead>
+                    <tbody id="issuesTableBody">
+                      <tr>
+                        <td>
+                          <a href="/issue/issues/1/">Issue 1</a>
+                        </td>
+                        <td>Description of issue 1</td>
+                        <td>feature-branch-1</td>
+                        <td>Open</td>
+                        <td>High</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <a href="/issue/issues/2/">Issue 2</a>
+                        </td>
+                        <td>Description of issue 2</td>
+                        <td>feature-branch-2</td>
+                        <td>Closed</td>
+                        <td>Medium</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <a href="/issue/issues/3/">Issue 3</a>
+                        </td>
+                        <td>Description of issue 3</td>
+                        <td>feature-branch-3</td>
+                        <td>In Progress</td>
+                        <td>Low</td>
+                      </tr>
+                    </tbody>
+                  </table>
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /issue/api/issues/new/:
+    post:
+      summary: Create a new issue
+      description: Endpoint to create a new issue.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: The title of the issue
+                  example: "New Issue"
+                description:
+                  type: string
+                  description: The description of the issue
+                  example: "This is a new issue."
+                projectId:
+                  type: integer
+                  description: The ID of the project associated with the issue
+                  example: 1
+                branchId:
+                  type: integer
+                  description: The ID of the branch associated with the issue
+                  example: 1
+                statusId:
+                  type: integer
+                  description: The ID of the status of the issue
+                  example: 1
+                priorityId:
+                  type: integer
+                  description: The ID of the priority of the issue
+                  example: 1
+              required:
+                - title
+                - description
+                - projectId
+                - branchId
+                - statusId
+                - priorityId
+      responses:
+        '200':
+          description: Issue created successfully.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <tr>
+                    <td>
+                      <a href="/issue/issues/1/">New Issue</a>
+                    </td>
+                    <td>This is a new issue.</td>
+                    <td>feature-branch</td>
+                    <td>Open</td>
+                    <td>High</td>
+                  </tr>
+        '400':
+          description: Invalid input or bad request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /issue/api/branch/form/:
+    get:
+      summary: Get branch form
+      description: Returns an HTML form dropdown with available branches for issue creation.
+      responses:
+        '200':
+          description: HTML dropdown for branch selection.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <label for="branchId">Branch</label>
+                  <select id="branchId" name="branchId">
+                    <option value="1">feature-branch-1</option>
+                    <option value="2">feature-branch-2</option>
+                    <option value="3">feature-branch-3</option>
+                  </select>
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /issue/api/status/form/:
+    get:
+      summary: Get status form
+      description: Returns an HTML form dropdown with available statuses for issue creation.
+      responses:
+        '200':
+          description: HTML dropdown for status selection.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <label for="statusId">Status</label>
+                  <select id="statusId" name="statusId">
+                    <option value="1">Open</option>
+                    <option value="2">In Progress</option>
+                    <option value="3">Closed</option>
+                  </select>
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /issue/api/priority/form/:
+    get:
+      summary: Get priority form
+      description: Returns an HTML form dropdown with available priorities for issue creation.
+      responses:
+        '200':
+          description: HTML dropdown for priority selection.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <label for="priorityId">Priority</label>
+                  <select id="priorityId" name="priorityId">
+                    <option value="1">Low</option>
+                    <option value="2">Medium</option>
+                    <option value="3">High</option>
+                  </select>
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /issue/issues/{issueId}/:
+    get:
+      summary: Get issue page
+      description: Returns an HTML page displaying the issue's title, status, priority, description, and a dynamically loaded comments table.
+      parameters:
+        - name: issueId
+          in: path
+          required: true
+          description: The ID of the issue.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: HTML page for the issue.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                    <h1>Issue Example</h1>
+                    <a href="/issue/projects/123/">Project Name Example</a>
+                  </div>
+                  <p>This is a description of the issue.</p>
+                  <p>Branch: <a href="https://example.com/branch-url">feature-branch</a></p>
+                  <p>Status: Open</p>
+                  <p>Priority: High</p>
+                  <p>Created at: 2023-10-01T12:34:56Z</p>
+                  <h2>Comments</h2>
+                  <button onclick="document.getElementById('new-comment-dialog').showModal()">Add New Comment</button>
+                  <div hx-get="/issue/api/issues/456/comments/table/"
+                       hx-trigger="load"
+                       hx-swap="outerHTML">
+                  </div>
+
+                  <dialog id="new-comment-dialog">
+                    <form action="/issue/api/comments/new/"
+                          method="dialog"
+                          hx-post="/issue/api/comments/new/"
+                          hx-trigger="submit"
+                          hx-swap="afterbegin"
+                          hx-target="#commentsTableBody">
+                      <h3>Create New Comment</h3>
+
+                      <div>
+                        <label for="content">Content</label>
+                        <textarea id="content" name="content" placeholder="Comment content" rows="6" required></textarea>
+                      </div>
+
+                      <input type="hidden" id="issueId" name="issueId" value="456" readonly>
+
+                      <div>
+                        <button type="submit" onclick="document.getElementById('new-comment-dialog').close()">Post comment</button>
+                        <button type="button" onclick="document.getElementById('new-comment-dialog').close()">Cancel</button>
+                      </div>
+                    </form>
+                  </dialog>
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /issue/api/issues/{issueId}/comments/table/:
+    get:
+      summary: Get comments table for an issue
+      description: Returns an HTML table displaying the comments for the specified issue, including the title, description, status, and priority.
+      parameters:
+        - name: issueId
+          in: path
+          required: true
+          description: The ID of the issue for which comments are retrieved.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: HTML table of comments for the issue.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Comment</th>
+                        <th>Date</th>
+                      </tr>
+                    </thead>
+                    <tbody id="commentsTableBody">
+                      <tr>
+                        <td>This is the first comment.</td>
+                        <td>2023-10-01T12:34:56Z</td>
+                      </tr>
+                      <tr>
+                        <td>This is the second comment.</td>
+                        <td>2023-10-02T14:22:33Z</td>
+                      </tr>
+                      <tr>
+                        <td>This is the third comment.</td>
+                        <td>2023-10-03T16:45:12Z</td>
+                      </tr>
+                    </tbody>
+                  </table>
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /issue/api/comments/new/:
+    post:
+      summary: Create a new comment
+      description: Endpoint to create a new comment.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  description: The content of the comment
+                  example: "This is a new comment."
+                issueId:
+                  type: integer
+                  description: The ID of the issue the comment is associated with
+                  example: 1
+              required:
+                - content
+                - issueId
+      responses:
+        '200':
+          description: Comment created successfully.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <tr>
+                    <td>This is a new comment.</td>
+                    <td>2023-10-01T12:34:56Z</td>
+                  </tr>
+        '400':
+          description: Invalid input or bad request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /issue/health/live/:
+    get:
+      summary: Liveness health check
+      description: Verifies if the application is running and the database connection is alive.
+      responses:
+        '200':
+          description: Application is live and database connection is active.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+  /issue/health/ready/:
+    get:
+      summary: Readiness health check
+      description: Verifies if the application is ready to serve requests, including a healthy database connection.
+      responses:
+        '200':
+          description: Application is ready to serve requests.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
