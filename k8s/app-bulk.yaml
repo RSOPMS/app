@@ -38,36 +38,11 @@ spec:
                 configMapKeyRef:
                   name: bugbase-configmap
                   key: PORT_APP_BULK
-            - name: DB_NAME
+            - name: URL_NATS
               valueFrom:
                 configMapKeyRef:
                   name: bugbase-configmap
-                  key: DB_NAME
-            - name: DB_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: bugbase-configmap
-                  key: DB_USER
-            - name: DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: bugbase-configmap
-                  key: DB_HOST
-            - name: DB_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: bugbase-configmap
-                  key: DB_PORT
-            - name: DB_SSL_MODE
-              valueFrom:
-                configMapKeyRef:
-                  name: bugbase-configmap
-                  key: DB_SSL_MODE
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: bugbase-secret
-                  key: DB_PASSWORD
+                  key: URL_NATS
 ---
 apiVersion: v1
 kind: Service

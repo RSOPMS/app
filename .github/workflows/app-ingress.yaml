@@ -1,0 +1,34 @@
+name: (app-ingress) Vet and test GO code
+
+on:
+  push:
+    paths:
+      - 'app-ingress/**'
+
+jobs:
+  lint:
+    name: Vet and test GO code
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./app-ingress
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup GO
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: app-ingress/go.mod
+      - name: Tidy Go mod
+        run: go mod tidy && git diff --exit-code
+      - name: Download Go modules
+        run: go mod download
+      - name: Verify Go modules
+        run: go mod verify
+      - name: Vet GO code
+        run: go vet ./...
+      - name: Format Go code
+        run: gofmt -l -s -w . && git diff --exit-code
+      - name: Test GO code
+        run: go test ./...
