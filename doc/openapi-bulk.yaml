@@ -4,7 +4,7 @@ info:
   description: API for bulk data transfer of projects and issues into the database.
   version: 1.0.0
 paths:
-  /bulk/api/bulk:
+  /bulk/api/bulk/:
     post:
       summary: Bulk data upload
       description: Accepts a JSON payload containing projects and issues, and inserts the data into the database.
@@ -74,7 +74,7 @@ paths:
               schema:
                 type: string
                 example: "Invalid Request"
-  /bulk/health/live:
+  /bulk/health/live/:
     get:
       summary: Liveness health check
       description: Verifies if the bulk service is running and the database connection is alive.
@@ -93,7 +93,7 @@ paths:
               schema:
                 type: string
                 example: "Invalid Request"
-  /bulk/health/ready:
+  /bulk/health/ready/:
     get:
       summary: Readiness health check
       description: Verifies if the bulk service is ready to accept requests.
