@@ -66,6 +66,17 @@ All notable changes to this project will be documented in this file.
 - #34 file structure, timeout, retry fix ([f9d20f8](f9d20f8be130a587e04963fee892cd7a992d8d17))
 - #34 testing done ([b2010c6](b2010c601e39e2649575445242d19a4f7ca8d1af))
 - #70 added register - tested ([7386f0c](7386f0c8623736fc8fca5ceeaace8f6cf8937a3e))
+- #52 deploy to ghcr ([c6a81d3](c6a81d3b67e50f35a3830b64445f82e10063b132))
+- #75 add db migrations ([949b156](949b156db4e0cef4fc2c8ca304ed393844ba8f32))
+- #52 add database workflow ([ea7ae80](ea7ae800fb1ee5ecf6016ca43e761263d3a2b733))
+- #52 deploy to ghcr ([23cb176](23cb1765be143b6ca53289a29320e6ed2a71bd6b))
+- #79 Added user profile page + outside API for avatar gen on register ([f8ba3a1](f8ba3a1d04811627fa79a5d103b0e03e5b57db25))
+- #79 Fixes so it generates when opening profile, no changed to DB ([1b8ce8c](1b8ce8cdf813eeefa2eb796343417500d4370320))
+- #79 Fixes with htmx ([f8086e8](f8086e8fa38478104a66dbb737f3cac09055453a))
+- #79 fix format ([3a8a3ac](3a8a3aca0d586386a24a2d867e95f6288e66b0f8))
+- #79 fix types remove redundant ([088d497](088d4979f11cfb33826020efabbaa91eb17eb7a5))
+- Feat #63: Pushing current progress on creating ingress service ([482a51b](482a51b80ff6054da74720373c209942bdd091b2))
+- Feat #61: Added NATS communication between app-bulk and app-ingress ([1da4128](1da4128a3f37b4762420381122b225346424d23e))
 
 ### <!-- 1 -->🐛 Bug Fixes
 
@@ -106,6 +117,16 @@ All notable changes to this project will be documented in this file.
 - #70 add authorization to the welcome page ([e07b4f3](e07b4f3ed9b8314b396f177a8f55e0ca0e8de556))
 - #70 random fixes ([7e61b9b](7e61b9b6bc2606f73e092683c722d516e38a6186))
 - #70 fix htmx and relocate register link ([bec393b](bec393b1051cb4170fd83b2338d187eda1e13f4d))
+- #52 populate initdb in gh action ([9c7ca00](9c7ca007e03bb36752291d9dbb493f342bebfaf3))
+- #52 add latest tag to images ([6380aca](6380aca3a0f6c01d9d59159ab43c6666035ae541))
+- #52 add latest tag in build step ([ffaf1f2](ffaf1f2f9cb8981eb3f6e140af37568b9827f860))
+- #52 change tag to full path ([1a518c0](1a518c001259e2e57f4d9791c14561d15d0a8ae0))
+- #77 add jwt secret to k8s deployment ([215f4ca](215f4ca82784bbf6ec46fe304c60da80b3809c64))
+- Fix #61: Fixing requirements ([5055e8a](5055e8aeb8b33e52620b84f47f2a64ef7d6c8e40))
+- Fix #61: Minor changes ([04aaf46](04aaf465cf78a9c7d0bacb59c70f06579e79ce20))
+- Fix #61: temporary commit - NATS k8s ([2a598d1](2a598d1c49dda43c2a611c54c5ce101d4026e54a))
+- Fix #61: NATS works now locally and with k8s ([e1cd1a7](e1cd1a734a20713fa4dcc3d8e187412c773d4406))
+- Fix #63: fixing go.mod files ([1fcfa54](1fcfa54a105ce57418aa3473daf26852703bd49c))
 
 ### <!-- 10 -->💼 Other
 
@@ -132,12 +153,21 @@ All notable changes to this project will be documented in this file.
 - Merge branch '34-fault-tolerance' into prb/dev/34-fault-tolerance ([6b35e33](6b35e335418b1dccaa60b061fb3a2535914dba3f))
 - Merge pull request #72 from RSOPMS/prb/dev/34-fault-tolerance ([eef2e0a](eef2e0ab9376ae63da41ab096d165ab55a18e7ee))
 - Merge pull request #71 from RSOPMS/70-register-new-user ([55d7871](55d7871260b62386d71cbeb102ae9b9e73ca160d))
+- Merge pull request #74 from RSOPMS/52-add-cd-pipeline ([9f4d5d7](9f4d5d787786c507875dea9b40ec61a7dc52a633))
+- Merge pull request #78 from RSOPMS/52-add-cd-pipeline ([602b178](602b178d9a2d29e08f3f703be2d95ff9bda8eeb5))
+- Merge pull request #81 from RSOPMS/52-add-cd-pipeline ([83b91e0](83b91e017c20d4c320554f33c45f058934a86dae))
+- Merge pull request #28 from RSOPMS/dev ([7736596](773659633c6706ad7eff2d0859deeac8897f0537))
+- Merge pull request #82 from RSOPMS/79-generate-user-avatar ([dfd8bcb](dfd8bcb06d3667f856cb952eeb97c8f268f68c5f))
+- Merge branch '63-add-ingress-service' into prb/dev/63-add-ingress-service ([77a735a](77a735a8e7eecf1415147173d0fc3e693074fda6))
+- #63 makefile comments ([dda072a](dda072afe403b513752823d2607c72cc52d69e6a))
+- Merge pull request #84 from RSOPMS/prb/dev/63-add-ingress-service ([944ce94](944ce9468a9142b68a76b1ef34b99b35b755a32e))
 
 ### <!-- 2 -->🚜 Refactor
 
 - #20 refactored code ([c0e1013](c0e1013646b894ca3f4c6864b768bb7dee1dba9d))
 - #20 add newlines to templates ([1576a9f](1576a9f2c8232937d294a506969d5f140e3704e9))
 - #42 update request context ([fd85caf](fd85caf652b9c4230b61e48e803bc06679d11645))
+- Refactor #63: Refactoring app-ingress and app-bulk code ([c8b8b59](c8b8b59e9c779509b2ec2abd3ad9fa6050ef32c3))
 
 ### <!-- 3 -->📚 Documentation
 
@@ -151,6 +181,8 @@ All notable changes to this project will be documented in this file.
 - #37 fixed responses in OpenAPI docs .yaml ([99e938d](99e938d1590f2dfa41d9d9b9ceba3014ead043cf))
 - #37 openapi formatting ([22b0757](22b07573e9db4c95a73b7619d949a6a53b9c032a))
 - #37 fixed responses in OpenAPI docs .yaml ([197a5a5](197a5a5b1aa36e9417e1495a5a1e8daa23d5dd17))
+- #40 update changelog ([4ee984f](4ee984f2d366b32f26c3986bbaf15c8ed6daffae))
+- #83 add AKS documentation ([f69c3e2](f69c3e24f6eae2a0e061848227c49fea37d06a52))
 
 ### <!-- 5 -->🎨 Styling
 
@@ -160,5 +192,12 @@ All notable changes to this project will be documented in this file.
 - #32 code formatting and update changelog ([e578ae7](e578ae7f99c0215949495e588ecdf8098e509493))
 - #56 code formatting ([d3a17a6](d3a17a62eaf452061499ff178a439efe2f592da4))
 - #66 code lint ([3006bfd](3006bfd2bc597e10c510f6e2bdad0532ea83a3da))
+
+### <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- #52 refresh ghcr ([9a2003b](9a2003b23a5ae265d8fb156acdde76001f0f59c2))
+- #52 update images ([4d10ff5](4d10ff57e866e68cc5c3e944f5f4cde2d271f693))
+- #52 update images ([b101717](b10171727bb3ad98ac618780efe580204e57f619))
+- #52 add deployment workflow ([91e3c0e](91e3c0e0b46deea9eeabe5f73290ec406842c102))
 
 
