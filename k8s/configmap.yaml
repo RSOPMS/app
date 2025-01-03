@@ -6,11 +6,13 @@ data:
   PORT_APP_ISSUE: "8080"
   PORT_APP_STATIC: "8081"
   PORT_APP_BULK: "8082"
+  PORT_APP_INGRESS: "8083"
   PORT_APP_LOGIN: "8084"
 
   URL_PREFIX_ISSUE: "/issue"
   URL_PREFIX_STATIC: ""
   URL_PREFIX_BULK: "/bulk"
+  URL_PREFIX_INGRESS: "/ingress"
   URL_PREFIX_LOGIN: "/login"
 
   JWT_NAME: "bugbase_session"
@@ -20,3 +22,5 @@ data:
   DB_HOST: "bugbase-database-service.default.svc"
   DB_PORT: "5432"
   DB_SSL_MODE: "disable"
+
+  URL_NATS: "nats://nats-service:4222"

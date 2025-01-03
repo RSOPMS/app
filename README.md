@@ -12,6 +12,8 @@ Project management software
 
 [![(app-bulk) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/app-bulk.yaml/badge.svg?branch=main&event=push)](https://github.com/RSOPMS/app/actions/workflows/app-bulk.yaml)
 
+[![(app-ingress) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/app-ingress.yaml/badge.svg?branch=main&event=push)](https://github.com/RSOPMS/app/actions/workflows/app-ingress.yaml)
+
 [![(app-login) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/app-login.yaml/badge.svg?branch=main&event=push)](https://github.com/RSOPMS/app/actions/workflows/app-login.yaml)
 
 ## :construction: Dev statuses
@@ -23,6 +25,8 @@ Project management software
 [![(app-issue) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/app-issue.yaml/badge.svg?branch=dev&event=push)](https://github.com/RSOPMS/app/actions/workflows/app-issue.yaml)
 
 [![(app-bulk) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/app-bulk.yaml/badge.svg?branch=dev&event=push)](https://github.com/RSOPMS/app/actions/workflows/app-bulk.yaml)
+
+[![(app-ingress) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/app-ingress.yaml/badge.svg?branch=dev&event=push)](https://github.com/RSOPMS/app/actions/workflows/app-ingress.yaml)
 
 [![(app-login) Vet and test GO code](https://github.com/RSOPMS/app/actions/workflows/app-login.yaml/badge.svg?branch=dev&event=push)](https://github.com/RSOPMS/app/actions/workflows/app-login.yaml)
 

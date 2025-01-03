@@ -1,4 +1,4 @@
-module app-bulk
+module app-ingress
 
 go 1.22.3
 

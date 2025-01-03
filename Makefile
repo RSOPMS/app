@@ -15,12 +15,14 @@ help:
 
 ##  init; Initialize the repository for local development
 init: clean
+	@ln -s ../.env app-ingress/.env
 	@ln -s ../.env app-bulk/.env
 	@ln -s ../.env app-issue/.env
 	@ln -s ../.env app-login/.env
 	@ln -s ../.env app-static/.env
 	@ln -s ../.env database/.env
 
+	@ln -s ../.air.toml app-ingress/.air.toml
 	@ln -s ../.air.toml app-bulk/.air.toml
 	@ln -s ../.air.toml app-issue/.air.toml
 	@ln -s ../.air.toml app-login/.air.toml
@@ -29,11 +31,13 @@ init: clean
 ##  clean; Remove all generated files
 clean:
 	@rm -rf app-bulk/.env
+	@rm -rf app-ingress/.env
 	@rm -rf app-issue/.env
 	@rm -rf app-login/.env
 	@rm -rf app-static/.env
 	@rm -rf database/.env
 
+	@rm -rf app-ingress/.air.toml
 	@rm -rf app-bulk/.air.toml
 	@rm -rf app-issue/.air.toml
 	@rm -rf app-login/.air.toml
@@ -57,6 +61,8 @@ k8s/dev/issue: app-issue/build app-issue/start
 
 k8s/dev/bulk: app-bulk/build app-bulk/start
 
+k8s/dev/ingress: app-ingress/build app-ingress/start
+
 k8s/dev/login: app-login/build app-login/start
 
 # -----------------------------------------------------------------------------
@@ -65,7 +71,7 @@ k8s/dev/login: app-login/build app-login/start
 
 kdb: k8s/dev/build
 ##  k8s/dev/build; Build Docker container images; (alias: kdb)
-k8s/dev/build: database/build grafana/build app-static/build app-issue/build app-bulk/build app-login/build
+k8s/dev/build: database/build grafana/build app-static/build app-issue/build app-bulk/build app-ingress/build app-login/build
 
 database/build:
 	@rm -rf ./database/initdb
@@ -86,16 +92,19 @@ app-issue/build:
 app-bulk/build:
 	@docker build -f ./app-bulk/Dockerfile --tag bugbase-bulk:latest .
 
+app-ingress/build:
+	@docker build -f ./app-ingress/Dockerfile --tag bugbase-ingress:latest .
+
 app-login/build:
 	@docker build -f ./app-login/Dockerfile --tag bugbase-login:latest .
 
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 # k8s dev start
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 
 kds: k8s/dev/start
 ##  k8s/dev/start; Apply k8s configurations; (alias: kds)
-k8s/dev/start: configmap/start secret/start ingress/start database/start grafana/start app-static/start app-issue/start app-bulk/start app-login/start
+k8s/dev/start: configmap/start secret/start ingress/start database/start nats/start grafana/start app-static/start app-issue/start app-bulk/start app-ingress/start app-login/start
 
 configmap/start:
 	@kubectl apply -f ./k8s/configmap.yaml
@@ -112,6 +121,9 @@ database/start:
 grafana/start:
 	@kubectl apply -f ./k8s/grafana.yaml
 
+nats/start:
+	@kubectl apply -f ./k8s/nats.yaml
+
 app-static/start:
 	@kubectl apply -f ./k8s/app-static.yaml
 
@@ -120,6 +132,9 @@ app-issue/start:
 
 app-bulk/start:
 	@kubectl apply -f ./k8s/app-bulk.yaml
+
+app-ingress/start:
+	@kubectl apply -f ./k8s/app-ingress.yaml
 
 app-login/start:
 	@kubectl apply -f ./k8s/app-login.yaml
@@ -130,7 +145,7 @@ app-login/start:
 
 kdd: k8s/dev/delete
 ##  k8s/dev/delete; Delete the k8s cluster; (alias: kdd)
-k8s/dev/delete: configmap/delete secret/delete ingress/delete database/delete grafana/delete app-static/delete app-issue/delete app-bulk/delete app-login/delete
+k8s/dev/delete: configmap/delete secret/delete ingress/delete database/delete nats/delete grafana/delete app-static/delete app-issue/delete app-bulk/delete app-ingress/delete app-login/delete
 
 configmap/delete:
 	@kubectl delete -f ./k8s/configmap.yaml
@@ -147,6 +162,9 @@ database/delete:
 grafana/delete:
 	@kubectl delete -f ./k8s/grafana.yaml
 
+nats/delete:
+	@kubectl delete -f ./k8s/nats.yaml
+
 app-static/delete:
 	@kubectl delete -f ./k8s/app-static.yaml
 
@@ -155,6 +173,9 @@ app-issue/delete:
 
 app-bulk/delete:
 	@kubectl delete -f ./k8s/app-bulk.yaml
+
+app-ingress/delete:
+	@kubectl delete -f ./k8s/app-ingress.yaml
 
 app-login/delete:
 	@kubectl delete -f ./k8s/app-login.yaml
