@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: bugbase-ingress
-          image: ghcr.io/rsopms/bugbase-issue
+          image: ghcr.io/rsopms/bugbase-ingress
           resources:
             limits:
               memory: 128Mi
