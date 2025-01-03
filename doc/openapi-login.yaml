@@ -16,15 +16,22 @@ paths:
               schema:
                 type: string
                 example: |
-                  <h1>Login</h1>
-                  <form action="/login/" method="post" hx-boost="true">
-                    <label for="email">E-mail</label>
-                    <input type="text" id="email" name="email" placeholder="E-mail" required>
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Password" required>
-                    <button type="submit">Log In</button>
-                  </form>
-                  <a href="/login/register/">Register</a>
+                  <div style="display: flex; justify-content: center;">
+                    <form action="/login/" method="post" hx-boost="true">
+                      <div>
+                        <label for="email">E-mail</label>
+                        <input type="text" id="email" name="e-mail" placeholder="E-mail" required>
+                      </div>
+                      <div>
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                      </div>
+                      <div>
+                        <button type="submit">Log In</button>
+                      </div>
+                    </form>
+                  </div>
+                  <a href="/login/register/" style="display: block; text-align: center;">Register</a>
         '400':
           description: Invalid request.
           content:
@@ -32,7 +39,6 @@ paths:
               schema:
                 type: string
                 example: "Invalid Request"
-
     post:
       summary: Process login
       description: Authenticates the user and starts a session.
@@ -45,11 +51,26 @@ paths:
               properties:
                 email:
                   type: string
+                  format: email
+                  example: user@example.com
                 password:
                   type: string
+                  format: password
+                  example: password
+              required:
+                - email
+                - password
       responses:
         '200':
-          description: Login successful, redirecting to dashboard.
+          description: Login successful, redirecting to home page.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
         '400':
           description: Invalid credentials or bad request.
           content:
@@ -57,7 +78,6 @@ paths:
               schema:
                 type: string
                 example: "Invalid Request"
-
   /login/logout/:
     get:
       summary: Process logout
@@ -72,7 +92,6 @@ paths:
               schema:
                 type: string
                 example: "Invalid Request"
-
   /login/register/:
     get:
       summary: Get registration page
@@ -86,19 +105,37 @@ paths:
                 type: string
                 example: |
                   <h1>Register</h1>
-                  <form action="/login/register/" method="post" hx-boost="true">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" placeholder="Name" required>
-                    <label for="surname">Surname</label>
-                    <input type="text" id="surname" name="surname" placeholder="Surname" required>
-                    <label for="email">E-mail</label>
-                    <input type="text" id="email" name="email" placeholder="E-mail" required>
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Password" required>
-                    <label for="passwordRepeat">Repeat Password</label>
-                    <input type="password" id="passwordRepeat" name="passwordRepeat" placeholder="Password" required>
-                    <button type="submit">Register</button>
-                  </form>
+                  <div style="display: flex; justify-content: center;">
+                    <form action="/login/register/" method="post" hx-boost="true">
+                      <div>
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Name" required>
+                      </div>
+                      <div>
+                        <label for="surname">Surname</label>
+                        <input type="text" id="surname" name="surname" placeholder="Surname" required>
+                      </div>
+                      <div hx-get="/login/api/user/new/"
+                          hx-trigger="revealed"
+                          hx-swap="innerHTML">
+                      </div>
+                      <div>
+                        <label for="email">E-mail</label>
+                        <input type="text" id="email" name="email" placeholder="E-mail" required>
+                      </div>
+                      <div>
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                      </div>
+                      <div>
+                        <label for="passwordRepeat">Repeat Password</label>
+                        <input type="password" id="passwordRepeat" name="passwordRepeat" placeholder="Password" required>
+                      </div>
+                      <div>
+                        <button type="submit">Register</button>
+                      </div>
+                    </form>
+                  </div>
         '400':
           description: Invalid request.
           content:
@@ -106,7 +143,6 @@ paths:
               schema:
                 type: string
                 example: "Invalid Request"
-
     post:
       summary: Process registration
       description: Registers a new user and assigns a role.
@@ -119,16 +155,32 @@ paths:
               properties:
                 name:
                   type: string
+                  example: John
                 surname:
                   type: string
+                  example: Doe
                 email:
                   type: string
+                  format: email
+                  example: user@example.com
                 password:
                   type: string
+                  format: password
+                  example: password
                 passwordRepeat:
                   type: string
+                  format: password
+                  example: password
                 roleId:
                   type: integer
+                  example: 0
+              required:
+                - name
+                - surname
+                - email
+                - password
+                - passwordRepeat
+                - roleId
       responses:
         '200':
           description: Registration successful, redirect to login page.
@@ -139,7 +191,6 @@ paths:
               schema:
                 type: string
                 example: "Invalid Request"
-
   /login/api/user/new/:
     get:
       summary: Get roles form
@@ -154,8 +205,9 @@ paths:
                 example: |
                   <label for="roleId">Role</label>
                   <select id="roleId" name="roleId">
-                    <option value="1">Admin</option>
-                    <option value="2">User</option>
+                    <option value="0">Admin</option>
+                    <option value="1">Editor</option>
+                    <option value="2">Viewer</option>
                   </select>
         '400':
           description: Invalid request.
