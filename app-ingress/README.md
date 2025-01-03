@@ -44,3 +44,4 @@ Remove NATS server
 ```sh
 docker rm nats-server
 ```
+
