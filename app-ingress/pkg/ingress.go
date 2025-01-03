@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"log"
+	"os"
 
 	"github.com/nats-io/nats.go"
 )
@@ -31,11 +32,8 @@ var nc *nats.Conn
 // Initialize NATS connection
 func InitNATS() error {
 	var err error
-
-	// TODO CONFIGMAP URL DOESN'T WORK HERE
-	// natsUrl := os.Getenv("URL_NATS")
-	// nc, err = nats.Connect(natsUrl)
-	nc, err = nats.Connect("nats://nats-service:4222") // TODO HERE THE URL SHOULD BE READ FROM .ENV OR CONFIGMAP
+	natsUrl := os.Getenv("URL_NATS")
+	nc, err = nats.Connect(natsUrl)
 	if err != nil {
 		return err
 	}

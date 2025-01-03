@@ -13,5 +13,3 @@ func NewIngressHandler(db *sql.DB) *IngressHandler {
 		Db: db,
 	}
 }
-
-// TODO IS THIS FILE EVEN NEEDED?

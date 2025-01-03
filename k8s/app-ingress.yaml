@@ -67,6 +67,11 @@ spec:
                 configMapKeyRef:
                   name: bugbase-configmap
                   key: DB_SSL_MODE
+            - name: URL_NATS
+              valueFrom:
+                configMapKeyRef:
+                  name: bugbase-configmap
+                  key: URL_NATS
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
