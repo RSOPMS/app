@@ -13,7 +13,7 @@
 TODO: Link do aplikacije. Aplikacija naj bo dostopna vsaj med zagovorom.
 
 # Kratek opis projekta
-TODO: V enem odstavku opišite namen in cilje projekta. Opišite problem, ki ga rešujete, in kako ga vaš projekt rešuje.
+BugBase je aplikacija za vodenje in upravljanje projektov, zasnovana za razvijalce, ki se pogosto soočajo s kompleksnimi projekti in potrebujejo pomoč pri organizaciji. Poleg registracije in prijave omogoča dodajanje novih projektov in spremljanje njihovega napredka, pri čemer lahko pod vsak projekt dodajamo naloge (issues), ki jih je mogoče povezati z razvojnimi vejami, določiti prioriteto (npr. High, Low) ter spremljati njihovo stanje (npr. Open, Closed). Poleg tega aplikacija podpira dodajanje komentarjev k posameznim nalogam, kar olajša sodelovanje in komunikacijo znotraj ekip.
 
 # Ogrodje in razvojno okolje
 TODO: Navedite tehnologije, programska ogrodja in razvojna okolja, ki so bila uporabljena (npr. KumuluzEE, Spring Boot, Node.js, Docker, Kubernetes).
