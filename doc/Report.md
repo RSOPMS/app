@@ -22,7 +22,7 @@ TODO: Navedite tehnologije, programska ogrodja in razvojna okolja, ki so bila up
 TODO: Priložite končno shemo arhitekture aplikacije, ki prikazuje interakcije med vsemi elementi (mikrostoritve, podatkovne baze, zunanja orodja in API-ji, ...). V shemi označite tudi uporabljene komunikacijske protokole.
 
 # Seznam funkcionalnosti mikrostoritev
-TODO: Za vsako mikrostoritev navedite funkcionalnosti, ki jih implementira.
+V pričujočem poglavju bomo za vsako mikrostoritev navedli funkcionalnosti, ki jih implementira.
 
 ## database
 TODO
@@ -37,10 +37,12 @@ TODO
 TODO
 
 ## app-bulk
-TODO
+- prejemanje večje količine podatkov (novih projektov in nalog) preko POST zahtevka
+- pošiljanje prejetih podatkov mikrostoritvi app-ingress preko sporočilnega sistema NATS
 
 ## app-ingress
-TODO
+- prejem podatkov (novih projektov in nalog) od mikrostoritve app-bulk preko sporočilnega sistema NATS
+- vstavljanje prejetih podatkov v podatkovno bazo
 
 # Primeri uporabe
 TODO: Navedite seznam primerov uporabe, ki jih aplikacija podpira. Opišite tudi en kompleksnejši primer uporabe, kjer pri obdelavi sodeluje več mikrostoritev.
