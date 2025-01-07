@@ -12,5 +12,4 @@ spec:
       storage: {{ .Values.persistentVolumeClaim.storage }}
   accessModes:
     - {{ .Values.persistentVolumeClaim.accessMode }}
----
 {{- end }}
