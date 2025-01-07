@@ -10,6 +10,6 @@ spec:
   ports:
     - port: {{ $service.service.port }}
       protocol: TCP
-      targetPort: server
+      targetPort: {{ $service.service.targetPort | default "server" }}
 ---
 {{- end }}

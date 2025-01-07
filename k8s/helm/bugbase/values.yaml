@@ -61,6 +61,7 @@ services:
       type: ClusterIP
       port: 5432
       portName: dbport
+      targetPort: 5432
     env:
       - name: DB_PASSWORD
         secretKeyRef:
@@ -188,6 +189,34 @@ services:
         configMapKeyRef:
           name: bugbase-configmap
           key: PORT_APP_INGRESS
+      - name: DB_NAME
+        configMapKeyRef:
+          name: bugbase-configmap
+          key: DB_NAME
+      - name: DB_USER
+        configMapKeyRef:
+          name: bugbase-configmap
+          key: DB_USER
+      - name: DB_HOST
+        configMapKeyRef:
+          name: bugbase-configmap
+          key: DB_HOST
+      - name: DB_PORT
+        configMapKeyRef:
+          name: bugbase-configmap
+          key: DB_PORT
+      - name: DB_SSL_MODE
+        configMapKeyRef:
+          name: bugbase-configmap
+          key: DB_SSL_MODE
+      - name: URL_NATS
+        configMapKeyRef:
+          name: bugbase-configmap
+          key: URL_NATS
+      - name: DB_PASSWORD
+        secretKeyRef:
+          name: bugbase-secret
+          key: DB_PASSWORD
     livenessProbeEnabled: true
     readinessProbeEnabled: true
   bugbase-login:
