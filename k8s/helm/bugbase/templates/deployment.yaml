@@ -1,0 +1,82 @@
+{{- range $serviceName, $service := .Values.services }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $serviceName }}-deployment
+  labels:
+    app: {{ $serviceName }}
+spec:
+  replicas: {{ $service.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ $serviceName }}
+  template:
+    metadata:
+      labels:
+        app: {{ $serviceName }}
+    spec:
+      containers:
+        - name: {{ $serviceName }}
+          image: {{ $service.image.repository }}
+          ports:
+            - containerPort: {{ $service.service.port }}
+              name: {{ $service.service.portName | default "server" }}
+          {{- if $service.resources }}
+          resources:
+            {{- if $service.resources.limits }}
+            limits:
+              {{- if $service.resources.limits.memory }}
+              memory: {{ $service.resources.limits.memory }}
+              {{- end }}
+              {{- if $service.resources.limits.cpu }}
+              cpu: {{ $service.resources.limits.cpu }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
+          {{- if $service.livenessProbeEnabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ $.Values.global.liveness.path }}
+              port: server
+            initialDelaySeconds: {{ $.Values.global.liveness.initialDelaySeconds }}
+            periodSeconds: {{ $.Values.global.liveness.periodSeconds }}
+          {{- end }}
+          {{- if $service.readinessProbeEnabled }}
+          readinessProbe:
+            httpGet:
+              path: {{ $.Values.global.readiness.path }}
+              port: server
+            initialDelaySeconds: {{ $.Values.global.readiness.initialDelaySeconds }}
+            periodSeconds: {{ $.Values.global.readiness.periodSeconds }}
+          {{- end }}
+          env:
+            {{- range $service.env }}
+            - name: {{ .name }}
+              valueFrom:
+                {{- if .secretKeyRef }}
+                secretKeyRef:
+                  name: {{ .secretKeyRef.name }}
+                  key: {{ .secretKeyRef.key }}
+                {{- else }}
+                configMapKeyRef:
+                  name: {{ .configMapKeyRef.name }}
+                  key: {{ .configMapKeyRef.key }}
+                {{- end }}
+            {{- end }}
+          {{- if $service.volumeMounts }}
+          volumeMounts:
+            {{- range $service.volumeMounts }}
+            - mountPath: {{ .mountPath }}
+              name: {{ .name }}
+            {{- end }}
+          {{- end }}
+      {{- if $service.volumes }}
+      volumes:
+        {{- range $service.volumes }}
+        - name: {{ .name }}
+          persistentVolumeClaim:
+            claimName: {{ .claimName }}
+        {{- end }}
+      {{- end }}
+---
+{{- end }}
