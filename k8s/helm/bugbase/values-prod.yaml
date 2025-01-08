@@ -1,3 +1,5 @@
+namespace: prod
+
 global:
   liveness:
     path: /health/live
@@ -19,17 +21,17 @@ config:
   PORT_APP_INGRESS: "8083"
   PORT_APP_LOGIN: "8084"
 
-  URL_PREFIX_ISSUE: "/issue"
-  URL_PREFIX_STATIC: ""
-  URL_PREFIX_BULK: "/bulk"
-  URL_PREFIX_INGRESS: "/ingress"
-  URL_PREFIX_LOGIN: "/login"
+  URL_PREFIX_ISSUE: "/prod/issue"
+  URL_PREFIX_STATIC: "/prod"
+  URL_PREFIX_BULK: "/prod/bulk"
+  URL_PREFIX_INGRESS: "/prod/ingress"
+  URL_PREFIX_LOGIN: "/prod/login"
 
   JWT_NAME: "bugbase_session"
 
   DB_NAME: "bugbase"
   DB_USER: "bugbase"
-  DB_HOST: "bugbase-database-service.default.svc"
+  DB_HOST: "bugbase-database-service.prod.svc"
   DB_PORT: "5432"
   DB_SSL_MODE: "disable"
 
@@ -37,20 +39,29 @@ config:
 
 persistentVolume:
   enabled: true
-  name: bugbase-database-pv
+  name: bugbase-database-pv-prod
   app: bugbase-database
   storage: 50Mi
   accessMode: ReadWriteMany
   storageClassName: manual
   hostPath: /data/postgresql
 
-persistentVolumeClaim:
-  enabled: true
-  name: bugbase-database-pvc
-  app: bugbase-database
-  storage: 50Mi
-  accessMode: ReadWriteMany
-  storageClassName: manual
+persistentVolumeClaims:
+  - enabled: true
+    name: bugbase-database-pvc-prod
+    app: bugbase-database
+    storage: 50Mi
+    accessMode: ReadWriteMany
+    storageClassName: manual
+  - enabled: true
+    name: grafana-pvc-prod
+    app: grafana
+    storageClassName: standard
+    storage: 1Gi
+    accessMode: ReadWriteOnce
+
+grafana:
+  pvcName: grafana-pvc-prod
 
 services:
   bugbase-database:
@@ -76,10 +87,10 @@ services:
         name: postgresdata
     volumes:
       - name: postgresdata
-        claimName: bugbase-database-pvc
+        claimName: bugbase-database-pvc-prod
     livenessProbeEnabled: false
     readinessProbeEnabled: false
-  bugbase-issue:
+  prod-bugbase-issue:
     replicaCount: 1
     image:
       repository: ghcr.io/rsopms/bugbase-issue
@@ -141,7 +152,7 @@ services:
           key: DB_PASSWORD
     livenessProbeEnabled: true
     readinessProbeEnabled: true
-  bugbase-static:
+  prod-bugbase-static:
     replicaCount: 1
     image:
       repository: ghcr.io/rsopms/bugbase-static
@@ -155,7 +166,7 @@ services:
           key: PORT_APP_STATIC
     livenessProbeEnabled: true
     readinessProbeEnabled: true
-  bugbase-bulk:
+  prod-bugbase-bulk:
     replicaCount: 1
     image:
       repository: ghcr.io/rsopms/bugbase-bulk
@@ -173,7 +184,7 @@ services:
           key: URL_NATS
     livenessProbeEnabled: true
     readinessProbeEnabled: true
-  bugbase-ingress:
+  prod-bugbase-ingress:
     replicaCount: 1
     image:
       repository: ghcr.io/rsopms/bugbase-ingress
@@ -219,7 +230,7 @@ services:
           key: DB_PASSWORD
     livenessProbeEnabled: true
     readinessProbeEnabled: true
-  bugbase-login:
+  prod-bugbase-login:
     replicaCount: 1
     image:
       repository: ghcr.io/rsopms/bugbase-login
