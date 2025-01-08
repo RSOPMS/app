@@ -2,7 +2,7 @@
 
 Project management software
 
-![screenshot](doc/screenshot.png)
+![screenshot](doc/assets/screenshot.png)
 
 ## :rocket: Main statuses
 
