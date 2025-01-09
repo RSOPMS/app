@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bugbase-configmap
+data:
+  PORT_APP_ISSUE: "{{ .Values.config.PORT_APP_ISSUE }}"
+  PORT_APP_STATIC: "{{ .Values.config.PORT_APP_STATIC }}"
+  PORT_APP_BULK: "{{ .Values.config.PORT_APP_BULK }}"
+  PORT_APP_INGRESS: "{{ .Values.config.PORT_APP_INGRESS }}"
+  PORT_APP_LOGIN: "{{ .Values.config.PORT_APP_LOGIN }}"
+
+  URL_PREFIX_ISSUE: "{{ .Values.config.URL_PREFIX_ISSUE }}"
+  URL_PREFIX_STATIC: "{{ .Values.config.URL_PREFIX_STATIC }}"
+  URL_PREFIX_BULK: "{{ .Values.config.URL_PREFIX_BULK }}"
+  URL_PREFIX_INGRESS: "{{ .Values.config.URL_PREFIX_INGRESS }}"
+  URL_PREFIX_LOGIN: "{{ .Values.config.URL_PREFIX_LOGIN }}"
+
+  JWT_NAME: "{{ .Values.config.JWT_NAME }}"
+
+  DB_NAME: "{{ .Values.config.DB_NAME }}"
+  DB_USER: "{{ .Values.config.DB_USER }}"
+  DB_HOST: "{{ .Values.config.DB_HOST }}"
+  DB_PORT: "{{ .Values.config.DB_PORT }}"
+  DB_SSL_MODE: "{{ .Values.config.DB_SSL_MODE }}"
+
+  URL_NATS: "{{ .Values.config.URL_NATS }}"
