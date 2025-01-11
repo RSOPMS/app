@@ -64,11 +64,11 @@ TODO
 
 ## app-issue
 
-TODO
+TODO - Nejc
 
 ## app-login
 
-TODO
+TODO - Nejc
 
 ## app-bulk
 
@@ -88,94 +88,84 @@ TODO: Navedite seznam primerov uporabe, ki jih aplikacija podpira. Opišite tudi
 
 TODO: Za vsako zahtevo na kratko (okvirno do 500 znakov) opišite kako ste zahtevo implementirali/naslovili. Lahko vključite tudi slike. (Jaz sem napisal kar vse, treba je pobrisat tiste, ki jih nimamo).
 
-## Repozitorij
+## 1. Repozitorij
 
 TODO
 
-## Mikrostoritve in "cloud-native aplikacija"
+## 2. Mikrostoritve in "cloud-native aplikacija"
 
 TODO
 
-## Dokumentacija
+## 3. Dokumentacija
 
 TODO
 
-## Dokumentacija API
+## 4. Dokumentacija API
+
+TODO - Nejc
+
+## 5. Cevovod CI/CD
 
 TODO
 
-## Cevovod CI/CD
+## 6. Helm charts
+
+TODO - Nejc
+
+## 7. Namestitev v oblak
 
 TODO
 
-## Helm charts
+## 8. "Serverless" funkcija
+
+TODO - Nejc
+
+## 9. Zunanji API
+
+TODO - Nejc
+
+## 10. Večnajemništvo
+
+TODO - Nejc
+
+## 11. Preverjanje zdravja
 
 TODO
 
-## Namestitev v oblak
+~~## 12. GraphQL in gRPC~~
+
+## 12. Sporočilni sistemi
 
 TODO
 
-## "Serverless" funkcija
+~~## "Event sourcing" in CQRS~~
+
+~~## Centralizirano beleženje dnevnikov~~
+
+## 13. Zbiranje metrik
 
 TODO
 
-## Zunanji API
+## 14. Izolacija in toleranca napak
 
 TODO
 
-## Večnajemništvo
+## 15. Upravljanje s konfiguracijo
+
+TODO - Nejc
+
+## 16. Grafični vmesnik
 
 TODO
 
-## Preverjanje zdravja
+~~## Terraform~~
+
+~~## API Gateway~~
 
 TODO
 
-## GraphQL in gRPC
+## 17. Ingress Controller
 
 TODO
 
-## Sporočilni sistemi
-
-TODO
-
-## "Event sourcing" in CQRS
-
-TODO
-
-## Centralizirano beleženje dnevnikov
-
-TODO
-
-## Zbiranje metrik
-
-TODO
-
-## Izolacija in toleranca napak
-
-TODO
-
-## Upravljanje s konfiguracijo
-
-TODO
-
-## Grafični vmesnik
-
-TODO
-
-## Terraform
-
-TODO
-
-## API Gateway
-
-TODO
-
-## Ingress Controller
-
-TODO
-
-## IAM, OAuth2, OIDC
-
-TODO
+~~## IAM, OAuth2, OIDC~~
