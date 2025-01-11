@@ -182,6 +182,8 @@ Prilagamo še nekaj primerov GUI nekaterih izmed podstrani naše aplikacije.
 ![Podstran za prijavo](assets/gui-login.JPG)
 ![Podstran za pregled profila](assets/gui-profile.JPG)
 ![Podstran za pregled projektov](assets/gui-projects.JPG)
+![Podstran za pregled posameznega projekta in njegovih nalog](assets/gui-issues.JPG)
+![Podstran za pregled posamezne naloge](assets/gui-comments.JPG)
 
 ~~## Terraform~~
 
