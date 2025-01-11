@@ -1,27 +1,27 @@
-# Naslov Projekta: BugBase
+# Aplikacija BugBase
 
-# Člani in številka skupine
+## Člani
 
 Skupina 22:
 - Anže Arhar
 - Kristjan Kostanjšek
 - Nejc Ločičnik
 
-# Povezava do repozitorija
+## Povezava do repozitorija
 
-[GitHub link](https://github.com/RSOPMS)
+[GitHub povezava](https://github.com/RSOPMS)
 
-# Naslov URL, kjer je aplikacija dostopna (in morebitni testni prijavni podatki)
+## Naslov URL, kjer je aplikacija dostopna
 
-[BugBase](http://72.146.53.48/login/)
+[BugBase povezava](http://72.146.53.48/login/)
 
-# Kratek opis projekta
+## Opis projekta
 
 BugBase je aplikacija za vodenje in upravljanje projektov, zasnovana za razvijalce, ki se pogosto soočajo s kompleksnimi projekti in potrebujejo pomoč pri organizaciji.
 Poleg registracije in prijave omogoča dodajanje novih projektov in spremljanje njihovega napredka, pri čemer lahko pod vsak projekt dodajamo naloge (issues), ki jih je mogoče povezati z razvojnimi vejami, določiti prioriteto (npr. High, Low) ter spremljati njihovo stanje (npr. Open, Closed).
 Poleg tega aplikacija podpira dodajanje komentarjev k posameznim nalogam, kar olajša sodelovanje in komunikacijo znotraj ekip.
 
-# Ogrodje in razvojno okolje
+## Ogrodje in razvojno okolje
 
 V skopu razvoja, izdelave in zagona aplikacije smo uporabili naslednja programska ogrodja, orodja, razvojna okolja ter storitve.
 Celotna aplikacija je napisana v programskem jeziku go.
@@ -43,42 +43,42 @@ Tam smo tudi izvajali zvezno integracijo in zvezno dostavo s GitHub actions.
 Izdelane Docker vsebnike smo hranili na GitHub-ovi platformi GitHub Container Registry.
 Vse verzije aplikacije smo poganjali na Azure Kubernetes Service.
 
-# Shema arhitekture
+## Shema arhitekture
 
 ![arhitektura](assets/arhitektura.png)
 ![workflow](assets/workflow.png)
 
-# Seznam funkcionalnosti mikrostoritev
+## Seznam funkcionalnosti mikrostoritev
 
 V pričujočem poglavju bomo za vsako mikrostoritev navedli funkcionalnosti, ki jih implementira.
 
-## database
+### database
 
 Po meri nadgrajena slika PostgreSQL podatkovne baze.
 Ob zagonu se avtomatično namestijo ključne nadgradnje (migracije) podatkovne baze.
 Prav tako smo implementirali avtomatično namestitev testnih podatkov.
 
-## app-static
+### app-static
 
 Mikrostoritev deluje kot datotečni strežnik z vlogo dostave skupnih statičnih javascript, CSS in slikovnih datotek, ki jih uporablja več kot ena mikrostoritev.
 
-## app-issue
+### app-issue
 
 TODO - Nejc
 
-## app-login
+### app-login
 
 TODO - Nejc
 
-## app-bulk
+### app-bulk
 
 Mikrostoritev omogoča prejemanje večje količine podatkov (novih projektov in nalog) preko POST zahtevka in pošiljanje prejetih podatkov mikrostoritvi app-ingress preko sporočilnega sistema NATS
 
-## app-ingress
+### app-ingress
 
 Mikrostoritev omogoča prejem podatkov (novih projektov in nalog) od mikrostoritve app-bulk preko sporočilnega sistema NATS in vstavljanje prejetih podatkov v podatkovno bazo.
 
-# Primeri uporabe
+## Primeri uporabe
 
 Aplikacija podpira številne primere uporabe.
 Uporabniki se lahko registrirajo ali prijavijo z obstoječim računom, pregledujejo sezname projektov, nalog, ki spadajo pod posamezne projekte, ter komentarje, povezane z njimi.
@@ -89,70 +89,76 @@ V podatkovno bazo je mogoče preko POST zahtevka uvoziti večje količine podatk
 Mikrostoritev app-bulk prejme zahtevek in podatke posreduje mikrostoritvi app-ingress prek sporočilnega sistema NATS.
 Mikrostoritev app-ingress nato poskrbi za shranjevanje teh podatkov v podatkovno bazo.
 
-# Seznam vključenih zahtev
+## Seznam vključenih zahtev
 
-TODO: Za vsako zahtevo na kratko (okvirno do 500 znakov) opišite kako ste zahtevo implementirali/naslovili.
-Lahko vključite tudi slike.
-(Jaz sem napisal kar vse, treba je pobrisat tiste, ki jih nimamo).
+V pričujočem poglavju bomo navedli in na kratko opisali vsako izmed zahtev, ki smo jo implementirali pri našem projektu.
 
-## 1. Repozitorij
+### 1. Repozitorij
 
 Za razvoj aplikacije smo uporabili GitHub repozitorij, ki smo ga ustrezno strukturirali in opremili za lažjo uporabo.
 V repozitorij smo vključili datoteko README, ki vsebuje podrobna navodila za lokalno namestitev projekta.
 Uporabili smo strategijo razvejanja, pri čemer smo ustvarili ključne veje, kot so main in dev.
 Poleg tega smo za organizacijo, usklajevanje, deljenje dela med člani ekipe in inspiracijo uporabljali GitHub Issues.
 
-## 2. Mikrostoritve in "cloud-native aplikacija"
+### 2. Mikrostoritve in "cloud-native aplikacija"
 
 Aplikacija je zasnovana za delovanje v oblačnem okolju, torej aplikacijo smo ločili na šibko sklopljene mikrostoritve, katere poganjamo v Docker vsebnikih in orkestriramo z orodjem Kubernetes.
 Aplikacijo sestavlja šest mikrostoritev, katere smo omenili in opisali v poglavju Seznam funkcionalnosti mikrostoritev.
 
-## 3. Dokumentacija
+### 3. Dokumentacija
 
 V GitHub repozitorij smo vključili markdown datoteko README, ki vsebuje vsa navodila za lokano namestitev aplikacije.
 Prav tako smo vsaki izmed uporabljenih mikrostoritev dodali README datoteko, ki vsebuje navodila za lokalno namestitev in zagon zgolj te komponente.
 
-## 4. Dokumentacija API
+### 4. Dokumentacija API
 
 TODO - Nejc
 
-## 5. Cevovod CI/CD
+### 5. Cevovod CI/CD
 
 Za CI/CD cevovod smo uporabili GitHub Actions.
 Tam smo namestili formatiranje kode in izvajanje funkcionalnih testov.
 Na koncu smo dodali še cevovode za izdelavo Docker vsebnikov in avtomatično namestitev aplikacije v AKS.
 Za boljši pregled smo v naslovno datoteko README vključili prikaz stanj vseh potekov dela.
 
-## 6. Helm charts
+### 6. Helm charts
 
 TODO - Nejc
 
-## 7. Namestitev v oblak
+### 7. Namestitev v oblak
 
 Aplikacijo smo namestili v Microsoftovo oblačno platformo Azure.
 Tam smo uporabili Azure Kubernetes Service.
 
-## 8. "Serverless" funkcija
+### 8. "Serverless" funkcija
 
 TODO - Nejc
 
-## 9. Zunanji API
+### 9. Zunanji API
 
 TODO - Nejc
 
-## 10. Večnajemništvo
+### 10. Večnajemništvo
 
 TODO - Nejc
 
-## 11. Preverjanje zdravja
+### 11. Preverjanje zdravja
 
 Vsaka izdelana mikrostoritev podpira preverjanje zdravja z API dostopom.
 Mikrostoritve, ki so povezane s podatkovno bazo, vključujejo preverjanje stanje povezave s podatkovno bazo.
 Ostale mikrostoritve vračajo le izključno svoje stanje storitve.
 
-~~## 12. GraphQL in gRPC~~
+```go
+func (h *HealthHandler) GetHealthLive(w http.ResponseWriter, r *http.Request) error {
+	if err := h.Db.Ping(); err != nil {
+		return err
+	}
+	w.WriteHeader(http.StatusOK)
+	return nil
+}
+```
 
-## 12. Sporočilni sistemi
+### 12. Sporočilni sistemi
 
 V aplikaciji uporabljamo sporočilni sistem NATS, zaradi njegove lahkosti in preprostosti uporabe.
 Ob zagonu aplikacije se zažene NATS strežnik, na katerega se povežeta mikrostoritvi app-bulk in app-ingress.
@@ -195,26 +201,22 @@ _, err := nc.Subscribe("app.ingress.project", func(msg *nats.Msg) {
 })
 ```
 
-~~## "Event sourcing" in CQRS~~
-
-~~## Centralizirano beleženje dnevnikov~~
-
-## 13. Zbiranje metrik
+### 13. Zbiranje metrik
 
 Za zbiranje ključnih metrik aplikacije smo postavili instanco Grafane.
 To smo povezali s podatkovno bazo aplikacije.
 V uporabniškem vmesniku prikazujemo ključne podatke stanja aplikacije, kot je število registriranih uporabnikov ali zgodovine nalog.
 
-## 14. Izolacija in toleranca napak
+### 14. Izolacija in toleranca napak
 
 Za bolj zanesljivo delovanje aplikacije smo vključili posredniške API funkcije, ki omogočajo zgodnjo prekinitev zahtevkov (timeout) in omejitev števila neuspelih poskusov (retry).
 Ker je implementacija obeh postopkov relativno enostavna, pri izdelavi nismo uporabili nobenih zunanjih knjižnic.
 
-## 15. Upravljanje s konfiguracijo
+### 15. Upravljanje s konfiguracijo
 
 TODO - Nejc
 
-## 16. Grafični vmesnik
+### 16. Grafični vmesnik
 
 Za aplikacijo smo razvili grafični vmesnik in implementirali podstrani kot so: domača stran, prijavna stran, profilna stran, stran za pregled obstoječih projektov...
 Za izdelavo grafičnega vmesnika nismo uporabili nobenih orodij, temveč smo ga izdelali samostojno.
@@ -227,15 +229,7 @@ Prilagamo še nekaj primerov GUI nekaterih izmed podstrani naše aplikacije.
 ![Podstran za pregled posameznega projekta in njegovih nalog](assets/gui-issues.JPG)
 ![Podstran za pregled posamezne naloge](assets/gui-comments.JPG)
 
-~~## Terraform~~
-
-~~## API Gateway~~
-
-TODO
-
-## 17. Ingress Controller
+### 17. Ingress Controller
 
 Za dostop do storitev v okolju Kubernetes smo uporabili aplikacijo NGINX.
 Tam smo namestili usmerjanje zahtevkov do mikrostoritev glede na predpono poti vsakega API zahtevka.
-
-~~## IAM, OAuth2, OIDC~~
