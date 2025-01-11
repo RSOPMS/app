@@ -72,17 +72,22 @@ TODO - Nejc
 
 ## app-bulk
 
-- prejemanje večje količine podatkov (novih projektov in nalog) preko POST zahtevka
-- pošiljanje prejetih podatkov mikrostoritvi app-ingress preko sporočilnega sistema NATS
+Mikrostoritev omogoča prejemanje večje količine podatkov (novih projektov in nalog) preko POST zahtevka in pošiljanje prejetih podatkov mikrostoritvi app-ingress preko sporočilnega sistema NATS
 
 ## app-ingress
 
-- prejem podatkov (novih projektov in nalog) od mikrostoritve app-bulk preko sporočilnega sistema NATS
-- vstavljanje prejetih podatkov v podatkovno bazo
+Mikrostoritev omogoča prejem podatkov (novih projektov in nalog) od mikrostoritve app-bulk preko sporočilnega sistema NATS in vstavljanje prejetih podatkov v podatkovno bazo.
 
 # Primeri uporabe
 
-TODO: Navedite seznam primerov uporabe, ki jih aplikacija podpira. Opišite tudi en kompleksnejši primer uporabe, kjer pri obdelavi sodeluje več mikrostoritev.
+Aplikacija podpira številne primere uporabe.
+Uporabniki se lahko registrirajo ali prijavijo z obstoječim računom, pregledujejo sezname projektov, nalog, ki spadajo pod posamezne projekte, ter komentarje, povezane z njimi.
+Poleg tega lahko ustvarjajo nove projekte, naloge in komentarje, dostopajo do svoje profilne strani ter se po potrebi odjavijo iz aplikacije.
+
+Aplikacija podpira tudi kompleksnejši primer uporabe, pri kateri sodelujeta dve mikrostoritvi.
+V podatkovno bazo je mogoče preko POST zahtevka uvoziti večje količine podatkov (projektov in nalog).
+Mikrostoritev app-bulk prejme zahtevek in podatke posreduje mikrostoritvi app-ingress prek sporočilnega sistema NATS.
+Mikrostoritev app-ingress nato poskrbi za shranjevanje teh podatkov v podatkovno bazo.
 
 # Seznam vključenih zahtev
 
@@ -90,15 +95,20 @@ TODO: Za vsako zahtevo na kratko (okvirno do 500 znakov) opišite kako ste zahte
 
 ## 1. Repozitorij
 
-TODO
+Za razvoj aplikacije smo uporabili GitHub repozitorij, ki smo ga ustrezno strukturirali in opremili za lažjo uporabo.
+V repozitorij smo vključili datoteko README, ki vsebuje podrobna navodila za lokalno namestitev projekta.
+Uporabili smo strategijo razvejanja, pri čemer smo ustvarili ključne veje, kot so main in dev.
+Poleg tega smo za organizacijo, usklajevanje, deljenje dela med člani ekipe in inspiracijo uporabljali GitHub Issues.
 
 ## 2. Mikrostoritve in "cloud-native aplikacija"
 
-TODO
+Aplikacija je zasnovana za delovanje v oblačnem okolju, torej aplikacijo smo ločili na šibko sklopljene mikrostoritve, katere poganjamo v Docker vsebnikih in orkestriramo z orodjem Kubernetes.
+Aplikacijo sestavlja šest mikrostoritev, katere smo omenili in opisali v poglavju Seznam funkcionalnosti mikrostoritev.
 
 ## 3. Dokumentacija
 
-TODO
+V GitHub repozitorij smo vključili markdown datoteko README, ki vsebuje vsa navodila za lokano namestitev aplikacije.
+Prav tako smo vsaki izmed uporabljenih mikrostoritev dodali README datoteko, ki vsebuje navodila za lokalno namestitev in zagon zgolj te komponente.
 
 ## 4. Dokumentacija API
 
@@ -136,7 +146,15 @@ TODO
 
 ## 12. Sporočilni sistemi
 
-TODO
+V aplikaciji uporabljamo sporočilni sistem NATS, zaradi njegove lahkosti in preprostosti uporabe.
+Ob zagonu aplikacije se zažene NATS strežnik, na katerega se povežeta mikrostoritvi app-bulk in app-ingress.
+App-bulk deluje kot producent in objavlja sporočila.
+App-ingress pa deluje kot prejemnik in se naroči na teme, preko katerih prejema sporočila.
+Prilagamo še slike izsekov programske kode, kjer vzpostavimo povezavo z NATS strežnikom, objavimo sporočilo s sistemom NATS in se naročimo na sporočila s sistemom NATS.
+
+![Povezava z NATS strežnikom](assets/nats-init.JPG)
+![Objava sporočil z NATS](assets/nats-publish.JPG)
+![Naročanje na sporočila z NATS](assets/nats-subscribe.JPG)
 
 ~~## "Event sourcing" in CQRS~~
 
@@ -156,7 +174,14 @@ TODO - Nejc
 
 ## 16. Grafični vmesnik
 
-TODO
+Za aplikacijo smo razvili grafični vmesnik in implementirali podstrani kot so: domača stran, prijavna stran, profilna stran, stran za pregled obstoječih projektov...
+Za izdelavo grafičnega vmesnika nismo uporabili nobenih orodij, temveč smo ga izdelali samostojno.
+Za povezavo sprednjega dela z zalednim, smo uporabili HTMX, ki omogoča vračanje predlog podatkov v obliki HTML, brez potrebe po nadaljnjem urejanju.
+Prilagamo še nekaj primerov GUI nekaterih izmed podstrani naše aplikacije.
+
+![Podstran za prijavo](assets/gui-login.JPG)
+![Podstran za pregled profila](assets/gui-profile.JPG)
+![Podstran za pregled projektov](assets/gui-projects.JPG)
 
 ~~## Terraform~~
 
