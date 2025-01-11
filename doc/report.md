@@ -60,7 +60,7 @@ Prav tako smo implementirali avtomatično namestitev testnih podatkov.
 
 ## app-static
 
-TODO
+Mikrostoritev deluje kot datotečni strežnik z vlogo dostave skupnih statičnih javascript, CSS in slikovnih datotek, ki jih uporablja več kot ena mikrostoritev.
 
 ## app-issue
 
@@ -91,7 +91,9 @@ Mikrostoritev app-ingress nato poskrbi za shranjevanje teh podatkov v podatkovno
 
 # Seznam vključenih zahtev
 
-TODO: Za vsako zahtevo na kratko (okvirno do 500 znakov) opišite kako ste zahtevo implementirali/naslovili. Lahko vključite tudi slike. (Jaz sem napisal kar vse, treba je pobrisat tiste, ki jih nimamo).
+TODO: Za vsako zahtevo na kratko (okvirno do 500 znakov) opišite kako ste zahtevo implementirali/naslovili.
+Lahko vključite tudi slike.
+(Jaz sem napisal kar vse, treba je pobrisat tiste, ki jih nimamo).
 
 ## 1. Repozitorij
 
@@ -116,7 +118,10 @@ TODO - Nejc
 
 ## 5. Cevovod CI/CD
 
-TODO
+Za CI/CD cevovod smo uporabili GitHub Actions.
+Tam smo namestili formatiranje kode in izvajanje funkcionalnih testov.
+Na koncu smo dodali še cevovode za izdelavo Docker vsebnikov in avtomatično namestitev aplikacije v AKS.
+Za boljši pregled smo v naslovno datoteko README vključili prikaz stanj vseh potekov dela.
 
 ## 6. Helm charts
 
@@ -124,7 +129,8 @@ TODO - Nejc
 
 ## 7. Namestitev v oblak
 
-TODO
+Aplikacijo smo namestili v Microsoftovo oblačno platformo Azure.
+Tam smo uporabili Azure Kubernetes Service.
 
 ## 8. "Serverless" funkcija
 
@@ -140,7 +146,9 @@ TODO - Nejc
 
 ## 11. Preverjanje zdravja
 
-TODO
+Vsaka izdelana mikrostoritev podpira preverjanje zdravja z API dostopom.
+Mikrostoritve, ki so povezane s podatkovno bazo, vključujejo preverjanje stanje povezave s podatkovno bazo.
+Ostale mikrostoritve vračajo le izključno svoje stanje storitve.
 
 ~~## 12. GraphQL in gRPC~~
 
@@ -150,11 +158,42 @@ V aplikaciji uporabljamo sporočilni sistem NATS, zaradi njegove lahkosti in pre
 Ob zagonu aplikacije se zažene NATS strežnik, na katerega se povežeta mikrostoritvi app-bulk in app-ingress.
 App-bulk deluje kot producent in objavlja sporočila.
 App-ingress pa deluje kot prejemnik in se naroči na teme, preko katerih prejema sporočila.
-Prilagamo še slike izsekov programske kode, kjer vzpostavimo povezavo z NATS strežnikom, objavimo sporočilo s sistemom NATS in se naročimo na sporočila s sistemom NATS.
+Prilagamo še izseke programske kode, kjer vzpostavimo povezavo z NATS strežnikom, objavimo sporočilo s sistemom NATS in se naročimo na sporočila s sistemom NATS.
 
-![Povezava z NATS strežnikom](assets/nats-init.JPG)
-![Objava sporočil z NATS](assets/nats-publish.JPG)
-![Naročanje na sporočila z NATS](assets/nats-subscribe.JPG)
+```go
+// Initialize NATS connection
+func InitNATS() error {
+	var err error
+	natsUrl := os.Getenv("URL_NATS")
+	nc, err = nats.Connect(natsUrl)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+```
+
+```go
+err = PublishMessage("app.ingress.project", projectData)
+if err != nil {
+    return fmt.Errorf("error sending project data to NATS: %w", err)
+}
+```
+
+```go
+// Subscribe to the project creation topic
+_, err := nc.Subscribe("app.ingress.project", func(msg *nats.Msg) {
+    var project ProjectInput
+    err := json.Unmarshal(msg.Data, &project)
+    if err != nil {
+        log.Printf("Error unmarshaling project data: %v", err)
+        return
+    }
+
+    // Insert the project into the database
+    AddProjectToDB(db, project)
+})
+```
 
 ~~## "Event sourcing" in CQRS~~
 
@@ -162,11 +201,14 @@ Prilagamo še slike izsekov programske kode, kjer vzpostavimo povezavo z NATS st
 
 ## 13. Zbiranje metrik
 
-TODO
+Za zbiranje ključnih metrik aplikacije smo postavili instanco Grafane.
+To smo povezali s podatkovno bazo aplikacije.
+V uporabniškem vmesniku prikazujemo ključne podatke stanja aplikacije, kot je število registriranih uporabnikov ali zgodovine nalog.
 
 ## 14. Izolacija in toleranca napak
 
-TODO
+Za bolj zanesljivo delovanje aplikacije smo vključili posredniške API funkcije, ki omogočajo zgodnjo prekinitev zahtevkov (timeout) in omejitev števila neuspelih poskusov (retry).
+Ker je implementacija obeh postopkov relativno enostavna, pri izdelavi nismo uporabili nobenih zunanjih knjižnic.
 
 ## 15. Upravljanje s konfiguracijo
 
@@ -176,7 +218,7 @@ TODO - Nejc
 
 Za aplikacijo smo razvili grafični vmesnik in implementirali podstrani kot so: domača stran, prijavna stran, profilna stran, stran za pregled obstoječih projektov...
 Za izdelavo grafičnega vmesnika nismo uporabili nobenih orodij, temveč smo ga izdelali samostojno.
-Za povezavo sprednjega dela z zalednim, smo uporabili HTMX, ki omogoča vračanje predlog podatkov v obliki HTML, brez potrebe po nadaljnjem urejanju.
+Za povezavo sprednjega dela z zalednim smo uporabili HTMX, ki omogoča vračanje predlog podatkov v obliki HTML, brez potrebe po nadaljnjem urejanju.
 Prilagamo še nekaj primerov GUI nekaterih izmed podstrani naše aplikacije.
 
 ![Podstran za prijavo](assets/gui-login.JPG)
@@ -193,6 +235,7 @@ TODO
 
 ## 17. Ingress Controller
 
-TODO
+Za dostop do storitev v okolju Kubernetes smo uporabili aplikacijo NGINX.
+Tam smo namestili usmerjanje zahtevkov do mikrostoritev glede na predpono poti vsakega API zahtevka.
 
 ~~## IAM, OAuth2, OIDC~~
