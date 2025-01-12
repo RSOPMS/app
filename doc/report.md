@@ -64,11 +64,11 @@ Mikrostoritev deluje kot datotečni strežnik z vlogo dostave skupnih statičnih
 
 ### app-issue
 
-TODO - Nejc
+Mikrostoritev za prikazovanje in dodajanje vsebine. Na primer: prikaz seznama in dodajanje projektov, prikaz seznama in dodajanje težav posameznega projekta, prikaz in dodajanje komentarjev posamezne težave.
 
 ### app-login
 
-TODO - Nejc
+Mikrostoritev za prijavo in registracijo uporabnikov. Za authentikacijo uporabnikov uporabljamo JWT žetone.
 
 ### app-bulk
 
