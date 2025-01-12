@@ -113,7 +113,35 @@ Prav tako smo vsaki izmed uporabljenih mikrostoritev dodali README datoteko, ki 
 ### 4. Dokumentacija API
 
 Po OpenAPI standardu smo opisali končne točke storitev s katerimi uporavnik direktno komunicira (app-login, app-issue, app-bulk). OpenAPI YAML datoteke vključujejo primere vrnjenih podatkov ob pravilni in nepravilni uporabi.
-
+Primer:
+```yaml
+openapi: 3.0.3
+info:
+  title: App Issue API
+  description: API for managing projects, issues, and health checks.
+  version: 1.0.0
+paths:
+  /issue/:
+    get:
+      summary: Get welcome page
+      description: Returns the welcome page.
+      responses:
+        '200':
+          description: HTML welcome page.
+          content:
+            text/html:
+              schema:
+                type: string
+                example: |
+                  <h1 style="text-align: center; font-size: 6rem; color: #10b981; text-shadow: 5px 5px 2px #104433;">BugBase</h1>
+        '400':
+          description: Invalid request.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Invalid Request"
+```
 ### 5. Cevovod CI/CD
 
 Za CI/CD cevovod smo uporabili GitHub Actions.
