@@ -48,6 +48,8 @@ Vse verzije aplikacije smo poganjali na Azure Kubernetes Service.
 ![arhitektura](assets/arhitektura.png)
 ![workflow](assets/workflow.png)
 
+<div style="page-break-after: always;"></div>
+
 ## Seznam funkcionalnosti mikrostoritev
 
 V pričujočem poglavju bomo za vsako mikrostoritev navedli funkcionalnosti, ki jih implementira.
@@ -88,6 +90,8 @@ Aplikacija podpira tudi kompleksnejši primer uporabe, pri kateri sodelujeta dve
 V podatkovno bazo je mogoče preko POST zahtevka uvoziti večje količine podatkov (projektov in nalog).
 Mikrostoritev app-bulk prejme zahtevek in podatke posreduje mikrostoritvi app-ingress prek sporočilnega sistema NATS.
 Mikrostoritev app-ingress nato poskrbi za shranjevanje teh podatkov v podatkovno bazo.
+
+<div style="page-break-after: always;"></div>
 
 ## Seznam vključenih zahtev
 
@@ -281,6 +285,8 @@ Za zbiranje ključnih metrik aplikacije smo postavili instanco Grafane.
 To smo povezali s podatkovno bazo aplikacije.
 V uporabniškem vmesniku prikazujemo ključne podatke stanja aplikacije, kot je število registriranih uporabnikov ali zgodovine nalog.
 
+<div style="page-break-after: always;"></div>
+
 ### 14. Izolacija in toleranca napak
 
 Za bolj zanesljivo delovanje aplikacije smo vključili posredniške API funkcije, ki omogočajo zgodnjo prekinitev zahtevkov (timeout) in omejitev števila neuspelih poskusov (retry).
@@ -295,7 +301,12 @@ S konfiguracijo upravljamo s ConfigMaps-i (okoljske spremenljivke) in Secrets (g
 Za aplikacijo smo razvili grafični vmesnik in implementirali podstrani kot so: domača stran, prijavna stran, profilna stran, stran za pregled obstoječih projektov...
 Za izdelavo grafičnega vmesnika nismo uporabili nobenih orodij, temveč smo ga izdelali samostojno.
 Za povezavo sprednjega dela z zalednim smo uporabili HTMX, ki omogoča vračanje predlog podatkov v obliki HTML, brez potrebe po nadaljnjem urejanju.
-Prilagamo še nekaj primerov GUI nekaterih izmed podstrani naše aplikacije.
+Na koncu poročila prilagamo še nekaj primerov GUI nekaterih izmed podstrani naše aplikacije.
+
+### 17. Ingress Controller
+
+Za dostop do storitev v okolju Kubernetes smo uporabili aplikacijo NGINX.
+Tam smo namestili usmerjanje zahtevkov do mikrostoritev glede na predpono poti vsakega API zahtevka.
 
 ![Podstran za prijavo](assets/gui-login.JPG)
 ![Podstran za pregled profila](assets/gui-profile.JPG)
@@ -303,7 +314,4 @@ Prilagamo še nekaj primerov GUI nekaterih izmed podstrani naše aplikacije.
 ![Podstran za pregled posameznega projekta in njegovih nalog](assets/gui-issues.JPG)
 ![Podstran za pregled posamezne naloge](assets/gui-comments.JPG)
 
-### 17. Ingress Controller
 
-Za dostop do storitev v okolju Kubernetes smo uporabili aplikacijo NGINX.
-Tam smo namestili usmerjanje zahtevkov do mikrostoritev glede na predpono poti vsakega API zahtevka.
