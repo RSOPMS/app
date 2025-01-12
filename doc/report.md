@@ -112,7 +112,7 @@ Prav tako smo vsaki izmed uporabljenih mikrostoritev dodali README datoteko, ki 
 
 ### 4. Dokumentacija API
 
-Po OpenAPI standardu smo opisali končne točke storitev s katerimi uporavnik direktno komunicira (app-login, app-issue, app-bulk). OpenAPI YAML datoteke vključujejo primere vrnjenih podatkov ob pravilni in nepravilni uporabi.
+Po OpenAPI standardu smo opisali končne točke storitev s katerimi uporabnik direktno komunicira (app-login, app-issue, app-bulk). OpenAPI YAML datoteke vključujejo primere vrnjenih podatkov ob pravilni in nepravilni uporabi.
 Primer:
 ```yaml
 openapi: 3.0.3
@@ -176,7 +176,7 @@ Tam smo uporabili Azure Kubernetes Service.
 
 ### 8. "Serverless" funkcija
 
-Serverless funkcija smo uporabili za odjavo, ki je originalno bila del app-login storitve. Uporabili smo Azure Function App ("Consumption" opcija) in sledečo funkcijo:
+Serverless funkcijo smo uporabili za odjavo, ki je originalno bila del app-login storitve. Uporabili smo Azure Function App ("Consumption" opcija) in sledečo funkcijo:
 
 ```python
 import azure.functions as func
