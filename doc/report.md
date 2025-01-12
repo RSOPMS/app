@@ -68,7 +68,7 @@ Mikrostoritev za prikazovanje in dodajanje vsebine. Na primer: prikaz seznama in
 
 ### app-login
 
-Mikrostoritev za prijavo in registracijo uporabnikov. Za authentikacijo uporabnikov uporabljamo JWT žetone.
+Mikrostoritev za prijavo in registracijo uporabnikov. Za avtentikacijo uporabnikov uporabljamo JWT žetone.
 
 ### app-bulk
 
@@ -112,7 +112,7 @@ Prav tako smo vsaki izmed uporabljenih mikrostoritev dodali README datoteko, ki 
 
 ### 4. Dokumentacija API
 
-TODO - Nejc
+Po OpenAPI standardu smo opisali končne točke storitev s katerimi uporavnik direktno komunicira (app-login, app-issue, app-bulk). OpenAPI YAML datoteke vključujejo primere vrnjenih podatkov ob pravilni in nepravilni uporabi.
 
 ### 5. Cevovod CI/CD
 
@@ -123,7 +123,23 @@ Za boljši pregled smo v naslovno datoteko README vključili prikaz stanj vseh p
 
 ### 6. Helm charts
 
-TODO - Nejc
+Za namestitev naših storitev smo uporabili Helm Charte naslednje strukture:
+```sh
+├── Chart.yaml
+├── ingress.yaml
+├── templates
+│   ├── configmap.yaml
+│   ├── deployment.yaml
+│   ├── grafana.yaml
+│   ├── nats.yaml
+│   ├── pv.yaml
+│   ├── pvc.yaml
+│   ├── secret.yaml
+│   └── service.yaml
+├── values-dev.yaml
+└── values-prod.yaml
+```
+Uporabljali smo ločene vrednosti (values.yaml datoteke) za razvijalno in produkcijsko okolje.
 
 ### 7. Namestitev v oblak
 
@@ -132,15 +148,45 @@ Tam smo uporabili Azure Kubernetes Service.
 
 ### 8. "Serverless" funkcija
 
-TODO - Nejc
+Serverless funkcija smo uporabili za odjavo, ki je originalno bila del app-login storitve. Uporabili smo Azure Function App ("Consumption" opcija) in sledečo funkcijo:
+
+```python
+import azure.functions as func
+import logging
+
+app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
+
+@app.route(route="http_logout")
+def http_logout(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Processing logout request.')
+
+    # Create a response object
+    response = func.HttpResponse(
+        "You have been logged out successfully.",
+        status_code=200
+    )
+
+    # Set the cookie to clear the JWT
+    response.headers.add("Set-Cookie",
+                          "bugbase_session=;"
+                          "Path=/;"
+                          "HttpOnly;"
+                          "SameSite=Strict;"
+                          "Max-Age=0;")  # Max-Age=0 effectively deletes the cookie
+
+    # Return the response with the cookie header
+    return response
+```
 
 ### 9. Zunanji API
 
-TODO - Nejc
+Za zunanji API smo uporabili [Dicebear](https://www.dicebear.com/) za unikatno generacijo uporabniških profilnih slik na podlagi njihovih podatkov (npr. ime, e-mail).
+Dicebear API je odprt in ne potrebuje avtentikacije.
 
 ### 10. Večnajemništvo
 
-TODO - Nejc
+Večnajemništvo smo na podlagi Helm Chartov naredili tako, da smo vsako okolje namestili na ločen imenski prostor in ingress usmerjanje ročno popravili.
+To deluje iz vidika, da imamo popolnoma ločene namestitve, je pa način kako smo rešili usmerjanje (ingress) napačen oz. ima omejeno funkcionalnost.
 
 ### 11. Preverjanje zdravja
 
@@ -214,7 +260,7 @@ Ker je implementacija obeh postopkov relativno enostavna, pri izdelavi nismo upo
 
 ### 15. Upravljanje s konfiguracijo
 
-TODO - Nejc
+S konfiguracijo upravljamo s ConfigMaps-i (okoljske spremenljivke) in Secrets (geslo baze, JWT skrivnosti). Oboje je del Helm Chart-a tako, da lahko posamezne konfiguracijske spremenljivke spreminjamo direktno s Helm ukazi.
 
 ### 16. Grafični vmesnik
 
